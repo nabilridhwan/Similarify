@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Search from './Search';
-import SpotifyApi from './SpotifyApi';
+import Search from './Components/Search';
+import SpotifyApi from './Libraries/SpotifyApi';
 // import logo from './logo.svg';
 // import './App.css';
 

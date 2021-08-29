@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SpotifyApi from "./SpotifyApi";
+import SpotifyApi from "../Libraries/SpotifyApi";
 
 function Search(props) {
     const { token } = props;
