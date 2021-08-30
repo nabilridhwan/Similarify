@@ -2,8 +2,8 @@ class SpotifyApi {
     constructor(userToken) {
         this.userToken = userToken;
         this.CLIENT_ID = "29cd3a150b9a4762996005246064b49d";
-        // ! TODO: Replace redirect uri with https://localhost:3000 for local and dev builds.
-        this.REDIRECT_URI = "https://nabilridhwan.github.io/Similarify"
+        // TODO: Replace redirect uri with http://localhost:3000 for local and dev builds and https://nabilridhwan.github.io/Similarify for production builds.
+        this.REDIRECT_URI = "http://localhost:3000"
         this.SCOPE = "user-read-private, user-read-email, playlist-read-private, playlist-modify-public, playlist-modify-private"
     }
 
@@ -20,17 +20,29 @@ class SpotifyApi {
             .then(data => console.log(data))
     }
 
-    search(trackName) {
-        return fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track`, {
-                headers: {
-                    "Authorization": "Bearer " + this.userToken
-                }
-            }).then(res => res.json())
-            .then(data => {
-                return data;
-            })
+    // TODO: Add error functionality for status code != 200
+    async search(trackName) {
+        console.log("Fetching")
+        // Check if trackName string is empty
+        let request = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track`, {
+            headers: {
+                "Authorization": "Bearer " + this.userToken
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+
+        let response = await request.json();
+        return response
     }
-        
+
+    async searchFirstSong(trackName){
+        let response = await this.search(trackName)
+
+        // TODO: Sort by listens to get most accurate results
+        return response.tracks.items[0]
+    }
+
 }
 
 export default SpotifyApi

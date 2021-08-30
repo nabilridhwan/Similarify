@@ -25,24 +25,30 @@ function App() {
   function checkForKey() {
     if (window.location.hash) {
       let hashes = window.location.hash.substring(1).split("&");
-      const access_token = 0, token_type = 1, expires_in = 2, state = 3;
+      const access_token = 0;
 
       let hashes_value = hashes.map(hash => hash.split("=")[1]);
       setToken(hashes_value[access_token]);
     }
   }
 
+  // This will run on start
   useEffect(() => {
     checkForKey();
   }, [])
 
   return (
     <div className="App">
+
+      
+      <h1>Big Bug:</h1>
+      <p>So, you have to click the Done button twice sometimes because the LastFM API sometimes return no songs.</p>
+      
       {token ?
         <Search token={token}/>
         : <div>
           <h1>You are not authenticated</h1>
-          <button onClick={authenticateSpotify}>Authenticate Thyself</button>
+          <button onClick={authenticateSpotify}>Authenticate Yourself</button>
         </div>
       }
 
