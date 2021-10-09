@@ -38,17 +38,15 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div className="App container">
 
-      
-      <h1>Big Bug:</h1>
-      <p>So, you have to click the Done button twice sometimes because the LastFM API sometimes return no songs.</p>
       
       {token ?
         <Search token={token}/>
-        : <div>
+        :
+        <div>
           <h1>You are not authenticated</h1>
-          <button onClick={authenticateSpotify}>Authenticate Yourself</button>
+          <button className="btn btn-success" onClick={authenticateSpotify}>Authenticate Yourself</button>
         </div>
       }
 

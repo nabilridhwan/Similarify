@@ -22,17 +22,22 @@ class SpotifyApi {
 
     // TODO: Add error functionality for status code != 200
     async search(trackName) {
-        console.log("Fetching")
+        console.log("[Spotify API] Fetching Data")
         // Check if trackName string is empty
         let request = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track`, {
             headers: {
                 "Authorization": "Bearer " + this.userToken
             }
         }).catch(error => {
+            console.log("[Spotify API] Error encountered while fetching")
             console.log(error)
         })
 
+
         let response = await request.json();
+
+        console.log("[Spotify API] A-OK")
+        
         return response
     }
 
