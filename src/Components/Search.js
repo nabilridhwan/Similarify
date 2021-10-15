@@ -10,6 +10,7 @@ function Search(props) {
     let [searchTerm, setSearchTerm] = useState("");
     let [searchResults, setSearchResults] = useState([]);
     let [addedSongs, setAddedSongs] = useState([]);
+    let [done, setDone] = useState(false);
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -95,6 +96,12 @@ function Search(props) {
 
     }
 
+    function handleDone(){
+        console.log("Fetching data from LastFM")
+        setDone(true)
+        // TODO: Collate data and redirect to another page where the page takes in the data and outputs the similar songs (Find out how to)
+    }
+
     return (
         <div>
             <h1>Search for Tracks</h1>
@@ -107,33 +114,39 @@ function Search(props) {
                         )
                     })}
 
-                    {/* Set done function properly */}
-                    <button className="btn btn-primary" onClick={() => setAddedSongs([])}>Done</button>
+                    {/* TODO: Set done function properly */}
+                    <button className="btn btn-primary" onClick={() => handleDone()}>Done</button>
                 </div>
             }
 
-            <form onSubmit={handleFormSubmit}>
-                <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
-            </form>
-            <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
-            {/* <button onClick={randomFunction}>Done, get me my playlist!</button> */}
+            {
+                done ||
 
-            {searchResults.map((track, index) => {
-                return (
+                <>
+                    <form onSubmit={handleFormSubmit}>
+                        <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
+                    </form>
+                    <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
 
-                    <div className="card" style={{ width: "18rem" }} key={index}>
-                        {/* Include alt */}
-                        <img src={track.albumArt} className="card-img-top" />
+                    {searchResults.map((track, index) => {
+                        return (
 
-                        <div className="card-body">
-                            <h5 className="card-title">{track.name}</h5>
-                            <p className="card-text">{track.artist}</p>
+                            <div className="card" style={{ width: "18rem" }} key={index}>
+                                {/* Include alt */}
+                                <img src={track.albumArt} className="card-img-top" />
 
-                            {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
-                        </div>
-                    </div>
-                )
-            })}
+                                <div className="card-body">
+                                    <h5 className="card-title">{track.name}</h5>
+                                    <p className="card-text">{track.artist}</p>
+
+                                    {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </>
+            }
+            
         </div >
     )
 }
