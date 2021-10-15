@@ -1,16 +1,18 @@
 import { useState } from "react";
 import SpotifyApi from "../Libraries/SpotifyApi";
+import LastFMApi from "../Libraries/LastFMApi";
 
 function Search(props) {
     const { token } = props;
     let Spotify = new SpotifyApi(token)
     // TODO: Cleanup API Keys!
-    // let LastFM = new LastFmApi("6781ea2b35ea58fe51999636078e0c96")
+    let LastFM = new LastFMApi("6781ea2b35ea58fe51999636078e0c96")
 
     let [searchTerm, setSearchTerm] = useState("");
     let [searchResults, setSearchResults] = useState([]);
     let [addedSongs, setAddedSongs] = useState([]);
     let [done, setDone] = useState(false);
+    let [lastFMData, setLastFMData] = useState([]);
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -96,10 +98,14 @@ function Search(props) {
 
     }
 
-    function handleDone(){
+    async function handleDone(){
         console.log("Fetching data from LastFM")
         setDone(true)
-        // TODO: Collate data and redirect to another page where the page takes in the data and outputs the similar songs (Find out how to)
+
+        addedSongs.forEach(async song => {
+            let results = await LastFM.getSimilarTrack(song.artist, song.name, 5)
+            setLastFMData([...lastFMData, results])
+        })
     }
 
     return (
@@ -120,7 +126,13 @@ function Search(props) {
             }
 
             {
-                done ||
+                done ?
+                
+                <>
+                    {JSON.stringify(lastFMData)}
+                </>
+                
+                :
 
                 <>
                     <form onSubmit={handleFormSubmit}>
