@@ -41,8 +41,14 @@ function App() {
         <Search token={token}/>
         :
         <div>
-          <h1>You are not authenticated</h1>
-          <button className="btn btn-success" onClick={authenticateSpotify}>Authenticate Yourself</button>
+
+<h1>Welcome to Similarify</h1>
+          <p>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
+
+          <h5>Similarify itself does not collect any data whatsoever.</h5>
+
+          <h6>To get started, connect your Spotify Account</h6>
+          <button className="btn btn-success" onClick={authenticateSpotify}>Login with Spotify</button>
         </div>
       }
 

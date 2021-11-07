@@ -102,7 +102,8 @@ function Search(props) {
         <div>
 
             {addedSongs.length > 0 &&
-                <div>
+                <div className="my-5">
+                    <h2>Added Songs</h2>
                     <div className="addedSongsAlbumArt">
                         {addedSongs.map((track, index) => {
                             return (
@@ -122,16 +123,21 @@ function Search(props) {
                     <LastFMResults addedSongs={addedSongs} />
                     :
                     <>
+                        <div className="my-5">
                         <h1>Search for Tracks</h1>
+                        <p>Search for the tracks you already like</p>
+                        </div>
+                        
                         <form onSubmit={handleFormSubmit}>
                             <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
                         </form>
                         <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
 
+                        <div className="row my-5">
                         {searchResults.map((track, index) => {
                             return (
 
-                                <div className="card" style={{ width: "18rem" }} key={index}>
+                                <div className="col-lg-3 card" key={index}>
                                     {/* Include alt */}
                                     <img src={track.albumArt} className="card-img-top" alt="album_image" />
 
@@ -144,6 +150,7 @@ function Search(props) {
                                 </div>
                             )
                         })}
+                        </div>
                     </>
             }
 
