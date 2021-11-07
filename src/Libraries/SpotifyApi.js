@@ -1,9 +1,8 @@
 class SpotifyApi {
     constructor(userToken) {
         this.userToken = userToken;
-        this.CLIENT_ID = "29cd3a150b9a4762996005246064b49d";
-        // TODO: Replace redirect uri with http://localhost:3000 for local and dev builds and https://nabilridhwan.github.io/Similarify for production builds.
-        this.REDIRECT_URI = "http://localhost:3000"
+        this.CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+        this.REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
         this.SCOPE = "user-read-private, user-read-email, playlist-read-private, playlist-modify-public, playlist-modify-private"
     }
 

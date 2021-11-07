@@ -4,6 +4,9 @@ import SpotifyApi from './Libraries/SpotifyApi';
 // import logo from './logo.svg';
 import './App.css';
 
+import listeningImage from './images/listening.png';
+import {FaSpotify} from "react-icons/fa"
+
 // Make a get request to https://accounts.spotify.com/authorize with the following parameters:
 // client_id: your client id
 // response_type: token
@@ -33,26 +36,46 @@ function App() {
   // This will run on start
   useEffect(() => {
     checkForKey();
+
+    console.log(process.env.REACT_APP_TEST);
   }, [])
 
   return (
     <div className="App container">
       {token ?
-        <Search token={token}/>
+        <Search token={token} />
         :
         <div>
 
-<h1>Welcome to Similarify</h1>
-          <p>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
+          <div className="row my-5 align-items-center">
+            <div className="col-lg-6">
 
-          <h5>Similarify itself does not collect any data whatsoever.</h5>
+              <h1>Welcome to <br /> <span className="text-brand-color">Similarify</span></h1>
+              <p>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
 
-          <h6>To get started, connect your Spotify Account</h6>
-          <button className="btn btn-success" onClick={authenticateSpotify}>Login with Spotify</button>
+              <div className="my-5">
+              <h5>Similarify itself does not collect any data whatsoever.</h5>
+              <p>To get started, connect your Spotify Account</p>
+              <button className="btn btn-success btn-lg" onClick={authenticateSpotify}>
+                <FaSpotify className="mx-2"/>
+                Login with Spotify</button>
+              </div>
+
+            </div>
+
+            <div className="col-lg-6">
+              <img src={listeningImage} alt="a girl listening to music" className="img-fluid" />
+            </div>
+          </div>
         </div>
       }
 
-      
+
+      <footer class="align-items-center footer mt-auto py-3 text-center">
+        <p class="m-0">Nabil. &copy; {new Date().getFullYear()}</p>
+        <p className="m-0">Similarify utilizes the <a href="https://developer.spotify.com/documentation/web-api/">official Spotify API</a> and <a href="https://www.last.fm/api">official LastFM API</a>. We LOVE Spotify and LastFM, but we are not affiliated.</p>
+        <p>Similarify is <a href="https://github.com/nabilridhwan/Similarify">Open Sourced</a></p>
+      </footer>
     </div>
   );
 }
