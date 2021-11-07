@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SpotifyApi from "../Libraries/SpotifyApi";
 import LastFMResults from "./LastFMResults";
 
-function Search(props) {
-    const { token } = props;
-    let Spotify = new SpotifyApi(token)
+function Search() {
 
+    let [token, setToken] = useState(null);
     let [searchTerm, setSearchTerm] = useState("");
     let [searchResults, setSearchResults] = useState([]);
     let [addedSongs, setAddedSongs] = useState([]);
-    let [done, setDone] = useState(false);
+    let Spotify = new SpotifyApi(token);
+
+    useEffect(() => {
+        let token = localStorage.getItem("token")
+
+        if (!token) {
+            window.location.href = "/"
+        } else {
+            setToken(token)
+        }
+
+        if (JSON.parse(localStorage.getItem("addedSongs"))) {
+            setAddedSongs(JSON.parse(localStorage.getItem("addedSongs")))
+        }
+
+    }, [])
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -27,7 +41,6 @@ function Search(props) {
         if (searchTerm === "") {
             alert("Please enter a search term!");
         } else {
-            // Clear search results
             setSearchResults([]);
 
             console.log(`Searching Spotify for ${searchTerm}`)
@@ -95,7 +108,8 @@ function Search(props) {
 
     // TODO: Fix issue that we need to click the "Done" button two times just for both songs to show up, and clicking the third time will have error on React.
     async function handleDone() {
-        setDone(true);
+        localStorage.setItem("addedSongs", JSON.stringify(addedSongs));
+        window.location.href = "/similar"
     }
 
     return (
@@ -107,52 +121,45 @@ function Search(props) {
                     <div className="addedSongsAlbumArt">
                         {addedSongs.map((track, index) => {
                             return (
-                                <img key={index} src={track.albumArt} alt={track.name} height="150px" />
+                                <img onClick={() => removeSong(track)} key={index} src={track.albumArt} alt={track.name} height="150px" />
                             )
                         })}
 
                     </div>
 
-                    {done || <button className="btn btn-primary" onClick={() => handleDone()}>Done</button>}
+                    {<button className="btn btn-primary" onClick={() => handleDone()}>Done</button>}
                 </div>
 
             }
 
-            {
-                done ?
-                    <LastFMResults addedSongs={addedSongs} />
-                    :
-                    <>
-                        <div className="my-5">
-                        <h1>Search for Tracks</h1>
-                        <p>Search for the tracks you already like</p>
+            <div className="my-5">
+                <h1>Search for Tracks</h1>
+                <p>Search for the tracks you already like</p>
+            </div>
+
+            <form onSubmit={handleFormSubmit}>
+                <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
+            </form>
+            <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
+
+            <div className="row my-5">
+                {searchResults.map((track, index) => {
+                    return (
+
+                        <div className="col-lg-3 card" key={index}>
+                            {/* Include alt */}
+                            <img src={track.albumArt} className="card-img-top" alt="album_image" />
+
+                            <div className="card-body">
+                                <h5 className="card-title">{track.name}</h5>
+                                <p className="card-text">{track.artist}</p>
+
+                                {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+                            </div>
                         </div>
-                        
-                        <form onSubmit={handleFormSubmit}>
-                            <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
-                        </form>
-                        <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
-
-                        <div className="row my-5">
-                        {searchResults.map((track, index) => {
-                            return (
-
-                                <div className="col-lg-3 card" key={index}>
-                                    {/* Include alt */}
-                                    <img src={track.albumArt} className="card-img-top" alt="album_image" />
-
-                                    <div className="card-body">
-                                        <h5 className="card-title">{track.name}</h5>
-                                        <p className="card-text">{track.artist}</p>
-
-                                        {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
-                                    </div>
-                                </div>
-                            )
-                        })}
-                        </div>
-                    </>
-            }
+                    )
+                })}
+            </div>
 
         </div >
     )

@@ -9,7 +9,13 @@ export default function LastFMResults({ addedSongs }) {
     let [songs, setSongs] = useState([]);
 
     useEffect(() => {
-        fetchSimilarSongs();
+
+        addedSongs = JSON.parse(addedSongs)
+        if(addedSongs){
+            fetchSimilarSongs();
+        }else{
+            window.location.href = '/search'
+        }
     }, [])
 
     let fetchSimilarSongs = async () => {
@@ -51,9 +57,9 @@ export default function LastFMResults({ addedSongs }) {
 
     return (
         <div>
-            <p>Only use the refresh button below IF and only IF there is no results</p>
+            {/* <p>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn btn-success">Refresh</button>
-            <button onClick={refreshPage} className="btn btn-danger">Search</button>
+            <button onClick={refreshPage} className="btn btn-danger">Search</button> */}
 
             {songs.map(song => {
 

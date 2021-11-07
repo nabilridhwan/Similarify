@@ -5,9 +5,9 @@ class SpotifyApi {
 
         // Not production
         if (process.env.NODE_ENV !== 'production') {
-            this.REDIRECT_URI = "http://localhost:3000";
+            this.REDIRECT_URI = "http://localhost:3000/search";
         } else {
-            this.REDIRECT_URI = "https://nabilridhwan.github.io/Similarify";
+            this.REDIRECT_URI = "https://nabilridhwan.github.io/Similarify/search";
         }
 
 
