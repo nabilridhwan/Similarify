@@ -2,7 +2,16 @@ class SpotifyApi {
     constructor(userToken) {
         this.userToken = userToken;
         this.CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-        this.REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
+
+        // Not production
+        if (process.env.NODE_ENV !== 'production') {
+            this.REDIRECT_URI = "http://localhost:3000";
+        } else {
+            this.REDIRECT_URI = "https://nabilridhwan.github.io/Similarify";
+        }
+
+
+
         this.SCOPE = "user-read-private, user-read-email, playlist-read-private, playlist-modify-public, playlist-modify-private"
     }
 
@@ -36,11 +45,11 @@ class SpotifyApi {
         let response = await request.json();
 
         console.log("[Spotify API] A-OK")
-        
+
         return response
     }
 
-    async searchFirstSong(trackName){
+    async searchFirstSong(trackName) {
         let response = await this.search(trackName)
 
         // TODO: Sort by listens to get most accurate results
