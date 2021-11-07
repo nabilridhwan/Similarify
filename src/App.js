@@ -5,7 +5,7 @@ import SpotifyApi from './Libraries/SpotifyApi';
 import './App.css';
 
 import listeningImage from './images/listening.png';
-import {FaSpotify} from "react-icons/fa"
+import { FaSpotify } from "react-icons/fa"
 
 // Make a get request to https://accounts.spotify.com/authorize with the following parameters:
 // client_id: your client id
@@ -54,11 +54,16 @@ function App() {
               <p>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
 
               <div className="my-5">
-              <h5>Similarify itself does not collect any data whatsoever.</h5>
-              <p>To get started, connect your Spotify Account</p>
-              <button className="btn btn-success btn-lg" onClick={authenticateSpotify}>
-                <FaSpotify className="mx-2"/>
-                Login with Spotify</button>
+                <h5>Similarify itself does not collect any data whatsoever.</h5>
+                <p>To get started, connect your Spotify Account (Only for beta-testers)</p>
+
+                <h6>Spotify's API Limit</h6>
+                <p>Similarify is now requesting for quota extension request from Spotify so that other users can use this application! Similarify is currently only open to beta-testers (25 users).
+                  If you are part of the beta-testing program, Login with your certified beta-tester Spotify account.</p>
+
+                <button className="btn btn-success btn-lg" onClick={authenticateSpotify}>
+                  <FaSpotify className="mx-2" />
+                  Login with Spotify</button>
               </div>
 
             </div>

@@ -12,7 +12,7 @@ class SpotifyApi {
 
 
 
-        this.SCOPE = "user-read-private, user-read-email, playlist-read-private, playlist-modify-public, playlist-modify-private"
+        this.SCOPE = ""
     }
 
     authenticateUser() {
