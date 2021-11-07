@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Search from './Components/Search';
 import SpotifyApi from './Libraries/SpotifyApi';
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 
 // Make a get request to https://accounts.spotify.com/authorize with the following parameters:
 // client_id: your client id
@@ -13,13 +13,11 @@ import SpotifyApi from './Libraries/SpotifyApi';
 // show_dialog: true
 
 
-const Spotify = new SpotifyApi(null);
-
 function App() {
   const [token, setToken] = useState(null);
 
   function authenticateSpotify() {
-    Spotify.authenticateUser()
+    new SpotifyApi().authenticateUser()
   }
 
   function checkForKey() {
@@ -39,8 +37,6 @@ function App() {
 
   return (
     <div className="App container">
-
-      
       {token ?
         <Search token={token}/>
         :
