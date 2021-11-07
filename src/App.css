@@ -17,11 +17,14 @@ h1,h2,h3,h4,h5{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
 }
 
 .progressBarWrapper{
   width: 50px;
+}
+
+.addedSong{
+  margin-right: 6px;
 }
 
 .text-brand-color{

@@ -16,7 +16,7 @@ export default function LastFMResults({ addedSongs }) {
         let cloneSongs = [...addedSongs];
         addedSongs.forEach(async song => {
             console.log(song)
-            let r = await LastFM.getSimilarTrack(song.artist, song.name, 5)
+            let r = await LastFM.getSimilarTrack(song.artist, song.name, 8)
 
             console.log(r)
             // Map each item in songs
@@ -58,8 +58,12 @@ export default function LastFMResults({ addedSongs }) {
             {songs.map(song => {
 
                 return (
-                    <div className="row my-5">
-                        <h3>{song.name} by {song.artist}</h3>
+
+                    <div className="my-5">
+                        <h3>{song.name}</h3>
+                        <h5>{song.artist}</h5>
+                    <div className="row">
+                        
                         {song.similar
                         
                         ?
@@ -88,6 +92,7 @@ export default function LastFMResults({ addedSongs }) {
                         
                         
                         }
+                    </div>
                     </div>
                 )
             })}

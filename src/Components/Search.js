@@ -2,6 +2,8 @@ import { useState } from "react";
 import SpotifyApi from "../Libraries/SpotifyApi";
 import LastFMResults from "./LastFMResults";
 
+import { FaTrash } from "react-icons/fa"
+
 function Search(props) {
     const { token } = props;
     let Spotify = new SpotifyApi(token)
@@ -107,7 +109,20 @@ function Search(props) {
                     <div className="addedSongsAlbumArt">
                         {addedSongs.map((track, index) => {
                             return (
-                                <img key={index} src={track.albumArt} alt={track.name} height="150px" />
+                                <div className="addedSong" style={{ display: "flex", flexDirection: "column" }}>
+
+
+                                    {done || <div class="d-grid">
+                                        <button onClick={() => removeSong(track)} className="btn btn-danger">
+                                            <FaTrash />
+                                        </button>
+                                    </div>}
+
+
+
+                                    <img key={index} src={track.albumArt} alt={track.name} height="150px" />
+
+                                </div>
                             )
                         })}
 
@@ -124,32 +139,32 @@ function Search(props) {
                     :
                     <>
                         <div className="my-5">
-                        <h1>Search for Tracks</h1>
-                        <p>Search for the tracks you already like</p>
+                            <h1>Search for Tracks</h1>
+                            <p>Search for the tracks you already like</p>
                         </div>
-                        
+
                         <form onSubmit={handleFormSubmit}>
                             <input className="form-control" type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search Term" />
                         </form>
                         <button className="btn btn-primary" onClick={searchForTracks}>Search</button>
 
                         <div className="row my-5">
-                        {searchResults.map((track, index) => {
-                            return (
+                            {searchResults.map((track, index) => {
+                                return (
 
-                                <div className="col-lg-3 card" key={index}>
-                                    {/* Include alt */}
-                                    <img src={track.albumArt} className="card-img-top" alt="album_image" />
+                                    <div className="col-lg-3 card" key={index}>
+                                        {/* Include alt */}
+                                        <img src={track.albumArt} className="card-img-top" alt="album_image" />
 
-                                    <div className="card-body">
-                                        <h5 className="card-title">{track.name}</h5>
-                                        <p className="card-text">{track.artist}</p>
+                                        <div className="card-body">
+                                            <h5 className="card-title">{track.name}</h5>
+                                            <p className="card-text">{track.artist}</p>
 
-                                        {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+                                            {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        })}
+                                )
+                            })}
                         </div>
                     </>
             }
