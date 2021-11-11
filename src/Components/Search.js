@@ -2,7 +2,7 @@ import { useState } from "react";
 import SpotifyApi from "../Libraries/SpotifyApi";
 import LastFMResults from "./LastFMResults";
 
-import { FaTrash } from "react-icons/fa"
+import { FaSpotify, FaTrash } from "react-icons/fa"
 
 function Search(props) {
     const { token } = props;
@@ -32,8 +32,10 @@ function Search(props) {
             // Clear search results
             setSearchResults([]);
 
-            console.log(`Searching Spotify for ${searchTerm}`)
-            let results = await Spotify.search(searchTerm);
+            let sT = encodeURI(searchTerm.trim())
+
+            console.log(`Searching Spotify for ${sT}`)
+            let results = await Spotify.search(sT);
 
             let tracks = results.tracks.items.map(track => {
                 return {
@@ -112,7 +114,7 @@ function Search(props) {
                                 <div className="addedSong" style={{ display: "flex", flexDirection: "column" }}>
 
 
-                                    {done || <div class="d-grid">
+                                    {done || <div className="d-grid">
                                         <button onClick={() => removeSong(track)} className="btn btn-danger">
                                             <FaTrash />
                                         </button>
@@ -157,8 +159,13 @@ function Search(props) {
                                         <img src={track.albumArt} className="card-img-top" alt="album_image" />
 
                                         <div className="card-body">
+                                            <a className="text-decoration-none" href={`https://open.spotify.com/track/${track.id}`}><FaSpotify /> Spotify</a>
+
                                             <h5 className="card-title">{track.name}</h5>
                                             <p className="card-text">{track.artist}</p>
+
+
+                                            <br />
 
                                             {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
                                         </div>
