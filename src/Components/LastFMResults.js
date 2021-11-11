@@ -4,7 +4,7 @@ import LastFMApi from '../Libraries/LastFMApi';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-export default function LastFMResults({ addedSongs }) {
+export default function LastFMResults({ addedSongs, doneFunction }) {
     const LastFM = new LastFMApi(process.env.REACT_APP_LASTFM_API_KEY)
     let [songs, setSongs] = useState([]);
 
@@ -47,13 +47,11 @@ export default function LastFMResults({ addedSongs }) {
         textColor: '#222222',
     })
 
-    const refreshPage = () => window.location.reload();
-
     return (
         <div>
             <p>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn btn-success">Refresh</button>
-            <button onClick={refreshPage} className="btn btn-danger">Search</button>
+            <button onClick={doneFunction} className="btn btn-danger">Search</button>
 
             {songs.map(song => {
 

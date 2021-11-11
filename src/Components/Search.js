@@ -97,9 +97,12 @@ function Search(props) {
 
     }
 
-    // TODO: Fix issue that we need to click the "Done" button two times just for both songs to show up, and clicking the third time will have error on React.
-    async function handleDone() {
+    function handleDone() {
         setDone(true);
+    }
+
+    function handleDoneFalse(){
+        setDone(false);
     }
 
     return (
@@ -137,7 +140,7 @@ function Search(props) {
 
             {
                 done ?
-                    <LastFMResults addedSongs={addedSongs} />
+                    <LastFMResults addedSongs={addedSongs} doneFunction={handleDoneFalse} />
                     :
                     <>
                         <div className="my-5">
