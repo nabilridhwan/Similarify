@@ -3,6 +3,7 @@ import LastFMApi from '../Libraries/LastFMApi';
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { FaArrowLeft, FaBackward } from 'react-icons/fa';
 
 export default function LastFMResults({ addedSongs, doneFunction }) {
     const LastFM = new LastFMApi(process.env.REACT_APP_LASTFM_API_KEY)
@@ -49,48 +50,48 @@ export default function LastFMResults({ addedSongs, doneFunction }) {
 
     return (
         <div>
+            <button className="btn btn-lg btn-danger my-4" onClick={doneFunction}>
+                <FaArrowLeft /> Go Back
+            </button>
+
             <p>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn btn-success">Refresh</button>
-            <button onClick={doneFunction} className="btn btn-danger">Search</button>
 
-            {songs.map(song => {
+            {songs.map((song, index) => {
 
                 return (
 
-                    <div className="my-5">
+                    <div className="my-5" key={index}>
                         <h3>{song.name}</h3>
                         <h5>{song.artist}</h5>
-                    <div className="row">
-                        
-                        {song.similar
-                        
-                        ?
+                        <div className="row">
 
-                        song.similar.map((s, index) => {
-                            const percentage = Math.round(parseFloat(s.match) * 100);
-                            return (
+                            {Array.isArray(song.similar) && song.similar.length
 
-                                <div className="col-lg-3 card" key={index}>
-                                    <div className="card-body">
+                                ?
 
-                                        <div className="progressBarWrapper my-3">
-                                            <CircularProgressbar styles={progressBarStyles} value={percentage} text={`${percentage}%`} />
+                                song.similar.map((s, index) => {
+                                    const percentage = Math.round(parseFloat(s.match) * 100);
+                                    return (
+
+                                        <div className="col-lg-3 card" key={index}>
+                                            <div className="card-body">
+
+                                                <div className="progressBarWrapper my-3">
+                                                    <CircularProgressbar styles={progressBarStyles} value={percentage} text={`${percentage}%`} />
+                                                </div>
+
+                                                <h5 className="card-title">{s.name}</h5>
+                                                <p className="card-text">{s.artist}</p>
+                                            </div>
                                         </div>
-                                        
-                                        <h5 className="card-title">{s.name}</h5>
-                                        <p className="card-text">{s.artist}</p>
-                                    </div>
-                                </div>
-                            )
-                        })
+                                    )
+                                })
+                                :
+                                <h5 className="my-3">No similar tracks found</h5>
 
-                        :
-
-                        <h1>No similar tracks found</h1>
-                        
-                        
-                        }
-                    </div>
+                            }
+                        </div>
                     </div>
                 )
             })}

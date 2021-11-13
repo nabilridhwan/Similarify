@@ -101,7 +101,7 @@ function Search(props) {
         setDone(true);
     }
 
-    function handleDoneFalse(){
+    function handleDoneFalse() {
         setDone(false);
     }
 
@@ -114,7 +114,7 @@ function Search(props) {
                     <div className="addedSongsAlbumArt">
                         {addedSongs.map((track, index) => {
                             return (
-                                <div className="addedSong" style={{ display: "flex", flexDirection: "column" }}>
+                                <div key={index} className="addedSong" style={{ display: "flex", flexDirection: "column" }}>
 
 
                                     {done || <div className="d-grid">
@@ -162,7 +162,8 @@ function Search(props) {
                                         <img src={track.albumArt} className="card-img-top" alt="album_image" />
 
                                         <div className="card-body">
-                                            <a className="text-decoration-none" href={`https://open.spotify.com/track/${track.id}`}><FaSpotify /> Spotify</a>
+
+
 
                                             <h5 className="card-title">{track.name}</h5>
                                             <p className="card-text">{track.artist}</p>
@@ -170,7 +171,13 @@ function Search(props) {
 
                                             <br />
 
-                                            {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-success">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+                                            {!track.added ? <button onClick={() => addSearchSong(track)} className="btn btn-primary">Add Song</button> : <button onClick={() => removeSong(track)} className="btn btn-danger">Remove Song</button>}
+
+                                            <div className="my-2">
+                                            <a className="btn btn-success" href={`https://open.spotify.com/track/${track.id}`}><FaSpotify /> Open in Spotify</a>
+
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 )
