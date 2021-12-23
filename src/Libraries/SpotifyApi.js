@@ -1,18 +1,19 @@
 class SpotifyApi {
-    constructor(userToken) {
-        this.userToken = userToken;
+    constructor() {
         this.CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
         // Not production
         if (process.env.NODE_ENV !== 'production') {
-            this.REDIRECT_URI = "http://localhost:3000";
+            this.REDIRECT_URI = "http://localhost:3000/search";
         } else {
             this.REDIRECT_URI = "https://nabilridhwan.github.io/Similarify";
         }
 
-
-
         this.SCOPE = ""
+    }
+
+    setToken(token){
+        this.userToken = token;
     }
 
     authenticateUser() {
@@ -28,7 +29,9 @@ class SpotifyApi {
             .then(data => console.log(data))
     }
 
+
     // TODO: Add error functionality for status code != 200
+
     async search(trackName) {
         console.log("[Spotify API] Fetching Data")
         // Check if trackName string is empty

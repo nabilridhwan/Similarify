@@ -4,10 +4,14 @@ import LastFMApi from '../Libraries/LastFMApi';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { FaArrowLeft, FaBackward } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 
-export default function LastFMResults({ addedSongs, doneFunction }) {
+export default function LastFMResults() {
     const LastFM = new LastFMApi(process.env.REACT_APP_LASTFM_API_KEY)
     let [songs, setSongs] = useState([]);
+    const location = useLocation();
+
+    const {addedSongs} = location.state;
 
     useEffect(() => {
         fetchSimilarSongs();
@@ -50,10 +54,6 @@ export default function LastFMResults({ addedSongs, doneFunction }) {
 
     return (
         <div>
-            <button className="btn btn-lg btn-danger my-4" onClick={doneFunction}>
-                <FaArrowLeft /> Go Back
-            </button>
-
             <p>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn btn-success">Refresh</button>
 

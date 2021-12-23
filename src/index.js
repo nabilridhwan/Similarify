@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
-import App from './App';
+import './index.css';
+import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
+
+import { BrowserRouter, Route, Routes} from 'react-router-dom'
+import Search from './Components/Search';
+import LastFMResults from './Components/LastFMResults';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App/>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/lastfm" element={<LastFMResults />} />
+    </Routes>
+      
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
