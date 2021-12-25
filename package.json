@@ -15,7 +15,7 @@
     "react-scripts": "next",
     "web-vitals": "^1.1.2"
   },
-  "homepage": "https://nabilridhwan.github.io/Similarify",
+  "homepage": "https://nabilridhwan.github.io/similarify",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

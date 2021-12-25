@@ -1,5 +1,5 @@
 class LastFMApi{
-    constructor(apiKey){
+    setApiKey(apiKey){
         this.apiKey = apiKey;
     }
 

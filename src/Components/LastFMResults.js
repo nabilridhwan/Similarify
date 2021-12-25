@@ -3,15 +3,16 @@ import LastFMApi from '../Libraries/LastFMApi';
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { FaArrowLeft, FaBackward } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
+import { FaSpotify } from "react-icons/fa";
 
+const LastFM = new LastFMApi();
+LastFM.setApiKey(process.env.REACT_APP_LASTFM_API_KEY);
 export default function LastFMResults() {
-    const LastFM = new LastFMApi(process.env.REACT_APP_LASTFM_API_KEY)
     let [songs, setSongs] = useState([]);
     const location = useLocation();
 
-    const {addedSongs} = location.state;
+    const { addedSongs } = location.state;
 
     useEffect(() => {
         fetchSimilarSongs();
@@ -21,7 +22,7 @@ export default function LastFMResults() {
         let cloneSongs = [...addedSongs];
         addedSongs.forEach(async song => {
             console.log(song)
-            let r = await LastFM.getSimilarTrack(song.artist, song.name, 8)
+            let r = await LastFM.getSimilarTrack(song.artist, song.name, 5)
 
             console.log(r)
             // Map each item in songs
@@ -48,21 +49,21 @@ export default function LastFMResults() {
     }
 
     let progressBarStyles = buildStyles({
-        pathColor: '#222222',
+        pathColor: '#1DB954',
         textColor: '#222222',
     })
 
     return (
         <div>
-            <p>Only use the refresh button below IF and only IF there is no results</p>
-            <button onClick={fetchSimilarSongs} className="btn btn-success">Refresh</button>
+            <p className='text-center font-bold'>Only use the refresh button below IF and only IF there is no results</p>
+            <button onClick={fetchSimilarSongs} className="btn bg-red-500 text-white w-full">Refresh</button>
 
             {songs.map((song, index) => {
 
                 return (
 
                     <div className="my-5" key={index}>
-                        <h3>{song.name}</h3>
+                        <h1 className='text-3xl font-bold'>{song.name}</h1>
                         <h5>{song.artist}</h5>
                         <div className="row">
 
@@ -74,16 +75,25 @@ export default function LastFMResults() {
                                     const percentage = Math.round(parseFloat(s.match) * 100);
                                     return (
 
-                                        <div className="col-lg-3 card" key={index}>
-                                            <div className="card-body">
+                                        <div className="flex items-center w-full my-10 h-auto">
 
-                                                <div className="progressBarWrapper my-3">
-                                                    <CircularProgressbar styles={progressBarStyles} value={percentage} text={`${percentage}%`} />
-                                                </div>
-
-                                                <h5 className="card-title">{s.name}</h5>
-                                                <p className="card-text">{s.artist}</p>
+                                            <div className="w-14 h-auto">
+                                                <CircularProgressbar styles={progressBarStyles} value={percentage} text={`${percentage}%`} />
                                             </div>
+
+                                            <div className='mx-10'>
+                                                <h5 className="text-black font-bold">{s.name}</h5>
+                                                <p className="text-black/60">{s.artist}</p>
+
+                                                {/* Button */}
+                                                <a className='btn block bg-green-500 text-white flex items-center' href={`https://open.spotify.com/search/${encodeURI(s.name + " " + s.artist)}`}>
+                                                        <FaSpotify />
+                                                        <span className="ml-2">
+                                                            Spotify
+                                                        </span>
+                                                </a>
+                                            </div>
+
                                         </div>
                                     )
                                 })

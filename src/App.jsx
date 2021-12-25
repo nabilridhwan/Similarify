@@ -7,31 +7,25 @@ import SpotifyApi from './Libraries/SpotifyApi';
 import { FaSpotify } from "react-icons/fa"
 
 function App() {
-  const [token, setToken] = useState(null);
 
   return (
-    <div className="container-md mx-auto h-screen font-mono">
-      {token ?
-        <Search token={token} />
-        :
-        <div>
-          <h1 className='text-6xl font-bold py-5'>
-            Similarify
-          </h1>
-          <p>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
+    <div className="container-md mx-auto h-screen">
 
-          <h5>Similarify itself does not collect any data whatsoever.</h5>
-          <p>To get started, connect your Spotify Account (Only for beta-testers)</p>
+      {/* Header */}
+      <div className='my-10'>
+        <h1 className='text-6xl font-bold py-5 text-green-500'>
+          Similarify
+        </h1>
+        <p className='text-black/60'>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
+      </div>
 
-          <h6>Spotify's API Limit</h6>
-          <p>Similarify is now requesting for quota extension request from Spotify so that other users can use this application! Similarify is currently only open to beta-testers (25 users).
-            If you are part of the beta-testing program, Login with your certified beta-tester Spotify account.</p>
+      <h6 className='font-bold'>Spotify's API Limit</h6>
+      <p>Similarify is now requesting for quota extension request from Spotify so that other users can use this application! Similarify is currently only open to beta-testers (25 users).
+        If you are part of the beta-testing program, Login with your certified beta-tester Spotify account.</p>
 
-          <button className="btn flex flex-row items-center bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-none transition-all" onClick={() => new SpotifyApi().authenticateUser()}>
-            <FaSpotify className="mx-2" />
-            Login with Spotify</button>
-        </div>
-      }
+      <button className="btn w-full justify-center flex flex-row items-center bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-none transition-all my-10" onClick={() => new SpotifyApi().authenticateUser()}>
+        <FaSpotify className="mx-2" />
+        Login with Spotify</button>
 
 
       {/* <footer class="text-white/50">
