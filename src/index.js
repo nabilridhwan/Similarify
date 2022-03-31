@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import allReducers from './reducers/index.js';
 import Error from './Pages/Error.js';
 import { AnimatePresence } from 'framer-motion';
+import NotFound from './Pages/NotFound.js';
 
 let store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -28,6 +29,8 @@ ReactDOM.render(
             <Route path="/recommendation" element={<Recommendation />} />
 
             <Route path="/error" element={<Error />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
 
         </AnimatePresence>
