@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import LastFMApi from '../utils/LastFMApi';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+
+
+import { useDispatch } from 'react-redux';
 
 
 
@@ -11,19 +14,34 @@ import Container from '../Components/Container';
 import SimilarTrack from '../Components/SimilarTrack';
 import BackButton from '../Components/BackButton';
 
-import {FaLastfm} from "react-icons/fa"
+import { FaSpotify } from "react-icons/fa"
+import { useNavigate } from 'react-router-dom';
+import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
+import { clearSongsFromPlaylist } from '../actions';
 
 let spotifyApi = new SpotifyApi();
 
 const LastFM = new LastFMApi();
 LastFM.setApiKey(process.env.REACT_APP_LASTFM_API_KEY);
 export default function LastFMResults() {
+
+    let dispatch = useDispatch();
+
     let [songs, setSongs] = useState([]);
 
     const addedSongs = useSelector(state => state.songs);
     const apiKey = useSelector(state => state.apiKey);
+    const addedPlaylistSongs = useSelector(state => state.playlistSongs);
+
+    const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if(addedSongs.length == 0){
+            // Redirect to search page
+            navigate(-1);
+        }
         console.log(apiKey)
         spotifyApi.setToken(apiKey);
         fetchSimilarSongs();
@@ -33,39 +51,45 @@ export default function LastFMResults() {
 
         // TODO: Complete Spotify Recommendation
         // TODO: Add error functionality for status code != 200
-        // addedSongs.forEach(async song => {
-        //     let tracks = await spotifyApi.getRecommendation(song.id)
-        //     setSongs([...songs, tracks])
-        //     console.log(tracks)
-        // })
 
-        let cloneSongs = [...addedSongs];
         addedSongs.forEach(async song => {
-            console.log(song.name)
-            let r = await LastFM.getSimilarTrack(song.artist, song.name, 6)
+            let tracks = await spotifyApi.getRecommendation(song.id)
+            if (tracks.hasOwnProperty("error")) {
+                navigate("/search")
+            }
+            setSongs([...songs, tracks])
+            console.log(tracks)
 
-            console.log(r)
-            // Map each item in songs
-
-            r = r.map(item => {
-                return {
-                    name: item.name,
-                    match: item.match,
-                    duration: item.duration,
-                    artist: item.artist.name,
-                }
-            })
-
-            let mappedArray = cloneSongs.map(s => {
+            let mappedArray = [...addedSongs].map(s => {
                 if (s.name === song.name && s.artist === song.artist) {
-                    s.similar = r;
+                    s.similar = tracks.tracks;
                 }
                 return s;
             })
 
             setSongs(mappedArray);
-
         })
+
+        // let cloneSongs = [...addedSongs];
+        // addedSongs.forEach(async song => {
+        //     console.log(song.name)
+        //     let r = await LastFM.getSimilarTrack(song.artist, song.name, 6)
+
+        //     console.log(r)
+        //     // Map each item in songs
+
+        //     r = r.map(item => {
+        //         return {
+        //             name: item.name,
+        //             match: item.match,
+        //             duration: item.duration,
+        //             artist: item.artist.name,
+        //         }
+        //     })
+
+
+
+        // })
     }
 
 
@@ -86,8 +110,8 @@ export default function LastFMResults() {
             </p>
 
             <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
-                <FaLastfm className="mr-2" />
-                Recommendations powered by Last.fm 
+                <FaSpotify className="mr-2" />
+                Recommendations powered by Spotify
             </h1>
 
             {/* <p className='text-center font-bold'>Only use the refresh button below IF and only IF there is no results</p>
@@ -102,30 +126,63 @@ export default function LastFMResults() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10" key={index}>
+
+                        <p className='text-sm'>Since you liked...</p>
                         <h1 className='text-3xl font-bold'>{song.name}</h1>
                         <h5 className='text-sm text-black/50'>{song.artist}</h5>
-                        <div className="row">
 
-                            {Array.isArray(song.similar) && song.similar.length
+                        <p className='mt-10 mb-3'>
+                            Here are songs similar to it.
+                        </p>
+                        {Array.isArray(song.similar) && song.similar.length
 
-                                ?
+                            ?
 
-                                <div className='grid md:grid-cols-3'>
-                                    {song.similar.map((s, index) => {
-                                        const percentage = Math.round(parseFloat(s.match) * 100);
-                                        return (
-                                            <SimilarTrack percentage={percentage} key={index} track={s} />
-                                        )
-                                    })}
-                                </div>
-                                :
-                                <h5 className="my-3">No similar tracks found</h5>
+                            <div className='grid md:grid-cols-2 lg:grid-cols-3'>
+                                {song.similar.map((s, index) => {
+                                    const percentage = Math.round(parseFloat(s.match) * 100);
+                                    return (
+                                        <SimilarTrack percentage={percentage} key={index} track={s} />
+                                    )
+                                })}
+                            </div>
+                            :
+                            <h5 className="my-3">No similar tracks found</h5>
 
-                            }
-                        </div>
+                        }
                     </motion.div>
                 )
             })}
+
+            {addedPlaylistSongs.length > 0 && (
+
+                <div
+                    className="w-full flex items-center justify-center">
+                    <motion.button
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        layout
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setShowAddedPlaylistSongs(!showAddedPlaylistSongs)} className="rounded-lg p-3 px-8 font-bold text-white shadow-lg shadow-green-400/80 fixed bottom-5  bg-green-500 ">
+
+                        Done
+
+                        <div className="absolute w-8 p-1 -top-2 -right-2 bg-red-500 rounded-full shadow-md shadow-red-500">
+                            {addedPlaylistSongs.length}
+                        </div>
+                    </motion.button>
+
+
+                </div>
+            )}
+
+            {/* Added songs */}
+            <AnimatePresence>
+                {showAddedPlaylistSongs && (
+                    <AddedPlaylistSongs onClearAll={() => dispatch(clearSongsFromPlaylist())} onClose={() => setShowAddedPlaylistSongs(false)} />
+                )}
+            </AnimatePresence>
         </Container>
     )
 }

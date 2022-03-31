@@ -19,10 +19,10 @@ class SpotifyApi {
 
     async getUserData() {
         return await fetch("https://api.spotify.com/v1/me", {
-                headers: {
-                    "Authorization": "Bearer " + this.userToken
-                }
-            }).then(res => res.json())
+            headers: {
+                "Authorization": "Bearer " + this.userToken
+            }
+        }).then(res => res.json())
     }
 
 
@@ -56,12 +56,83 @@ class SpotifyApi {
     }
 
     async getRecommendation(track_id) {
-        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}`, {
+        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=6`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + this.userToken
             }
         }).then(res => res.json())
+    }
+
+    async createPlaylist(track_uris, playlist_name, playlist_description) {
+
+        console.log(track_uris, playlist_name, playlist_description)
+        return new Promise((resolve, reject) => {
+
+
+
+
+            // Get the User ID first
+            this.getUserData().then(userData => {
+                if (userData.hasOwnProperty("id")) {
+                    const {
+                        id: userID
+                    } = userData;
+
+                    // Create a playlist and obtain the playlist id
+                    fetch("https://api.spotify.com/v1/users/" + userID + "/playlists", {
+                            method: "POST",
+                            headers: {
+                                "Authorization": "Bearer " + this.userToken,
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                "name": playlist_name,
+                                "description": playlist_description,
+                                "public": false
+                            })
+                        }).then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data.hasOwnProperty("id")) {
+                                const {
+                                    id: playlistID,
+                                    external_urls: {spotify: playlistLink}
+                                } = data;
+
+
+                                // Add the uris to the playlist id
+                                fetch("https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", {
+                                        method: "POST",
+                                        headers: {
+                                            "Authorization": "Bearer " + this.userToken,
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            "uris": track_uris
+                                        })
+
+                                    })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        resolve({
+                                            ...data,
+                                            link: playlistLink
+                                        })
+                                    })
+
+                            } else {
+                                // Throw an error
+                                console.log("[Spotify API] Error creating playlist")
+                                reject("Error creating playlist")
+                            }
+                        })
+
+                }
+            }).catch(error => {
+                reject("Error getting user data")
+            })
+        })
     }
 
 }

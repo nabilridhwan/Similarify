@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AddedSong from './AddedSong';
 import { useEffect } from 'react';
 
-import { clearAddedSongs} from '../actions';
+import { clearAddedSongs, removeSong} from '../actions';
 
 export default function AddedSongs({ onClose }) {
 
@@ -71,7 +71,7 @@ export default function AddedSongs({ onClose }) {
                             className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
                                     {addedSongs.map((track, index) => {
                                         return (
-                                            <AddedSong key={index} track={track} />
+                                            <AddedSong onRemovedClicked={() => dispatch(removeSong(track))} key={index} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
                                         )
                                     })}
 

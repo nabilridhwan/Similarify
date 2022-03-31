@@ -42,3 +42,23 @@ export function setApiKey(apiKey){
         payload: apiKey
     }
 }
+
+export function addSongToPlaylist(track){
+    return {
+        type: 'ADD_SONG_PLAYLIST',
+        payload: track
+    }
+}
+
+export function removeSongFromPlaylist(track){
+    return {
+        type: 'REMOVE_SONG_PLAYLIST',
+        payload: track
+    }
+}
+
+export function clearSongsFromPlaylist(){
+    return {
+        type: 'CLEAR_SONGS_PLAYLIST'
+    }
+}
