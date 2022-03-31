@@ -12,13 +12,7 @@ class SpotifyApi {
 
     authenticateUser() {
 
-        let REDIRECT_URI;
-
-        if (process.env.NODE_ENV !== 'production') {
-            REDIRECT_URI = "http://localhost:3000/search";
-        } else {
-            REDIRECT_URI = "https://nabilridhwan.github.io/Similarify";
-        }
+        let REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 
         window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
     }
