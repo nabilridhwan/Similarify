@@ -42,7 +42,7 @@ export default function LastFMResults() {
         let cloneSongs = [...addedSongs];
         addedSongs.forEach(async song => {
             console.log(song.name)
-            let r = await LastFM.getSimilarTrack(song.artist, song.name, 5)
+            let r = await LastFM.getSimilarTrack(song.artist, song.name, 6)
 
             console.log(r)
             // Map each item in songs
