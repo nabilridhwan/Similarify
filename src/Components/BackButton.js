@@ -10,12 +10,14 @@ export default function BackButton() {
                 <motion.button
                     onClick={() => navigate(-1)}
                     whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1 }}
                     className="text-black font-bold py-2 px-4 rounded-full border-2 border-black">
 
                     <div className="flex justify-center items-center">
                         <FaArrowLeft className="mr-2" />
                         Back
                     </div>
+
                 </motion.button>
         </div>
     )

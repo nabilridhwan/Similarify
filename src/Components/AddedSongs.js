@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import AddedSong from './AddedSong';
 import { useEffect } from 'react';
 
@@ -12,7 +12,7 @@ export default function AddedSongs({ onClose }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (addedSongs.length == 0) {
+        if (addedSongs.length === 0) {
             onClose()
         }
     }, [addedSongs])
@@ -44,7 +44,9 @@ export default function AddedSongs({ onClose }) {
 
 
 
-                    <h2 className="text-2xl font-bold">Added Songs</h2>
+                    <h2 className="text-2xl font-bold">
+                        {addedSongs.length} songs in the list
+                    </h2>
                     <p className="text-black/60">All your added songs appear here!</p>
 
                     <button 
@@ -58,7 +60,7 @@ export default function AddedSongs({ onClose }) {
 
                         <motion.div layout initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} >
 
-                            {addedSongs.length == 0 && (
+                            {addedSongs.length === 0 && (
 
                                 <h1>
                                     Add songs to get started!
@@ -78,7 +80,9 @@ export default function AddedSongs({ onClose }) {
                             </motion.div>
 
                             {addedSongs.length > 0 && (
-                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">Done</Link>
+                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">
+                                    Get Recommendations
+                                </Link>
                             )
                             }
 

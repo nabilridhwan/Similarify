@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from "react-redux"
 import setSearchResults, { removeSong, setApiKey, setSearchTermRedux } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
+import Footer from "../Components/Footer";
+import ProgressBar from "../Components/ProgressBar";
 
 // Import
 
@@ -99,6 +101,8 @@ function Search() {
         <Container>
             <BackButton to="/" />
 
+            {/* <ProgressBar current={1} total={2} /> */}
+
             <div className="my-5">
                 <h1 className="font-bold text-2xl" >Search for Tracks</h1>
                 <p className="text-black/60">Search for the tracks you already like</p>
@@ -106,7 +110,12 @@ function Search() {
 
             {/* Search form */}
             <form onSubmit={handleFormSubmit}>
-                <input value={searchTerm} className="search-box" type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder="Imagine Dragons" />
+                <input
+                    value={searchTerm}
+                    className="search-box focus:drop-shadow-lg"
+                    type="text"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Imagine Dragons" />
 
 
                 {/* Search button */}
@@ -118,17 +127,15 @@ function Search() {
                 </button>
             </form>
 
-            <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
+            {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
                 <FaSpotify className="mr-2" />
                 Search powered by Spotify
-            </h1>
+            </h1> */}
 
             {searchResults.length == 0 && (
-                <div className="my-32 text-center">
-                    <h1 className="font-bold text-2xl" >
-                        Search on!
-                    </h1>
-                    <p className="text-black/50 text-sm">
+                <div className="my-32 text-black/50 flex flex-col items-center justify-center text-center">
+                    <FaSearch className="text-2xl my-5" />
+                    <p className="text-sm">
                         Search for the tracks you already like, and add them to your list!
                     </p>
                 </div>
@@ -136,7 +143,13 @@ function Search() {
 
 
             <AnimatePresence exitBeforeEnter>
-                <motion.div layout className="my-5 grid md:grid-cols-2">
+                <motion.div
+                    layout="position"
+                    transition={{
+                        type: "tween",
+                        ease: "easeOut"
+                    }}
+                    className="my-5 grid gap-2 md:grid-cols-2">
 
                     {searchResults.map((track, index) => {
                         return (
@@ -159,7 +172,7 @@ function Search() {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setShowAddedSongs(!showAddedSongs)} className="done-button">
 
-                            Done
+                        Done
 
                         <div className="badge">
                             {addedSongs.length}
@@ -176,6 +189,8 @@ function Search() {
                     <AddedSongs onClose={() => setShowAddedSongs(false)} />
                 )}
             </AnimatePresence>
+
+            <Footer />
 
         </Container >
     )

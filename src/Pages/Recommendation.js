@@ -17,6 +17,8 @@ import { FaSpotify } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom';
 import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
 import { clearSongsFromPlaylist } from '../actions';
+import Footer from '../Components/Footer';
+import ProgressBar from '../Components/ProgressBar';
 
 let spotifyApi = new SpotifyApi();
 
@@ -96,6 +98,9 @@ export default function Recommendation() {
 
             <BackButton to="/search" />
 
+
+            {/* <ProgressBar current={2} /> */}
+
             <h1
                 className='text-2xl font-bold'
             >
@@ -126,10 +131,12 @@ export default function Recommendation() {
 
                         <p className='text-sm'>Since you liked...</p>
                         <h1 className='text-3xl font-bold'>{song.name}</h1>
-                        <h5 className='text-sm text-black/50'>{song.artist}</h5>
+                        <h5 className='text-sm text-black/50'>
+                            by {song.artist}
+                        </h5>
 
-                        <p className='mt-10 mb-3'>
-                            Here are songs similar to it.
+                        <p className='mt-10 mb-3 text-sm'>
+                            Here are songs similar to it:
                         </p>
                         {Array.isArray(song.similar) && song.similar.length
 
@@ -181,6 +188,8 @@ export default function Recommendation() {
                     <AddedPlaylistSongs onClearAll={() => dispatch(clearSongsFromPlaylist())} onClose={() => setShowAddedPlaylistSongs(false)} />
                 )}
             </AnimatePresence>
+
+            <Footer />
         </Container>
     )
 }

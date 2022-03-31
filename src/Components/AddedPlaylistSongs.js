@@ -1,10 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
-import { Link, useNavigate } from 'react-router-dom';
 import AddedSong from './AddedSong';
 import { useEffect, useState } from 'react';
 
-import { clearAddedSongs, removeSongFromPlaylist } from '../actions';
+import { removeSongFromPlaylist } from '../actions';
 import SpotifyApi from '../utils/SpotifyApi';
 
 export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
@@ -21,7 +20,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
     const [playlistDescription, setPlaylistDescription] = useState('');
 
     useEffect(() => {
-        if (addedPlaylistSongs.length == 0) {
+        if (addedPlaylistSongs.length === 0) {
             onClose()
         }
 
@@ -36,12 +35,12 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
         let pDesc = playlistDescription;
 
         // TODO: Check if playlist name is empty or not, if yes, then make a random name up
-        if (pName == '') {
+        if (pName === '') {
             pName = ('Similarify Playlist ' + Math.floor(Math.random() * 100));
         }
 
         // TODO: Check if playlist description is empty or not, if yes, then make a random description up
-        if (pDesc == '') {
+        if (pDesc === '') {
             pDesc = `${addedSongs.map(s => {
                 return s.name + " by " + s.artist
             }).join(" | ")}. This is a playlist created by Similarify (https://similarify.netlify.app). Find similar songs to the ones you like!`;
@@ -110,7 +109,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
                         <motion.div layout initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} >
 
-                            {addedPlaylistSongs.length == 0 && (
+                            {addedPlaylistSongs.length === 0 && (
 
                                 <h1>
                                     Add songs to get started!

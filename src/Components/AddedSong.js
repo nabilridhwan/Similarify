@@ -1,11 +1,8 @@
 import { motion } from "framer-motion";
-import { useSelector, useDispatch } from "react-redux"
-import { removeSong } from "../actions";
+import { useDispatch } from "react-redux"
 import { FaTrash } from "react-icons/fa"
 
 export default function AddedSong({ track_name, track_artist, track_album_img, onRemovedClicked }) {
-
-    const dispatch = useDispatch();
 
     return (
         <motion.div layout initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -100, opacity: 0 }} className="p-1">

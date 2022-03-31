@@ -35,8 +35,8 @@ export default function SpotifySong({ track }) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleAdd(track)}
-                className="btn bg-blue-500 text-white my-2">
-                    Add Song
+                className="btn bg-blue-500 text-white my-2 text-sm">
+                    Add to list
                 </motion.button>
 
             </div>
