@@ -11,12 +11,16 @@ export default function songs() {
 
                 if (f.length == 0) {
                     return [...state, action.payload];
-                }else{
+                } else {
                     return [...state]
                 }
 
                 case 'REMOVE_SONG':
                     return state.filter(song => song.id !== action.payload.id);
+
+                case 'CLEAR_SONGS':
+                    return [];
+
                 default:
                     return state;
         }

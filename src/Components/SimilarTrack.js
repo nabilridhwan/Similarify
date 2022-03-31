@@ -5,7 +5,7 @@ import { FaSpotify } from "react-icons/fa";
 import 'react-circular-progressbar/dist/styles.css';
 
 let progressBarStyles = buildStyles({
-    pathColor: '#1DB954',
+    pathColor: '#e94798',
     textColor: '#222222',
 })
 
@@ -26,10 +26,10 @@ export default function SimilarTrack({ track, percentage }) {
                 </p>
 
                 {/* Button */}
-                <a className='btn bg-green-500 text-white flex items-center w-fit' href={`https://open.spotify.com/search/${encodeURI(track.name + " " + track.artist)}`}>
+                <a className='mt-2 btn bg-green-500 text-white text-sm flex items-center w-fit' href={`https://open.spotify.com/search/${encodeURI(track.name + " " + track.artist)}`}>
                     <FaSpotify />
                     <span className="ml-2">
-                        Spotify
+                        Open in Spotify
                     </span>
                 </a>
             </div>

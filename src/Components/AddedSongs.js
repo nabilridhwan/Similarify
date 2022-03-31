@@ -1,14 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
 import { Link, useNavigate } from 'react-router-dom';
-import { removeSong } from '../actions';
-import { FaTrash } from "react-icons/fa"
 import AddedSong from './AddedSong';
 import { useEffect } from 'react';
+
+import { clearAddedSongs} from '../actions';
 
 export default function AddedSongs({ onClose }) {
 
     const addedSongs = useSelector(state => state.songs);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (addedSongs.length == 0) {
@@ -45,6 +46,13 @@ export default function AddedSongs({ onClose }) {
 
                     <h2 className="text-2xl font-bold">Added Songs</h2>
                     <p className="text-black/60">All your added songs appear here!</p>
+
+                    <button 
+                    onClick={() => dispatch(clearAddedSongs())}
+                    
+                    className='text-red-500 font-bold mt-5'>
+                        Clear All
+                    </button>
 
                     <AnimatePresence >
 

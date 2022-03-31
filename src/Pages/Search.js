@@ -159,8 +159,14 @@ function Search() {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setShowAddedSongs(!showAddedSongs)} className="rounded-lg p-3 px-8 font-bold text-white shadow-lg shadow-green-400/80 fixed bottom-5  bg-green-500 ">
 
-                        {addedSongs.length} Added Song(s)
+                            Done
+
+                        <div className="absolute w-8 p-1 -top-2 -right-2 bg-red-500 rounded-full shadow-md shadow-red-500">
+                            {addedSongs.length}
+                        </div>
                     </motion.button>
+
+
                 </div>
             )}
 

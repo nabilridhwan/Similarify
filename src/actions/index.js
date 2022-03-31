@@ -23,6 +23,12 @@ export default function setSearchResults(results, addedSongs){
     }
 }
 
+export function clearAddedSongs(){
+    return {
+        type: 'CLEAR_SONGS'
+    }
+}
+
 export function setSearchTermRedux(searchTerm){
     return {
         type: 'SET_SEARCH_TERM',
