@@ -17,13 +17,12 @@ class SpotifyApi {
         window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
     }
 
-    getUserData() {
-        fetch("https://api.spotify.com/v1/me", {
+    async getUserData() {
+        return await fetch("https://api.spotify.com/v1/me", {
                 headers: {
                     "Authorization": "Bearer " + this.userToken
                 }
             }).then(res => res.json())
-            .then(data => console.log(data))
     }
 
 

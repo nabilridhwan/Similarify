@@ -49,6 +49,14 @@ function Search() {
     }
     useEffect(() => {
         checkForKey();
+
+        (async () => {
+            try {
+                await Spotify.getUserData();
+            } catch (error) {
+                window.location = "/error"
+            }
+        })();
     }, [])
 
     function handleFormSubmit(e) {
@@ -117,8 +125,8 @@ function Search() {
 
 
             <div className="w-full flex items-center justify-center">
-                <motion.button layout 
-                onClick={() => setShowAddedSongs(!showAddedSongs)} className="btn text-white shadow-lg shadow-red-500/50 fixed bottom-3  bg-red-500 ">
+                <motion.button layout
+                    onClick={() => setShowAddedSongs(!showAddedSongs)} className="btn text-white shadow-lg shadow-red-500/50 fixed bottom-3  bg-red-500 ">
 
                     Added Songs ({addedSongs.length})
                 </motion.button>

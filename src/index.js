@@ -11,6 +11,7 @@ import LastFMResults from './Pages/LastFMResults';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux';
 import allReducers from './reducers/index.js';
+import Error from './Pages/Error.js';
 
 let store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -22,6 +23,8 @@ ReactDOM.render(
           <Route path="/" element={<App />} />
           <Route path="/search" element={<Search />} />
           <Route path="/lastfm" element={<LastFMResults />} />
+
+          <Route path="/error" element={<Error />} />
         </Routes>
 
       </BrowserRouter>
