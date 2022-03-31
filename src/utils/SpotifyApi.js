@@ -3,7 +3,7 @@ class SpotifyApi {
     constructor() {
 
         this.CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-        this.SCOPE = "";
+        this.SCOPE = "playlist-modify-public,playlist-modify-private";
     }
 
     setToken(token) {
