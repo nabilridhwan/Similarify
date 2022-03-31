@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import LastFMApi from '../utils/LastFMApi';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -21,9 +20,7 @@ import { clearSongsFromPlaylist } from '../actions';
 
 let spotifyApi = new SpotifyApi();
 
-const LastFM = new LastFMApi();
-LastFM.setApiKey(process.env.REACT_APP_LASTFM_API_KEY);
-export default function LastFMResults() {
+export default function Recommendation() {
 
     let dispatch = useDispatch();
 
@@ -164,11 +161,12 @@ export default function LastFMResults() {
                         layout
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setShowAddedPlaylistSongs(!showAddedPlaylistSongs)} className="rounded-lg p-3 px-8 font-bold text-white shadow-lg shadow-green-400/80 fixed bottom-5  bg-green-500 ">
+                        onClick={() => setShowAddedPlaylistSongs(!showAddedPlaylistSongs)} 
+                        className="done-button">
 
                         Done
 
-                        <div className="absolute w-8 p-1 -top-2 -right-2 bg-red-500 rounded-full shadow-md shadow-red-500">
+                        <div className="badge">
                             {addedPlaylistSongs.length}
                         </div>
                     </motion.button>

@@ -92,8 +92,12 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
 
-                    <h2 className="text-2xl font-bold">Added Playlist Songs</h2>
-                    <p className="text-black/60">All your added playlist songs appear here!</p>
+                    <h2 className="text-2xl font-bold">
+                        {addedPlaylistSongs.length} songs added to playlist
+                    </h2>
+                    <p className="text-black/60">
+                        Create your playlist! All your added playlist songs appear here!
+                    </p>
 
                     <button
                         onClick={onClearAll}

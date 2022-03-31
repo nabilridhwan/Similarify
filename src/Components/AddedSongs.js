@@ -78,7 +78,7 @@ export default function AddedSongs({ onClose }) {
                             </motion.div>
 
                             {addedSongs.length > 0 && (
-                                <Link to="/lastfm" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">Done</Link>
+                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">Done</Link>
                             )
                             }
 

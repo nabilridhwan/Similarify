@@ -6,7 +6,7 @@ import "./index.css"
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Search from './Pages/Search';
-import LastFMResults from './Pages/LastFMResults';
+import Recommendation from './Pages/Recommendation';
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux';
@@ -25,7 +25,7 @@ ReactDOM.render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/lastfm" element={<LastFMResults />} />
+            <Route path="/recommendation" element={<Recommendation />} />
 
             <Route path="/error" element={<Error />} />
           </Routes>
