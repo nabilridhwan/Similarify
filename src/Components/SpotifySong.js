@@ -31,11 +31,13 @@ export default function SpotifySong({ track }) {
                 <p className="text-black/50 text-sm">{track.artist}</p>
 
 
-                <button
+                <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => handleAdd(track)}
                 className="btn bg-blue-500 text-white my-2">
                     Add Song
-                </button>
+                </motion.button>
 
             </div>
 

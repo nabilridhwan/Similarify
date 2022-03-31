@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Container from "../Components/Container";
 
 export default function Error() {
@@ -11,6 +12,13 @@ export default function Error() {
                 <p className="text-black/60">
                     You are not verified to use Similarify. Please contact the admin.
                 </p>
+
+                <Link 
+                to="/"
+                className="underline"
+                >
+                    Go home
+                </Link>
             </div>
 
         </Container >

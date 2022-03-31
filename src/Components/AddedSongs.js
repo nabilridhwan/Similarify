@@ -4,65 +4,90 @@ import { Link, useNavigate } from 'react-router-dom';
 import { removeSong } from '../actions';
 import { FaTrash } from "react-icons/fa"
 import AddedSong from './AddedSong';
+import { useEffect } from 'react';
 
 export default function AddedSongs({ onClose }) {
 
     const addedSongs = useSelector(state => state.songs);
-    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (addedSongs.length == 0) {
+            onClose()
+        }
+    }, [addedSongs])
 
     return (
 
         <motion.div
-            initial={{ y: 200, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 200, opacity: 0 }}
-            transition={{
-                type: "tween",
-            }}
-            className="fixed bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
-
-            <button
-                onClick={onClose}
-            >
-                Close
-            </button>
-
-            <h2 className="text-2xl font-bold">Added Songs</h2>
-            <p className="text-black/60">All your added songs appear here!</p>
-
-            <AnimatePresence >
-
-                <motion.div layout initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="my-5">
-
-                    {addedSongs.length == 0 && (
-
-                        <h1>
-                            Add songs to get started!
-                        </h1>
-                    )}
+            className='fixed w-screen h-screen bg-black/70 top-0 left-0'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
 
 
-                    <motion.div layout className="addedSongsAlbumArt flex my-5 flex-wrap">
-                        <AnimatePresence >
-                            {addedSongs.map((track, index) => {
-                                return (
-                                    <AddedSong key={index} track={track} />
-                                )
-                            })}
+            <motion.div
+                initial={{ y: 200, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 200, opacity: 0 }}
+                transition={{
+                    type: "tween",
+                }}
+                style={{
+                    zIndex: 2
+                }}
+                className="fixed py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
 
-                        </AnimatePresence>
-                    </motion.div>
-
-                    {addedSongs.length > 0 && (
-                        <button onClick={() => navigate("/lastfm")} className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">Done</button>
-                    )
-                    }
+                <div className='md:w-1/2 mx-auto'>
 
 
 
-                </motion.div>
-            </AnimatePresence>
 
+                    <h2 className="text-2xl font-bold">Added Songs</h2>
+                    <p className="text-black/60">All your added songs appear here!</p>
+
+                    <AnimatePresence >
+
+                        <motion.div layout initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} >
+
+                            {addedSongs.length == 0 && (
+
+                                <h1>
+                                    Add songs to get started!
+                                </h1>
+                            )}
+
+
+                            <motion.div 
+                            layout 
+                            className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
+                                    {addedSongs.map((track, index) => {
+                                        return (
+                                            <AddedSong key={index} track={track} />
+                                        )
+                                    })}
+
+                            </motion.div>
+
+                            {addedSongs.length > 0 && (
+                                <Link to="/lastfm" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">Done</Link>
+                            )
+                            }
+
+                            <button
+                                onClick={onClose}
+                                className="mt-2 btn bg-red-500 block w-full text-white text-center shadow-md shadow-red/50"
+                            >
+                                Close
+                            </button>
+
+
+
+                        </motion.div>
+                    </AnimatePresence>
+
+                </div>
+            </motion.div>
         </motion.div>
     )
 

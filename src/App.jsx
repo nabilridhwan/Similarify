@@ -17,7 +17,7 @@ function App() {
 
       {/* Header */}
       <div className='my-10'>
-        <h1 className='text-6xl font-bold py-5 text-green-500'>
+        <h1 className='text-6xl font-extrabold py-5'>
           Similarify
         </h1>
         <p className='text-black/60'>Powered by Spotify and LastFM, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>

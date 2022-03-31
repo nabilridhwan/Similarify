@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 import LastFMResults from "./LastFMResults";
 
-import { FaSpotify, FaMinusCircle, FaPlusCircle, FaTrash } from "react-icons/fa"
+import { FaSpotify, FaSearch } from "react-icons/fa"
 import { Link } from "react-router-dom";
 import Container from "../Components/Container";
 
@@ -12,6 +12,7 @@ import SpotifySong from "../Components/SpotifySong";
 import { useSelector, useDispatch } from "react-redux"
 import setSearchResults, { removeSong, setApiKey, setSearchTermRedux } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
+import BackButton from "../Components/BackButton";
 
 // Import
 
@@ -90,14 +91,14 @@ function Search() {
                 }
             })
 
-            console.log(tracks)
-
-            dispatch(setSearchResults(tracks));
+            dispatch(setSearchResults(tracks, addedSongs));
         }
     }
 
     return (
         <Container>
+            <BackButton to="/" />
+
             <div className="my-5">
                 <h1 className="font-bold text-2xl" >Search for Tracks</h1>
                 <p className="text-black/60">Search for the tracks you already like</p>
@@ -108,8 +109,30 @@ function Search() {
                 <input value={searchTerm} className="search-box" type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder="Imagine Dragons" />
 
 
-                <button className="btn shadow-lg bg-green-500 text-white w-full disabled:bg-black/50 disabled:text-white/50 my-5" onClick={searchForTracks}>Search</button>
+                {/* Search button */}
+                <button
+                    className="flex items-center justify-center btn shadow-md bg-pink-500 shadow-pink-500/50 text-white w-full disabled:bg-black/50 disabled:text-white/50 my-5"
+                    onClick={searchForTracks}>
+                    <FaSearch className="mr-2" />
+                    Search
+                </button>
             </form>
+
+            <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
+                <FaSpotify className="mr-2" />
+                Search powered by Spotify
+            </h1>
+
+            {searchResults.length == 0 && (
+                <div className="my-32 text-center">
+                    <h1 className="font text-2xl" >
+                        Search on!
+                    </h1>
+                    <p className="text-black/50 text-sm">
+                        Search for the tracks you already like, and add them to your list!
+                    </p>
+                </div>
+            )}
 
 
             <AnimatePresence exitBeforeEnter>
@@ -124,13 +147,22 @@ function Search() {
             </AnimatePresence>
 
 
-            <div className="w-full flex items-center justify-center">
-                <motion.button layout
-                    onClick={() => setShowAddedSongs(!showAddedSongs)} className="btn text-white shadow-lg shadow-red-500/50 fixed bottom-3  bg-red-500 ">
+            {addedSongs.length > 0 && (
 
-                    Added Songs ({addedSongs.length})
-                </motion.button>
-            </div>
+                <div
+                    className="w-full flex items-center justify-center">
+                    <motion.button
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        layout
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setShowAddedSongs(!showAddedSongs)} className="rounded-lg p-3 px-8 font-bold text-white shadow-lg shadow-green-400/80 fixed bottom-5  bg-green-500 ">
+
+                        {addedSongs.length} Added Song(s)
+                    </motion.button>
+                </div>
+            )}
 
             {/* Added songs */}
             <AnimatePresence>

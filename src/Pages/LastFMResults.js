@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import LastFMApi from '../utils/LastFMApi';
 
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { useLocation } from 'react-router-dom';
-import { FaSpotify } from "react-icons/fa";
+import { motion } from 'framer-motion';
+
+
 
 import { useSelector } from 'react-redux';
 import SpotifyApi from '../utils/SpotifyApi';
+import Container from '../Components/Container';
+import SimilarTrack from '../Components/SimilarTrack';
+import BackButton from '../Components/BackButton';
+
+import {FaLastfm} from "react-icons/fa"
 
 let spotifyApi = new SpotifyApi();
 
@@ -16,7 +20,7 @@ LastFM.setApiKey(process.env.REACT_APP_LASTFM_API_KEY);
 export default function LastFMResults() {
     let [songs, setSongs] = useState([]);
 
-    const  addedSongs  = useSelector(state => state.songs);
+    const addedSongs = useSelector(state => state.songs);
     const apiKey = useSelector(state => state.apiKey);
 
     useEffect(() => {
@@ -64,13 +68,27 @@ export default function LastFMResults() {
         })
     }
 
-    let progressBarStyles = buildStyles({
-        pathColor: '#1DB954',
-        textColor: '#222222',
-    })
+
 
     return (
-        <div>
+        <Container>
+
+            <BackButton to="/search" />
+
+            <h1
+                className='text-2xl font-bold'
+            >
+                Similar Tracks
+            </h1>
+
+            <p className="text-black/50">
+                Here are some similar tracks to your liked tracks.
+            </p>
+
+            <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
+                <FaLastfm className="mr-2" />
+                Recommendations powered by Last.fm 
+            </h1>
 
             {/* <p className='text-center font-bold'>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn bg-red-500 text-white w-full">Refresh</button> */}
@@ -79,49 +97,35 @@ export default function LastFMResults() {
 
                 return (
 
-                    <div className="my-5" key={index}>
+                    <motion.div
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10" key={index}>
                         <h1 className='text-3xl font-bold'>{song.name}</h1>
-                        <h5>{song.artist}</h5>
+                        <h5 className='text-sm text-black/50'>{song.artist}</h5>
                         <div className="row">
 
                             {Array.isArray(song.similar) && song.similar.length
 
                                 ?
 
-                                song.similar.map((s, index) => {
-                                    const percentage = Math.round(parseFloat(s.match) * 100);
-                                    return (
-
-                                        <div key={index} className="flex items-center w-full my-10 h-auto">
-
-                                            <div className="w-14 h-auto">
-                                                <CircularProgressbar styles={progressBarStyles} value={percentage} text={`${percentage}%`} />
-                                            </div>
-
-                                            <div className='mx-10'>
-                                                <h5 className="text-black font-bold">{s.name}</h5>
-                                                <p className="text-black/60">{s.artist}</p>
-
-                                                {/* Button */}
-                                                <a className='btn bg-green-500 text-white flex items-center w-fit' href={`https://open.spotify.com/search/${encodeURI(s.name + " " + s.artist)}`}>
-                                                        <FaSpotify />
-                                                        <span className="ml-2">
-                                                            Spotify
-                                                        </span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    )
-                                })
+                                <div className='grid md:grid-cols-3'>
+                                    {song.similar.map((s, index) => {
+                                        const percentage = Math.round(parseFloat(s.match) * 100);
+                                        return (
+                                            <SimilarTrack percentage={percentage} key={index} track={s} />
+                                        )
+                                    })}
+                                </div>
                                 :
                                 <h5 className="my-3">No similar tracks found</h5>
 
                             }
                         </div>
-                    </div>
+                    </motion.div>
                 )
             })}
-        </div>
+        </Container>
     )
 }

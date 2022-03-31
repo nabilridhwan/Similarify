@@ -2,7 +2,8 @@ export default function searchResult() {
     return (state = [], action) => {
         switch (action.type) {
             case 'SET':
-                return [...action.payload];
+                let rtn = action.payload.results;
+                return [...rtn];
             default:
                 return state;
         }
