@@ -4,9 +4,11 @@ class LastFMApi{
     }
 
     // TODO: Add error functionality for status code != 200
-    async getSimilarTrack(artist, track, limit){
+    async getSimilarTrack(artist, track, limit=5){
 
-        let response = [];
+        console.log(artist, track, limit)
+
+        let response = {};
         let numberOfTimes = 0;
 
         // Do until we get tracks that is not null
@@ -20,6 +22,7 @@ class LastFMApi{
                 .catch(error => console.log(error))
 
             response = await request.json()
+            console.log(response)
         }while(response.similartracks.track == null)
 
 

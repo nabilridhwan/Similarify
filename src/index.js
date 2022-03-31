@@ -2,22 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
+import "./index.css"
 
-import { BrowserRouter, Route, Routes} from 'react-router-dom'
-import Search from './Components/Search';
-import LastFMResults from './Components/LastFMResults';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Search from './Pages/Search';
+import LastFMResults from './Pages/LastFMResults';
+
+import { createStore } from 'redux'
+import { Provider } from 'react-redux';
+import allReducers from './reducers/index.js';
+
+let store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/lastfm" element={<LastFMResults />} />
-    </Routes>
-      
-    </BrowserRouter>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/lastfm" element={<LastFMResults />} />
+        </Routes>
+
+      </BrowserRouter>
+    </React.StrictMode>
+  </Provider>
+  ,
+
+
   document.getElementById('root')
 );
 
