@@ -13,6 +13,7 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './Pages/Home';
 import AuthenticationFailed from './Pages/AuthenticationFailed';
 import Authenticate from './Pages/Authenticate';
+import LikedSongs from './Pages/LikedSongs';
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/authenticate" element={<Authenticate/>} />
+          <Route path="/likedsongs" element={<LikedSongs/>} />
 
           <Route path="/error" element={<Error />} />
           <Route path="/authenticationfailed" element={<AuthenticationFailed/>} />

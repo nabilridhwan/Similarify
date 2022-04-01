@@ -1,7 +1,7 @@
 class SpotifyApi {
 
     static REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-    static SCOPE = "playlist-modify-private";
+    static SCOPE = "playlist-modify-private,user-library-read";
     static CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
     setToken(token) {
@@ -26,6 +26,14 @@ class SpotifyApi {
                 return res.json()
             }
         })
+    }
+
+    async getLikedSongs(limit=50){
+        return await fetch(`https://api.spotify.com/v1/me/tracks?limit=${limit}`, {
+            headers: {
+                "Authorization": "Bearer " + this.userToken
+            }
+        }).then(res => res.json())
     }
 
 
