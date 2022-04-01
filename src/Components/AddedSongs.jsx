@@ -38,7 +38,7 @@ export default function AddedSongs({ onClose }) {
                 style={{
                     zIndex: 2
                 }}
-                className="fixed py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
+                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
 
                 <div className='md:w-1/2 mx-auto'>
 
@@ -48,7 +48,7 @@ export default function AddedSongs({ onClose }) {
                     <h2 className="text-2xl font-bold">
                         {addedSongs.length < 2 ? `${addedSongs.length} song added` : `${addedSongs.length} songs added`}
                     </h2>
-                    <p className="text-black/60">All your added songs appear here!</p>
+                    <p className="dark:text-white/60 text-black/60">All your added songs appear here!</p>
 
                     <button 
                     onClick={() => dispatch(clearAddedSongs())}
@@ -85,7 +85,7 @@ export default function AddedSongs({ onClose }) {
                             </motion.div>
 
                             {addedSongs.length > 0 && (
-                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200">
+                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50">
                                     Get Recommendations
                                 </Link>
                             )

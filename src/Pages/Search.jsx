@@ -115,7 +115,7 @@ function Search() {
                 <h1 className="font-bold text-2xl" >
                     Search for Songs 
                 </h1>
-                <p className="text-black/60">Search for the songs that you already like</p>
+                <p className="dark:text-white/60 text-black/60">Search for the songs that you already like</p>
             </div>
 
             {/* Search form */}
@@ -131,7 +131,7 @@ function Search() {
                 {/* Search button */}
                 <button
                     disabled={searchTerm === ""}
-                    className="transition flex items-center justify-center btn shadow-md bg-pink-500 shadow-pink-500/50 text-white w-full disabled:bg-black/30 disabled:text-white/50 disabled:shadow-none my-5"
+                    className="transition flex items-center justify-center btn shadow-sm bg-pink-500 shadow-pink-500/30 text-white w-full disabled-button  my-5"
                     onClick={searchForTracks}>
                     <FaSearch className="mr-2" />
                     Search
@@ -144,7 +144,7 @@ function Search() {
             </h1> */}
 
             {searchResults.length == 0 && (
-                <div className="my-32 text-black/50 flex flex-col items-center justify-center text-center">
+                <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaSearch className="text-2xl my-5" />
                     <p className="text-sm">
                         Search for the songs you already like, and add them to your list!

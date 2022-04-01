@@ -35,7 +35,7 @@ export default function SpotifySong({ track }) {
                     className="font-bold hover:underline">
                     {track.name}
                 </a>
-                <p className="text-black/50 text-sm">{track.artist}</p>
+                <p className="dark:text-white/50 text-black/50 text-sm">{track.artist}</p>
 
 
                 <motion.button

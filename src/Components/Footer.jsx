@@ -2,7 +2,7 @@ import { FaSpotify } from "react-icons/fa"
 
 export default function Footer() {
     return (
-        <footer className="text-black/50 text-xs text-center">
+        <footer className="dark:text-white/50 text-black/50 text-xs text-center">
             <p className="m-0">
 
                 <a href="https://nabilridhwan.github.io">

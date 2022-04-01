@@ -6,6 +6,9 @@ module.exports = {
     extend: {
       fontFamily: {
         "inter": "inter"
+      },
+      colors: {
+        dark: "#121212"
       }
     },
   },

@@ -84,7 +84,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                 transition={{
                     type: "tween",
                 }}
-                className="fixed py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
+                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
 
                 <div className='md:w-1/2 mx-auto'>
 
@@ -95,7 +95,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
                         {addedPlaylistSongs.length < 2 ? `${addedPlaylistSongs.length} song added to the playlist` : `${addedPlaylistSongs.length} songs added to the playlist`}
                     </h2>
-                    <p className="text-black/60">
+                    <p className="dark:text-white/60 text-black/60">
                         All your added playlist songs appear here!
                     </p>
 
@@ -155,12 +155,12 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
                             {!createdPlaylist ? (
-                                <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200 w-full disabled:bg-black/30 disabled:text-white/40 disabled:shadow-none" 
+                                <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50 w-full disabled-button" 
                                 disabled={playlistName === ''}>
                                     Create Playlist
                                 </button>
                             ) : (
-                                <a href={playlistLink} className="btn bg-green-500 block text-white text-center shadow-md shadow-blue-200 w-full">
+                                <a href={playlistLink} className="btn bg-green-500 block text-white text-center shadow-md shadow-green-500/50 w-full">
                                     Go to Playlist
                                 </a>
                             )}

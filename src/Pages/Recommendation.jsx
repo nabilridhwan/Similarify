@@ -114,11 +114,11 @@ export default function Recommendation() {
                 Similar Songs 
             </h1>
 
-            <p className="text-black/50">
+            <p className="dark:text-white/50 text-black/50">
                 Here are some similar songs you'd like.
             </p>
 
-            <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
+            <h1 className="flex dark:text-white/50 text-sm my-8 text-black/50 justify-center items-center text-center">
                 <FaSpotify className="mr-2" />
                 Recommendations powered by Spotify
             </h1>
@@ -138,7 +138,7 @@ export default function Recommendation() {
 
                         <p className='text-sm'>Since you liked...</p>
                         <h1 className='text-3xl font-bold'>{song.name}</h1>
-                        <h5 className='text-sm text-black/50'>
+                        <h5 className='dark:text-white/50 text-sm text-black/50'>
                             by {song.artist}
                         </h5>
 

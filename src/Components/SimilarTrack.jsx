@@ -17,11 +17,11 @@ export default function SimilarTrack({ track, percentage }) {
 
             <div className='mx-5'>
 
-                <a href={track.external_urls.spotify} className="text-black font-bold hover:underline">
+                <a href={track.external_urls.spotify} className="dark:text-white text-black font-bold hover:underline">
                     {track.name}
                 </a>
 
-                <p className="text-black/50 text-sm">
+                <p className="dark:text-white/50 text-black/50 text-sm">
                     {track.artists.map(a => a.name).join(", ")}
                 </p>
 

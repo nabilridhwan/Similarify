@@ -9,11 +9,11 @@ export default function Home() {
         <Container>
 
             {/* Header */}
-            <div className='my-10'>
+            <div className='my-20'>
                 <h1 className='text-6xl font-extrabold my-2'>
-                    Similarify
+                    Come and Discover new songs!
                 </h1>
-                <p className='text-black/60'>Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
+                <p className='dark:text-white/60 text-black/60'>Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
             </div>
 
             <div className="my-10">
@@ -21,7 +21,7 @@ export default function Home() {
                     How does it work?
                 </h1>
 
-                <p className='text-black/50 mb-5 text-sm'>
+                <p className='dark:text-white/50 text-black/50 mb-5 text-sm'>
                     Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations.
                 </p>
 
@@ -54,6 +54,10 @@ export default function Home() {
                 <FaSpotify className="mx-2" />
                 Login with Spotify
                 </Link>
+
+                <p className="text-white/80 hidden text-center text-xs italic dark:block mb-10">
+                    You'll encounter a blinding white background by pressing the button above! Be careful!
+                </p>
 
 
             <Footer />
