@@ -30,7 +30,7 @@ export default function Error() {
                     {error.title}
                 </h1>
 
-                <p className="text-black/60">
+                <p className="dark:text-white/60 text-black/60">
                     {error.message}
                 </p>
 
