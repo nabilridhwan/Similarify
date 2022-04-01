@@ -1,20 +1,16 @@
 class SpotifyApi {
 
-    constructor() {
-
-        this.CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-        this.SCOPE = "playlist-modify-public,playlist-modify-private";
-    }
+    static REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+    static SCOPE = "playlist-modify-private";
+    static CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
     setToken(token) {
         this.userToken = token;
     }
 
-    authenticateUser() {
+    static authenticateUser() {
 
-        let REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-
-        window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
+        window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${this.REDIRECT_URI}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
     }
 
     async getUserData() {
@@ -22,16 +18,22 @@ class SpotifyApi {
             headers: {
                 "Authorization": "Bearer " + this.userToken
             }
-        }).then(res => res.json())
+        }).then(res => {
+            if(!res.ok){
+                throw Error(res.status)
+
+            }else{
+                return res.json()
+            }
+        })
     }
 
 
     // TODO: Add error functionality for status code != 200
-
     async search(trackName) {
         console.log("[Spotify API] Fetching Data")
         // Check if trackName string is empty
-        let request = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track`, {
+        let request = await fetch(`https://api.spotify.com/v1/search?q=${encodeURI(trackName)}&type=track`, {
             headers: {
                 "Authorization": "Bearer " + this.userToken
             }
@@ -40,11 +42,8 @@ class SpotifyApi {
             console.log(error)
         })
 
-
         let response = await request.json();
-
         console.log("[Spotify API] A-OK")
-
         return response
     }
 
@@ -55,8 +54,8 @@ class SpotifyApi {
         return response.tracks.items[0]
     }
 
-    async getRecommendation(track_id) {
-        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=6`, {
+    async getRecommendation(track_id, limit=6) {
+        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=${limit}`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + this.userToken
@@ -65,13 +64,8 @@ class SpotifyApi {
     }
 
     async createPlaylist(track_uris, playlist_name, playlist_description) {
-
         console.log(track_uris, playlist_name, playlist_description)
         return new Promise((resolve, reject) => {
-
-
-
-
             // Get the User ID first
             this.getUserData().then(userData => {
                 if (userData.hasOwnProperty("id")) {

@@ -13,7 +13,13 @@ export default function Footer() {
                 Powered by <FaSpotify className="ml-1" />. We are not affiliated.
             </p>
             <p>
-                Similarify is <a href="https://github.com/nabilridhwan/Similarify">Open-sourced</a>
+                Similarify is <a href="https://github.com/nabilridhwan/Similarify">
+                    open source.
+                </a>
+            </p>
+
+            <p>
+                Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
             </p>
         </footer>
     )

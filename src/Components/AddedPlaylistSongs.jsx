@@ -75,14 +75,14 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
             <motion.div
+            style={{
+                borderRadius: 0
+            }}
                 initial={{ y: 200, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 200, opacity: 0 }}
                 transition={{
                     type: "tween",
-                }}
-                style={{
-                    zIndex: 2
                 }}
                 className="fixed py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
 
@@ -92,10 +92,11 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
                     <h2 className="text-2xl font-bold">
-                        {addedPlaylistSongs.length} songs added to playlist
+
+                        {addedPlaylistSongs.length < 2 ? `${addedPlaylistSongs.length} song added to the playlist` : `${addedPlaylistSongs.length} songs added to the playlist`}
                     </h2>
                     <p className="text-black/60">
-                        Create your playlist! All your added playlist songs appear here!
+                        All your added playlist songs appear here!
                     </p>
 
                     <button
@@ -120,11 +121,14 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             <motion.div
                                 layout
                                 className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
-                                {addedPlaylistSongs.map((track, index) => {
-                                    return (
-                                        <AddedSong key={index} track_name={track.name} track_artist={track.artists.map(a => a.name).join(", ")} onRemovedClicked={() => dispatch(removeSongFromPlaylist(track))} />
-                                    )
-                                })}
+                                <AnimatePresence>
+
+                                    {addedPlaylistSongs.map((track, index) => {
+                                        return (
+                                            <AddedSong track_album_img={track.album.images[0].url} key={track.id} track_name={track.name} track_artist={track.artists.map(a => a.name).join(", ")} onRemovedClicked={() => dispatch(removeSongFromPlaylist(track))} />
+                                        )
+                                    })}
+                                </AnimatePresence>
 
                             </motion.div>
 
@@ -139,7 +143,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             {/* Name playlist */}
                             <input
                                 value={playlistName}
-                                type="text" className='search-box my-2' placeholder='Name your playlist (Optional)' onChange={(e) => setPlaylistName(e.target.value)} />
+                                type="text" className='search-box my-2' placeholder='Name your playlist' onChange={(e) => setPlaylistName(e.target.value)} />
 
                             {/* Playlist Description */}
                             <textarea
@@ -151,7 +155,8 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
                             {!createdPlaylist ? (
-                                <button onClick={handleCreatePlaylist} className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200 w-full">
+                                <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-200 w-full disabled:bg-black/30 disabled:text-white/40 disabled:shadow-none" 
+                                disabled={playlistName === ''}>
                                     Create Playlist
                                 </button>
                             ) : (

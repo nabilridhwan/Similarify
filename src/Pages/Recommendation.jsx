@@ -19,6 +19,7 @@ import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
 import { clearSongsFromPlaylist } from '../actions';
 import Footer from '../Components/Footer';
 import ProgressBar from '../Components/ProgressBar';
+import DoneButton from '../Components/DoneButton';
 
 let spotifyApi = new SpotifyApi();
 
@@ -51,6 +52,9 @@ export default function Recommendation() {
         // TODO: Complete Spotify Recommendation
         // TODO: Add error functionality for status code != 200
 
+        try{
+
+
         addedSongs.forEach(async song => {
             let tracks = await spotifyApi.getRecommendation(song.id)
             if (tracks.hasOwnProperty("error")) {
@@ -68,6 +72,9 @@ export default function Recommendation() {
 
             setSongs(mappedArray);
         })
+        }catch(error){
+            navigate("/authenticate")
+        }
 
         // let cloneSongs = [...addedSongs];
         // addedSongs.forEach(async song => {
@@ -104,11 +111,11 @@ export default function Recommendation() {
             <h1
                 className='text-2xl font-bold'
             >
-                Similar Tracks
+                Similar Songs 
             </h1>
 
             <p className="text-black/50">
-                Here are some similar tracks to your liked tracks.
+                Here are some similar songs you'd like.
             </p>
 
             <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
@@ -135,14 +142,14 @@ export default function Recommendation() {
                             by {song.artist}
                         </h5>
 
-                        <p className='mt-10 mb-3 text-sm'>
+                        <p className='my-3 text-sm'>
                             Here are songs similar to it:
                         </p>
                         {Array.isArray(song.similar) && song.similar.length
 
                             ?
 
-                            <div className='grid md:grid-cols-2 lg:grid-cols-3'>
+                            <div className='grid lg:grid-cols-2'>
                                 {song.similar.map((s, index) => {
                                     const percentage = Math.round(parseFloat(s.match) * 100);
                                     return (
@@ -151,7 +158,7 @@ export default function Recommendation() {
                                 })}
                             </div>
                             :
-                            <h5 className="my-3">No similar tracks found</h5>
+                            <h5 className="my-3">No similar songs found</h5>
 
                         }
                     </motion.div>
@@ -159,27 +166,7 @@ export default function Recommendation() {
             })}
 
             {addedPlaylistSongs.length > 0 && (
-
-                <div
-                    className="w-full flex items-center justify-center">
-                    <motion.button
-                        initial={{ opacity: 0, y: 100 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        layout
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setShowAddedPlaylistSongs(!showAddedPlaylistSongs)} 
-                        className="done-button">
-
-                        Done
-
-                        <div className="badge">
-                            {addedPlaylistSongs.length}
-                        </div>
-                    </motion.button>
-
-
-                </div>
+                <DoneButton onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} /> 
             )}
 
             {/* Added songs */}

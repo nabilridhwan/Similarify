@@ -12,7 +12,7 @@ export function removeSong(track){
     }
 }
 
-export default function setSearchResults(results, addedSongs){
+export function setSearchResults(results, addedSongs){
     console.log("SET")
     return {
         type: 'SET',

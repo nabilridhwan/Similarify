@@ -19,7 +19,7 @@ export default function SpotifySong({ track }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex items-center">
-            {/* Include alt */}
+
             <img src={track.albumArt} className="w-20 h-auto" alt="album_image" />
 
             <div className="ml-5">

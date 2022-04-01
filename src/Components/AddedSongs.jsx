@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence} from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
 import { Link} from 'react-router-dom';
 import AddedSong from './AddedSong';
@@ -45,7 +45,7 @@ export default function AddedSongs({ onClose }) {
 
 
                     <h2 className="text-2xl font-bold">
-                        {addedSongs.length} songs in the list
+                        {addedSongs.length < 2 ? `${addedSongs.length} song added` : `${addedSongs.length} songs added`}
                     </h2>
                     <p className="text-black/60">All your added songs appear here!</p>
 
@@ -71,11 +71,15 @@ export default function AddedSongs({ onClose }) {
                             <motion.div 
                             layout 
                             className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
+
+                                <AnimatePresence>
+
                                     {addedSongs.map((track, index) => {
                                         return (
-                                            <AddedSong onRemovedClicked={() => dispatch(removeSong(track))} key={index} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
+                                            <AddedSong onRemovedClicked={() => dispatch(removeSong(track))} key={track.id} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
                                         )
                                     })}
+                                </AnimatePresence>
 
                             </motion.div>
 

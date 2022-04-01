@@ -3,18 +3,19 @@ import SpotifyApi from "../utils/SpotifyApi";
 import Recommendation from "./Recommendation";
 
 import { FaSpotify, FaSearch } from "react-icons/fa"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
 import { useSelector, useDispatch } from "react-redux"
-import setSearchResults, { removeSong, setApiKey, setSearchTermRedux } from "../actions";
+import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import ProgressBar from "../Components/ProgressBar";
+import DoneButton from "../Components/DoneButton";
 
 // Import
 
@@ -27,27 +28,28 @@ function Search() {
     let searchResults = useSelector(state => state.searchResults);
 
     let addedSongs = useSelector(state => state.songs);
+    let navigate = useNavigate();
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
     let dispatch = useDispatch();
 
-    let [token, setToken] = useState();
 
+    // Checks for token
     function checkForKey() {
+        console.log("Checking for token")
         if (window.location.hash) {
 
             // Separate the access token from the '#' symbol
             let hashes = window.location.hash.substring(1).split("&");
-            const access_token = 0;
             let hashes_value = hashes.map(hash => hash.split("=")[1]);
+            const [access_token] = hashes_value;
 
             // Set the access token
-            setToken(hashes_value[access_token]);
-            Spotify.setToken(hashes_value[access_token]);
-            dispatch(setApiKey(hashes_value[access_token]));
+            Spotify.setToken(access_token);
+            dispatch(setApiKey(access_token));
         } else {
-            Spotify.authenticateUser();
+            navigate("/authenticate")
         }
     }
     useEffect(() => {
@@ -55,9 +57,12 @@ function Search() {
 
         (async () => {
             try {
-                await Spotify.getUserData();
+                let data = await Spotify.getUserData()
+                if (data.hasOwnProperty("error")) {
+                    throw new Error(data.error.status)
+                }
             } catch (error) {
-                window.location = "/error"
+                navigate(`/error?n=${error.message}`)
             }
         })();
     }, [])
@@ -75,25 +80,28 @@ function Search() {
         } else {
             // Clear search results
 
-            let sT = encodeURI(searchTerm.trim())
+            try {
+                let sT = encodeURI(searchTerm.trim())
+                dispatch(setSearchTermRedux(searchTerm.trim()))
 
+                console.log(`Searching Spotify for ${sT}`)
+                let results = await Spotify.search(sT);
 
-            dispatch(setSearchTermRedux(searchTerm.trim()))
+                let tracks = results.tracks.items.map(track => {
+                    return {
+                        name: track.name,
+                        artist: track.artists.map(a => a.name).join(", "),
+                        album: track.album.name,
+                        albumArt: track.album.images[0].url,
+                        id: track.id,
+                    }
+                })
 
-            console.log(`Searching Spotify for ${sT}`)
-            let results = await Spotify.search(sT);
-
-            let tracks = results.tracks.items.map(track => {
-                return {
-                    name: track.name,
-                    artist: track.artists.map(a => a.name).join(", "),
-                    album: track.album.name,
-                    albumArt: track.album.images[0].url,
-                    id: track.id,
-                }
-            })
-
-            dispatch(setSearchResults(tracks, addedSongs));
+                dispatch(setSearchResults(tracks, addedSongs));
+            } catch (error) {
+                // Reauthenticate user
+                navigate("/authenticate")
+            }
         }
     }
 
@@ -104,15 +112,17 @@ function Search() {
             {/* <ProgressBar current={1} total={2} /> */}
 
             <div className="my-5">
-                <h1 className="font-bold text-2xl" >Search for Tracks</h1>
-                <p className="text-black/60">Search for the tracks you already like</p>
+                <h1 className="font-bold text-2xl" >
+                    Search for Songs 
+                </h1>
+                <p className="text-black/60">Search for the songs that you already like</p>
             </div>
 
             {/* Search form */}
             <form onSubmit={handleFormSubmit}>
                 <input
                     value={searchTerm}
-                    className="search-box focus:drop-shadow-lg"
+                    className="search-box"
                     type="text"
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Imagine Dragons" />
@@ -120,7 +130,8 @@ function Search() {
 
                 {/* Search button */}
                 <button
-                    className="flex items-center justify-center btn shadow-md bg-pink-500 shadow-pink-500/50 text-white w-full disabled:bg-black/50 disabled:text-white/50 my-5"
+                    disabled={searchTerm === ""}
+                    className="transition flex items-center justify-center btn shadow-md bg-pink-500 shadow-pink-500/50 text-white w-full disabled:bg-black/30 disabled:text-white/50 disabled:shadow-none my-5"
                     onClick={searchForTracks}>
                     <FaSearch className="mr-2" />
                     Search
@@ -136,7 +147,8 @@ function Search() {
                 <div className="my-32 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaSearch className="text-2xl my-5" />
                     <p className="text-sm">
-                        Search for the tracks you already like, and add them to your list!
+                        Search for the songs you already like, and add them to your list!
+
                     </p>
                 </div>
             )}
@@ -162,25 +174,7 @@ function Search() {
 
             {addedSongs.length > 0 && (
 
-                <div
-                    className="w-full flex items-center justify-center">
-                    <motion.button
-                        initial={{ opacity: 0, y: 100 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        layout
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setShowAddedSongs(!showAddedSongs)} className="done-button">
-
-                        Done
-
-                        <div className="badge">
-                            {addedSongs.length}
-                        </div>
-                    </motion.button>
-
-
-                </div>
+                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
             )}
 
             {/* Added songs */}

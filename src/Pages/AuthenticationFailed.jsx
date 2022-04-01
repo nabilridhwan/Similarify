@@ -1,23 +1,23 @@
 import { Link } from "react-router-dom";
 import Container from "../Components/Container";
 
-export default function Error() {
+export default function AuthenticationFailed() {
     return (
         <Container>
             <div className="my-5">
                 <h1 className="font-bold text-2xl">
-                    Error!
+                    You have cancelled the authentication request.
                 </h1>
 
                 <p className="text-black/60">
-                    You are not verified to use Similarify. Please contact the admin.
+                    Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations.
                 </p>
 
-                <Link 
-                to="/"
-                className="underline"
+                <Link
+                    to="/search"
+                    className="underline"
                 >
-                    Go home
+                    Try again?
                 </Link>
             </div>
 

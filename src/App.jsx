@@ -1,68 +1,43 @@
-import SpotifyApi from './utils/SpotifyApi';
+import { Route, Routes } from 'react-router-dom'
 
-// import listeningImage from './images/listening.png';
-import { FaSpotify } from "react-icons/fa"
-import Container from './Components/Container';
-import Footer from './Components/Footer';
+// Pages
+import Search from './Pages/Search';
+import Recommendation from './Pages/Recommendation';
+import NotFound from './Pages/NotFound';
+import Error from './Pages/Error';
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux';
+import allReducers from './reducers/index.js';
+import { AnimatePresence } from 'framer-motion';
+import Home from './Pages/Home';
+import AuthenticationFailed from './Pages/AuthenticationFailed';
+import Authenticate from './Pages/Authenticate';
+
+
+
+let store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 function App() {
-
-  const handleLogin = () => {
-    new SpotifyApi().authenticateUser();
-  }
-
   return (
-    <Container>
+    <Provider store={store}>
+      <AnimatePresence>
 
-      {/* Header */}
-      <div className='my-10'>
-        <h1 className='text-6xl font-extrabold my-2'>
-          Similarify
-        </h1>
-        <p className='text-black/60'>Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
-      </div>
+        <Routes>
 
-      <div className="my-10">
-        <h1 className="text-2xl font-extrabold">
-          How does it work?
-        </h1>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/authenticate" element={<Authenticate/>} />
 
-        <p className='text-black/50 mb-5 text-sm'>
-          Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations.
-        </p>
+          <Route path="/error" element={<Error />} />
+          <Route path="/authenticationfailed" element={<AuthenticationFailed/>} />
+          <Route path="*" element={<NotFound />} />
 
-        <ol className='list-decimal text-sm space-y-2'>
-          <li className='list-item'>
-            Log in with your Spotify Account
-          </li>
+        </Routes>
 
-          <li>
-            Search for songs that you already love and add it to your list
-          </li>
-
-          <li>
-            Confirm your added songs
-          </li>
-
-          <li>
-            Click done and view your recommended songs!
-          </li>
-
-          <li>
-            Create a playlist out of your recommended songs because the recommendations changes every time!
-          </li>
-        </ol>
-      </div>
-
-      <button className="btn w-full justify-center flex flex-row items-center bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-none transition-all my-10" onClick={handleLogin}>
-        <FaSpotify className="mx-2" />
-        Login with Spotify</button>
-
-
-      <Footer />
-
-    </Container>
-  );
+      </AnimatePresence>
+    </Provider >
+  )
 }
 
 export default App;

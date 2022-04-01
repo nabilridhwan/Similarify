@@ -27,5 +27,5 @@ footer a{
 }
 
 .badge{
-  @apply text-sm absolute w-7 p-1 -top-2 -right-2 bg-red-500 rounded-full shadow-md shadow-red-500;
+  @apply text-sm absolute w-7 p-1 -top-2 -right-2 bg-red-500 rounded-full shadow-md shadow-red-500/50;
 }
