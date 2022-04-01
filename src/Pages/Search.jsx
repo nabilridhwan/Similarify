@@ -156,7 +156,6 @@ function Search() {
 
             <AnimatePresence exitBeforeEnter>
                 <motion.div
-                    layout="position"
                     transition={{
                         type: "tween",
                         ease: "easeOut"
@@ -165,7 +164,7 @@ function Search() {
 
                     {searchResults.map((track, index) => {
                         return (
-                            <SpotifySong track={track} key={index} />
+                            <SpotifySong track={track} key={track.id} />
                         )
                     })}
                 </motion.div>
