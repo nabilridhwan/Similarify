@@ -19,16 +19,16 @@ class SpotifyApi {
                 "Authorization": "Bearer " + this.userToken
             }
         }).then(res => {
-            if(!res.ok){
+            if (!res.ok) {
                 throw Error(res.status)
 
-            }else{
+            } else {
                 return res.json()
             }
         })
     }
 
-    async getLikedSongs(limit=50){
+    async getLikedSongs(limit = 50) {
         return await fetch(`https://api.spotify.com/v1/me/tracks?limit=${limit}`, {
             headers: {
                 "Authorization": "Bearer " + this.userToken
@@ -62,7 +62,7 @@ class SpotifyApi {
         return response.tracks.items[0]
     }
 
-    async getRecommendation(track_id, limit=6) {
+    async getRecommendation(track_id, limit = 6) {
         return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=${limit}`, {
             method: "GET",
             headers: {
@@ -99,7 +99,9 @@ class SpotifyApi {
                             if (data.hasOwnProperty("id")) {
                                 const {
                                     id: playlistID,
-                                    external_urls: {spotify: playlistLink}
+                                    external_urls: {
+                                        spotify: playlistLink
+                                    }
                                 } = data;
 
 
@@ -121,6 +123,8 @@ class SpotifyApi {
                                             ...data,
                                             link: playlistLink
                                         })
+                                    }).catch(error => {
+                                        reject("Error adding tracks to the created playlist")
                                     })
 
                             } else {
@@ -128,11 +132,14 @@ class SpotifyApi {
                                 console.log("[Spotify API] Error creating playlist")
                                 reject("Error creating playlist")
                             }
+                        }).catch(error => {
+
+                                reject("Error creating playlist")
                         })
 
                 }
             }).catch(error => {
-                reject("Error getting user data")
+                reject("Error getting user data. Try refreshing this page.")
             })
         })
     }

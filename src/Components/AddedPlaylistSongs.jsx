@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import AddedSong from './AddedSong';
 import { useEffect, useState } from 'react';
 
-import { removeSongFromPlaylist } from '../actions';
+import { clearAddedSongs, clearSongsFromPlaylist, removeSongFromPlaylist, setPlaylistLink } from '../actions';
 import SpotifyApi from '../utils/SpotifyApi';
 
 export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
@@ -13,8 +13,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
     const addedSongs = useSelector(state => state.songs);
     const dispatch = useDispatch();
 
-    const [createdPlaylist, setCreatedPlaylist] = useState(false);
-    const [playlistLink, setPlaylistLink] = useState("");
+    const [error, setError] = useState("");
 
     const [playlistName, setPlaylistName] = useState('');
     const [playlistDescription, setPlaylistDescription] = useState('');
@@ -25,11 +24,11 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
         }
 
         // Everytime a song is changed, allow the user to create a new playlist
-        setCreatedPlaylist(false)
+        // setCreatedPlaylist(false)
     }, [addedPlaylistSongs])
 
     const handleCreatePlaylist = () => {
-        setCreatedPlaylist(false)
+        // setCreatedPlaylist(false)
 
         let pName = playlistName;
         let pDesc = playlistDescription;
@@ -48,18 +47,24 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
         // Get the created playlist id
 
-        // Extract the uris
+        // Extract the uri:
         const uris = addedPlaylistSongs.map(track => track.uri)
         const spotifyApi = new SpotifyApi();
         spotifyApi.setToken(apiKey)
         spotifyApi.createPlaylist(uris, pName, pDesc)
             .then(d => {
-                setCreatedPlaylist(true)
+                // setCreatedPlaylist(true)
                 console.log("Playlist created successfully!")
                 console.log(d.link)
-                setPlaylistLink(d.link)
+
+                dispatch(setPlaylistLink(d.link))
+
+                // Clear all songs
+                dispatch(clearAddedSongs())
+                dispatch(clearSongsFromPlaylist())
             }).catch(error => {
                 console.log("There was an error while creating a playlist")
+                setError(error)
                 console.log(error)
             })
     }
@@ -75,9 +80,9 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
             <motion.div
-            style={{
-                borderRadius: 0
-            }}
+                style={{
+                    borderRadius: 0
+                }}
                 initial={{ y: 200, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 200, opacity: 0 }}
@@ -132,13 +137,13 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
                             </motion.div>
 
+                            {error && (
 
-                            {createdPlaylist && (
-
-                                <p className='text-green-500'>
-                                    Playlist created successfully!
+                                <p className='text-red-500'>
+                                    {error}
                                 </p>
                             )}
+
 
                             {/* Name playlist */}
                             <input
@@ -154,16 +159,10 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             ></textarea>
 
 
-                            {!createdPlaylist ? (
-                                <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50 w-full disabled-button" 
+                            <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50 w-full disabled-button"
                                 disabled={playlistName === ''}>
-                                    Create Playlist
-                                </button>
-                            ) : (
-                                <a href={playlistLink} className="btn bg-green-500 block text-white text-center shadow-md shadow-green-500/50 w-full">
-                                    Go to Playlist
-                                </a>
-                            )}
+                                Create Playlist
+                            </button>
 
                             <button
                                 onClick={onClose}

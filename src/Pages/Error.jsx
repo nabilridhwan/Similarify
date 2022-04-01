@@ -4,8 +4,8 @@ import Footer from "../Components/Footer";
 
 const ERRORS = {
     "401": {
-        title: "Authentication failed",
-        message: "You have cancelled the authentication request. Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations."
+        title: "Authentication failed (or token expired)",
+        message: "Your token expired OR You have cancelled the authentication request. Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations."
     },
 
     "403": {

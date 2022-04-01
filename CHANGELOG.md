@@ -1,6 +1,24 @@
 #   Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.2.0
+
+### Added
+-   A modal for when the playlist is created
+-   Better error handling for when a playlist has failed to be created
+
+### Changed
+-   After a playlist is created, it will now show a modal showing that the playlist is created (and also clear your added songs and added to playlist songs). The old behaviour is that the "Create Playlist" button will change into "Go to playlist".
+
+### Removed
+-   None
+
+### Fixed
+-   None
+
+### Security
+-   None
+
 ## 1.1.0
 
 ### Added
