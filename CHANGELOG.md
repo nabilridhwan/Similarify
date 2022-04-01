@@ -1,6 +1,23 @@
 #   Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.2.1
+
+### Added
+-   None
+
+### Changed
+-   None
+
+### Removed
+-   Removed back button from Search page
+
+### Fixed
+-   None
+
+### Security
+-   None
+
 ## 1.2.0
 
 ### Added
