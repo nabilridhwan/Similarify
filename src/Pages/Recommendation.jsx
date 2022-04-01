@@ -42,7 +42,6 @@ export default function Recommendation() {
             // Redirect to search page
             navigate(-1);
         }
-        console.log(apiKey)
         spotifyApi.setToken(apiKey);
         fetchSimilarSongs();
     }, [])
@@ -61,7 +60,6 @@ export default function Recommendation() {
                 navigate("/search")
             }
             setSongs([...songs, tracks])
-            console.log(tracks)
 
             let mappedArray = [...addedSongs].map(s => {
                 if (s.name === song.name && s.artist === song.artist) {
