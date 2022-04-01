@@ -33,7 +33,7 @@ class SpotifyApi {
     async search(trackName) {
         console.log("[Spotify API] Fetching Data")
         // Check if trackName string is empty
-        let request = await fetch(`https://api.spotify.com/v1/search?q=${encodeURI(trackName)}&type=track`, {
+        let request = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track`, {
             headers: {
                 "Authorization": "Bearer " + this.userToken
             }

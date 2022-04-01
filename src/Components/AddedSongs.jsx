@@ -33,6 +33,7 @@ export default function AddedSongs({ onClose }) {
                 exit={{ y: 200, opacity: 0 }}
                 transition={{
                     type: "tween",
+                    ease: "easeOut",
                 }}
                 style={{
                     zIndex: 2
