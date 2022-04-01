@@ -120,7 +120,7 @@ function Search() {
 
     return (
         <Container>
-            <BackButton to="/" />
+            {/* <BackButton to="/" /> */}
 
             {/* <ProgressBar current={1} total={2} /> */}
 
