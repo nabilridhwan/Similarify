@@ -17,10 +17,11 @@ import { FaSpotify } from "react-icons/fa"
 import { BiRefresh } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom';
 import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
-import { clearSongsFromPlaylist } from '../actions';
+import { clearPlaylistLink, clearSongsFromPlaylist, createdPlaylistToFalse } from '../actions';
 import Footer from '../Components/Footer';
 import ProgressBar from '../Components/ProgressBar';
 import DoneButton from '../Components/DoneButton';
+import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 
 let spotifyApi = new SpotifyApi();
 
@@ -33,6 +34,7 @@ export default function Recommendation() {
     const addedSongs = useSelector(state => state.songs);
     const apiKey = useSelector(state => state.apiKey);
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);
+    const playlistLink = useSelector(state => state.playlistLink);
 
     const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
 
@@ -214,6 +216,17 @@ export default function Recommendation() {
             <AnimatePresence>
                 {showAddedPlaylistSongs && (
                     <AddedPlaylistSongs onClearAll={() => dispatch(clearSongsFromPlaylist())} onClose={() => setShowAddedPlaylistSongs(false)} />
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+
+                {playlistLink && (
+                    // Clear the playlist link on close (so it hides the modal)
+                    <CreatedPlaylistModal onClose={() => {
+                        
+                        dispatch(clearPlaylistLink())
+                    }} playlistLink={playlistLink} />
                 )}
             </AnimatePresence>
 

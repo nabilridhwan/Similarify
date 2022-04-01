@@ -12,6 +12,19 @@ export function removeSong(track){
     }
 }
 
+export function setPlaylistLink(link){
+    return {
+        type: 'SET_PLAYLIST_LINK',
+        payload: link
+    }
+}
+
+export function clearPlaylistLink(){
+    return {
+        type: 'CLEAR_PLAYLIST_LINK'
+    }
+}
+
 export function setSearchResults(results, addedSongs){
     return {
         type: 'SET',
