@@ -25,7 +25,7 @@ export default function Home() {
                     Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations.
                 </p>
 
-                <ol className='list-decimal text-sm space-y-2'>
+                <ol className='list-decimal text-sm space-y-2 ml-4'>
                     <li className='list-item'>
                         Log in with your Spotify Account
                     </li>

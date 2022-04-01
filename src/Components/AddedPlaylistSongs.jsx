@@ -84,7 +84,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                 transition={{
                     type: "tween",
                 }}
-                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
+                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-5 col-span-2 shadow-[0_0_20px] shadow-black">
 
                 <div className='md:w-1/2 mx-auto'>
 

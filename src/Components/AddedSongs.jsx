@@ -38,9 +38,9 @@ export default function AddedSongs({ onClose }) {
                 style={{
                     zIndex: 2
                 }}
-                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-10 col-span-2 shadow-[0_0_20px] shadow-black">
+                className="fixed dark:bg-dark py-14 bottom-0 left-0 w-screen bg-white p-5 col-span-2 shadow-[0_0_20px] shadow-black">
 
-                <div className='md:w-1/2 mx-auto'>
+                <div className='md:w-2/4 mx-auto'>
 
 
 

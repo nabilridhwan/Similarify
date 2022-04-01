@@ -6,7 +6,7 @@ export default function Container({children}){
         initial={{opacity: 0}}
         animate={{opacity: 1}}
         exit={{opacity: 0}}
-        className="mx-auto w-4/5 lg:w-1/2 my-10">
+        className="w-11/12 lg:w-1/2 my-10 mx-auto">
             {children}
         </motion.div>
     )
