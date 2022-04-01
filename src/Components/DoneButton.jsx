@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 
-export default function DoneButton({ k, onClick }) {
+export default function DoneButton({ overrideText, k, onClick }) {
     return (
         <div
             className="w-full flex items-center justify-center">
@@ -12,7 +12,7 @@ export default function DoneButton({ k, onClick }) {
                 whileTap={{ scale: 0.95 }}
                 onClick={onClick} className="done-button">
 
-                Done
+                {overrideText ? overrideText : `Done`}
 
                 <motion.div
                     key={k}

@@ -13,7 +13,6 @@ export function removeSong(track){
 }
 
 export function setSearchResults(results, addedSongs){
-    console.log("SET")
     return {
         type: 'SET',
         payload: {
