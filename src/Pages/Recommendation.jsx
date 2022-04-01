@@ -14,6 +14,7 @@ import SimilarTrack from '../Components/SimilarTrack';
 import BackButton from '../Components/BackButton';
 
 import { FaSpotify } from "react-icons/fa"
+import { BiRefresh } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom';
 import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
 import { clearSongsFromPlaylist } from '../actions';
@@ -38,7 +39,7 @@ export default function Recommendation() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(addedSongs.length == 0){
+        if (addedSongs.length == 0) {
             // Redirect to search page
             navigate(-1);
         }
@@ -51,26 +52,26 @@ export default function Recommendation() {
         // TODO: Complete Spotify Recommendation
         // TODO: Add error functionality for status code != 200
 
-        try{
+        try {
 
 
-        addedSongs.forEach(async song => {
-            let tracks = await spotifyApi.getRecommendation(song.id)
-            if (tracks.hasOwnProperty("error")) {
-                navigate("/search")
-            }
-            setSongs([...songs, tracks])
-
-            let mappedArray = [...addedSongs].map(s => {
-                if (s.name === song.name && s.artist === song.artist) {
-                    s.similar = tracks.tracks;
+            addedSongs.forEach(async song => {
+                let tracks = await spotifyApi.getRecommendation(song.id)
+                if (tracks.hasOwnProperty("error")) {
+                    navigate("/search")
                 }
-                return s;
-            })
+                setSongs([...songs, tracks])
 
-            setSongs(mappedArray);
-        })
-        }catch(error){
+                let mappedArray = [...addedSongs].map(s => {
+                    if (s.name === song.name && s.artist === song.artist) {
+                        s.similar = tracks.tracks;
+                    }
+                    return s;
+                })
+
+                setSongs(mappedArray);
+            })
+        } catch (error) {
             navigate("/authenticate")
         }
 
@@ -96,12 +97,25 @@ export default function Recommendation() {
         // })
     }
 
+    const handleRefresh = async (index) => {
+        let clone = [...addedSongs];
+
+        let songOnIndex = clone[index];
+
+        let similarSongs = await spotifyApi.getRecommendation(songOnIndex.id);
+
+        clone[index].similar = similarSongs.tracks;
+
+        setSongs(clone)
+
+    }
+
 
 
     return (
         <Container>
 
-            <BackButton to="/search" />
+            <BackButton />
 
 
             {/* <ProgressBar current={2} /> */}
@@ -109,7 +123,7 @@ export default function Recommendation() {
             <h1
                 className='text-2xl font-bold'
             >
-                Similar Songs 
+                Similar Songs
             </h1>
 
             <p className="dark:text-white/50 text-black/50">
@@ -132,17 +146,46 @@ export default function Recommendation() {
                         layout
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10" key={index}>
+                        className="dark:bg-darkCard dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10" key={song.id}>
 
-                        <p className='text-sm'>Since you liked...</p>
-                        <h1 className='text-3xl font-bold'>{song.name}</h1>
-                        <h5 className='dark:text-white/50 text-sm text-black/50'>
-                            by {song.artist}
-                        </h5>
-
-                        <p className='my-3 text-sm'>
-                            Here are songs similar to it:
+                        <p className='text font-bold my-4'>
+                            Since you liked...
                         </p>
+
+                        <div className="flex flex-row space-y-7 justify-between items-center">
+
+                            {/* Album image and title and artist */}
+                            <div className='flex flex-row space-y-5 items-center'>
+
+                                <img src={song.albumArt} className="h-28 mr-4" />
+
+                                <div>
+
+                                    <h1 className='text-3xl font-bold'>{song.name}</h1>
+                                    <h5 className='dark:text-white/50 text-sm text-black/50'>
+                                        by {song.artist}
+                                    </h5>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <motion.button
+                                onClick={() => handleRefresh(index)}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className='p-2 rounded-lg text-white bg-pink-700 border border-pink-900 shadow-md shadow-pink-700/30 flex'>
+                                <BiRefresh className='text-2xl' />
+                            </motion.button>
+                        </div>
+
+                        <p className='my-5 text-sm'>
+                            Here are songs similar to it:
+
+                        </p>
+
                         {Array.isArray(song.similar) && song.similar.length
 
                             ?
@@ -151,7 +194,7 @@ export default function Recommendation() {
                                 {song.similar.map((s, index) => {
                                     const percentage = Math.round(parseFloat(s.match) * 100);
                                     return (
-                                        <SimilarTrack percentage={percentage} key={index} track={s} />
+                                        <SimilarTrack percentage={percentage} key={s.id} track={s} />
                                     )
                                 })}
                             </div>
@@ -164,7 +207,7 @@ export default function Recommendation() {
             })}
 
             {addedPlaylistSongs.length > 0 && (
-                <DoneButton onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} /> 
+                <DoneButton overrideText={"Create Playlist"} onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} />
             )}
 
             {/* Added songs */}

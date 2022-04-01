@@ -8,10 +8,7 @@ import { useState } from "react";
 
 export default function SpotifySong({ track }) {
 
-    console.log(track)
-
     const dispatch = useDispatch();
-
 
     const handleAdd = (track) => {
         dispatch(addSong(track));
@@ -22,7 +19,7 @@ export default function SpotifySong({ track }) {
         <div>
 
             {track.added_at && (
-                <p className="text-white/50 uppercase tracking-widest text-sm my-4">
+                <p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
                     Liked {DateTime.fromISO(track.added_at).toRelative()}
                 </p>
             )}

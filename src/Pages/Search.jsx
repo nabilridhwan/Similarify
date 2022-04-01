@@ -27,6 +27,8 @@ function Search() {
 
     let searchResults = useSelector(state => state.searchResults);
 
+    let apiKey = useSelector(state => state.apiKey);
+
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
@@ -48,6 +50,13 @@ function Search() {
             // Set the access token
             Spotify.setToken(access_token);
             dispatch(setApiKey(access_token));
+
+            console.log("Token exists: From hash")
+        }else if(apiKey){
+            Spotify.setToken(apiKey);
+            dispatch(setApiKey(apiKey));
+
+            console.log("Token exists: From redux")
         } else {
             navigate("/authenticate")
         }
@@ -56,13 +65,17 @@ function Search() {
         checkForKey();
 
         (async () => {
+
+            console.log("Checking for expiry")
             try {
                 let data = await Spotify.getUserData()
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
+                console.log("Token is not expired")
             } catch (error) {
-                navigate(`/error?n=${error.message}`)
+                console.log("Token expired")
+                navigate(`/error/${error.message}`)
             }
         })();
     }, [])
@@ -151,10 +164,6 @@ function Search() {
                     <FaSearch className="text-2xl my-5" />
                     <p className="text-sm">
                         Search for the songs you already like, and add them to your list!
-                    </p>
-
-                    <p>
-
                     </p>
                 </div>
             )}

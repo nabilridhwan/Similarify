@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 import Recommendation from "./Recommendation";
 
-import { FaSpotify, FaSearch } from "react-icons/fa"
+import { FaRegSadCry} from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
@@ -117,7 +117,7 @@ export default function LikedSongs() {
 
     return (
         <Container>
-            <BackButton to="/" />
+            <BackButton />
 
             {/* <ProgressBar current={1} total={2} /> */}
 
@@ -153,6 +153,15 @@ export default function LikedSongs() {
                 <FaSpotify className="mr-2" />
                 Search powered by Spotify
             </h1> */}
+
+            {likedSongs.length == 0 && (
+                <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
+                    <FaRegSadCry className="text-2xl my-5" />
+                    <p className="text-sm">
+                        You don't have any liked songs!
+                    </p>
+                </div>
+            )}
 
 
             <AnimatePresence exitBeforeEnter>

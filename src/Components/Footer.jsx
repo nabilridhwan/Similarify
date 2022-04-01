@@ -21,6 +21,12 @@ export default function Footer() {
             <p>
                 Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
             </p>
+
+            <p>
+                <a href="https://github.com/nabilridhwan/similarify/blob/main/CHANGELOG.md">Changelog</a>
+            </p>
+
+
         </footer>
     )
 }

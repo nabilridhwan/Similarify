@@ -8,7 +8,8 @@ module.exports = {
         "inter": "inter"
       },
       colors: {
-        dark: "#121212"
+        dark: "#121212",
+        darkCard: "#171717"
       }
     },
   },
