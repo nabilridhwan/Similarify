@@ -1,4 +1,8 @@
 # Similarify
+
+### Deploy status
+[![Netlify Status](https://api.netlify.com/api/v1/badges/583fef5b-fa3f-4df3-af2f-3f53419dbc50/deploy-status)](https://app.netlify.com/sites/similarify/deploys)
+
 Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you like based on the songs you already like!
 
 Since the application is fully client side, the authentication method used for Spotify is the Implicit grant.
