@@ -14,10 +14,12 @@ import Home from './Pages/Home';
 import AuthenticationFailed from './Pages/AuthenticationFailed';
 import Authenticate from './Pages/Authenticate';
 import LikedSongs from './Pages/LikedSongs';
+import Playlists from './Pages/Playlists';
+import PlaylistSongSelect from './Pages/PlaylistSongSelect';
 
 function saveToLocalStorage(state) {
   try {
-    let s = {...state}
+    let s = { ...state }
     // delete s.apiKey
     delete s.playlistSongs
     delete s.songs
@@ -60,8 +62,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/recommendation" element={<Recommendation />} />
-          <Route path="/authenticate" element={<Authenticate/>} />
-          <Route path="/likedsongs" element={<LikedSongs/>} />
+          <Route path="/authenticate" element={<Authenticate />} />
+          <Route path="/likedsongs" element={<LikedSongs />} />
+          <Route path="/playlists" element={<Playlists />} />
+
+          <Route path="/playlist/:id" element={<PlaylistSongSelect />} />
 
           <Route path="/error/:errno" element={<Error />} />
           <Route path="/authenticationfailed" element={<AuthenticationFailed />} />

@@ -6,7 +6,7 @@ import { addSong } from "../actions";
 import { motion } from "framer-motion"
 import { useState } from "react";
 
-export default function SpotifySong({ track }) {
+export default function SpotifySong({ overrideTopText, track }) {
 
     const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ export default function SpotifySong({ track }) {
 
             {track.added_at && (
                 <p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
-                    Liked {DateTime.fromISO(track.added_at).toRelative()}
+                    {overrideTopText ? "Added": "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
                 </p>
             )}
 

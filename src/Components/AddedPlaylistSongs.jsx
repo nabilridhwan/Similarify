@@ -146,11 +146,17 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
 
                             {/* Name playlist */}
+                            <label htmlFor="image_upload" className='block'>
+                                Playlist Name (Required)
+                            </label>
                             <input
                                 value={playlistName}
                                 type="text" className='search-box my-2' placeholder='Name your playlist' onChange={(e) => setPlaylistName(e.target.value)} />
 
                             {/* Playlist Description */}
+                            <label htmlFor="image_upload" className='block'>
+                                Playlist Description (Optional)
+                            </label>
                             <textarea
                                 value={playlistDescription}
                                 placeholder='Describe your playlist (Optional)'
