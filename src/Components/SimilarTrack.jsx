@@ -4,11 +4,15 @@ import {useSelector, useDispatch} from "react-redux";
 import { addSongToPlaylist } from '../actions';
 
 import {motion} from "framer-motion"
+import SpotifyPlayer from "./SpotifyPlayer";
+import { useState } from "react";
 
 export default function SimilarTrack({ track, percentage }) {
 
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state.apiKey);
+
+    const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
 
     return (
         <div className="flex items-center w-full mb-10 h-auto">
@@ -16,9 +20,11 @@ export default function SimilarTrack({ track, percentage }) {
 
             <div className='mx-5'>
 
-                <a href={track.external_urls.spotify} className="dark:text-white text-black font-bold underline hover:no-underline">
+                <p 
+                onClick={() => setShowSpotifyPlayer(true)}
+                className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
                     {track.name}
-                </a>
+                </p>
 
                 <p className="dark:text-white/50 text-black/50 text-sm">
                     {track.artists.map(a => a.name).join(", ")}
@@ -34,6 +40,12 @@ export default function SimilarTrack({ track, percentage }) {
                     Add to playlist
                 </motion.button>
             </div>
+
+            {showSpotifyPlayer && (
+                <SpotifyPlayer 
+                onClose={() => setShowSpotifyPlayer(false)}
+                track={track} />
+            )}
 
         </div>
 

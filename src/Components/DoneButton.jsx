@@ -10,7 +10,7 @@ export default function DoneButton({ overrideText, k, onClick }) {
                 layout
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={onClick} className="done-button">
+                onClick={onClick} className="done-button z-1">
 
                 {overrideText ? overrideText : `Done`}
 
