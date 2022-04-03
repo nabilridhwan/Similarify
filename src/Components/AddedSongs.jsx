@@ -2,15 +2,16 @@ import { motion, AnimatePresence} from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
 import { Link} from 'react-router-dom';
 import AddedSong from './AddedSong';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { clearAddedSongs, removeSong} from '../actions';
+import AdjustParameters from './AdjustParameters';
 
 export default function AddedSongs({ onClose }) {
 
     const addedSongs = useSelector(state => state.songs);
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         if (addedSongs.length === 0) {
             onClose()
@@ -77,7 +78,7 @@ export default function AddedSongs({ onClose }) {
 
                                     {addedSongs.map((track, index) => {
                                         return (
-                                            <AddedSong onRemovedClicked={() => dispatch(removeSong(track))} key={track.id} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
+                                            <AddedSong track={track} onRemovedClicked={() => dispatch(removeSong(track))} key={track.id} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
                                         )
                                     })}
                                 </AnimatePresence>
@@ -97,8 +98,6 @@ export default function AddedSongs({ onClose }) {
                             >
                                 Close
                             </button>
-
-
 
                         </motion.div>
                     </AnimatePresence>
