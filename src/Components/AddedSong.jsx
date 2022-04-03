@@ -1,7 +1,11 @@
-import { motion} from "framer-motion";
-import { FaTrash } from "react-icons/fa"
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { FaTrash, FaCog } from "react-icons/fa"
+import AdjustParameters from "./AdjustParameters";
 
-export default function AddedSong({ track_name, track_artist, track_album_img, onRemovedClicked }) {
+export default function AddedSong({ track_name, track_artist, track_album_img, onRemovedClicked, track}) {
+
+    const [showParameters, setShowParameters] = useState(false);
 
     return (
         <motion.div
@@ -35,7 +39,18 @@ export default function AddedSong({ track_name, track_artist, track_album_img, o
                     className="rounded-full p-3 bg-red-500 shadow-sm shadow-red-500/50 text-white flex justify-center items-center">
                     <FaTrash />
                 </motion.button>
+
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setShowParameters(true)}
+                    className="rounded-full p-3 bg-gray-500 shadow-sm shadow-red-500/50 text-white flex justify-center items-center">
+                    <FaCog />
+                </motion.button>
             </div>
+
+            {showParameters && (
+                <AdjustParameters track={track} onClose={() => setShowParameters(false)} />
+            )}
 
 
         </motion.div>
