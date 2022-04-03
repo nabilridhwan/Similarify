@@ -1,3 +1,25 @@
+## 1.3.2
+
+### Added
+
+- None
+
+### Changed
+
+- All playlists and song links will open up in a new tab.
+-   Changed the text from "X failed to add" to "X songs failed to load" in the playlist page when some songs failed to load.
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
 
 ## 1.3.1
 

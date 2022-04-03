@@ -142,7 +142,7 @@ export default function PlaylistSongSelect() {
                 </h1>
 
                 <p className="dark:text-white/60 text-black/60">
-                    Select your tracks from this playlist {!loading && `(${playlistSongs.length} songs)`} {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} failed to add)</span>}
+                    Select your tracks from this playlist {!loading && `(${playlistSongs.length} songs)`} {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} songs failed to load)</span>}
                 </p>
             </div>
 

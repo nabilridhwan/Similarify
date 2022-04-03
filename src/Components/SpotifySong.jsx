@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux"
 import { DateTime } from "luxon";
 import { addSong } from "../actions";
 import { motion } from "framer-motion"
-import {FaPlus} from "react-icons/fa"
+import { FaPlus } from "react-icons/fa"
 
 export default function SpotifySong({ overrideTopText, track }) {
 
@@ -18,7 +18,7 @@ export default function SpotifySong({ overrideTopText, track }) {
 
             {track.added_at && (
                 <p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
-                    {overrideTopText ? "Added": "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
+                    {overrideTopText ? "Added" : "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
                 </p>
             )}
 
@@ -37,6 +37,8 @@ export default function SpotifySong({ overrideTopText, track }) {
 
                 <div className="ml-5">
                     <a
+                        rel="noreferrer"
+                        target="_blank"
                         href={`https://open.spotify.com/track/${track.id}`}
                         className="font-bold underline hover:no-underline">
                         {track.name}
@@ -49,7 +51,7 @@ export default function SpotifySong({ overrideTopText, track }) {
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleAdd(track)}
                         className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
-                            <FaPlus className="mr-2" />
+                        <FaPlus className="mr-2" />
                         Add to list
                     </motion.button>
 

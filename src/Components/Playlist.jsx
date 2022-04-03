@@ -28,6 +28,8 @@ export default function Playlist({ playlist }) {
 
                 <div className="ml-5">
                     <a
+                        rel="noreferrer"
+                        target="_blank"
                         href={`https://open.spotify.com/playlist/${playlist.id}`}
                         className="font-bold underline hover:no-underline">
                         {playlist.name}
