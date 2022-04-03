@@ -65,7 +65,7 @@ function App() {
           <Route path="/authenticate" element={<Authenticate />} />
           <Route path="/likedsongs" element={<LikedSongs />} />
           <Route path="/playlists" element={<Playlists />} />
-          <Route path="/changelog" element={<Changelog/>} />
+          <Route path="/changelog" element={<Changelog />} />
 
           <Route path="/playlist/:id" element={<PlaylistSongSelect />} />
 

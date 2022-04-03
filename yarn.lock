@@ -1482,6 +1482,81 @@
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.1.tgz"
   "version" "1.1.1"
 
+"@sentry/browser@6.19.3":
+  "integrity" "sha512-E8UA6IN8z9hL6aGzOHUzqgNZiBwARkA89i8ncKB9QU1/+jl7598ZLziN4+uyPeZiRquEz8Ub7Ve1eacs1u+fbw=="
+  "resolved" "https://registry.npmjs.org/@sentry/browser/-/browser-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/core" "6.19.3"
+    "@sentry/types" "6.19.3"
+    "@sentry/utils" "6.19.3"
+    "tslib" "^1.9.3"
+
+"@sentry/core@6.19.3":
+  "integrity" "sha512-RcGmYdkrE3VYBMl9Hgv4GKsC8FEVUdWYsfGIcT/btwP2YpBeUaTZl+1vV9r3Ncdl125LqzP5CKSj5otVxiEg6g=="
+  "resolved" "https://registry.npmjs.org/@sentry/core/-/core-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/hub" "6.19.3"
+    "@sentry/minimal" "6.19.3"
+    "@sentry/types" "6.19.3"
+    "@sentry/utils" "6.19.3"
+    "tslib" "^1.9.3"
+
+"@sentry/hub@6.19.3":
+  "integrity" "sha512-iYbkrxEZt6CrHP3U3r54MARVZSs3YHjAMUMOTlC16s/Amz1McwV95XtI3NJaqMhwzl7R5vbGrs3xOtLg1V1Uyw=="
+  "resolved" "https://registry.npmjs.org/@sentry/hub/-/hub-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/types" "6.19.3"
+    "@sentry/utils" "6.19.3"
+    "tslib" "^1.9.3"
+
+"@sentry/minimal@6.19.3":
+  "integrity" "sha512-xy/6ThHK8B2NJT98nWrx6V9eVgUbzq2N/8lv5/QqrKsICjxx22TRC8Q6zPg/o7BYcrY5vpugSEbIeErTnyxHDA=="
+  "resolved" "https://registry.npmjs.org/@sentry/minimal/-/minimal-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/hub" "6.19.3"
+    "@sentry/types" "6.19.3"
+    "tslib" "^1.9.3"
+
+"@sentry/react@^6.19.3":
+  "integrity" "sha512-Zza1RX0+1tFCM1Hfq3Yl50cbc/ml0V/katw4aVZIU6+vEgvk5EuSFKU2LtblmJkpID7x6UwWz+1qgXumZPze6Q=="
+  "resolved" "https://registry.npmjs.org/@sentry/react/-/react-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/browser" "6.19.3"
+    "@sentry/minimal" "6.19.3"
+    "@sentry/types" "6.19.3"
+    "@sentry/utils" "6.19.3"
+    "hoist-non-react-statics" "^3.3.2"
+    "tslib" "^1.9.3"
+
+"@sentry/tracing@^6.19.3":
+  "integrity" "sha512-3lyb4yCFH/ltEQSyKM96g2c74vvKIwByx8fLDS4FHYQQDXY+xPcs+zyK8L1Fs5PRFAUciEOK5TS9qwELom5K4w=="
+  "resolved" "https://registry.npmjs.org/@sentry/tracing/-/tracing-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/hub" "6.19.3"
+    "@sentry/minimal" "6.19.3"
+    "@sentry/types" "6.19.3"
+    "@sentry/utils" "6.19.3"
+    "tslib" "^1.9.3"
+
+"@sentry/types@6.19.3":
+  "integrity" "sha512-jHhqxp8MIWSfOc3krorirTGKTEaSFO6XrAvi+2AZhr6gvOChwOgzgrN2ZqesJcZmgCsqWV21u3usSwYeRrjOJA=="
+  "resolved" "https://registry.npmjs.org/@sentry/types/-/types-6.19.3.tgz"
+  "version" "6.19.3"
+
+"@sentry/utils@6.19.3":
+  "integrity" "sha512-GdC9B/FK7qd0zItY43135bYbhuVSawE18bIrQDNuno8gTpDJ5OgShpTN9zR53AmMh16/lwKNnV3ZZjlpKcxuNw=="
+  "resolved" "https://registry.npmjs.org/@sentry/utils/-/utils-6.19.3.tgz"
+  "version" "6.19.3"
+  dependencies:
+    "@sentry/types" "6.19.3"
+    "tslib" "^1.9.3"
+
 "@sinonjs/commons@^1.7.0":
   "integrity" "sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ=="
   "resolved" "https://registry.npmjs.org/@sinonjs/commons/-/commons-1.8.3.tgz"
@@ -7902,7 +7977,7 @@
   "resolved" "https://registry.npmjs.org/react-spotify-embed/-/react-spotify-embed-0.2.3.tgz"
   "version" "0.2.3"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0", "react@^16 || ^17", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16", "react@>= 16.3.0", "react@>=16", "react@>=16.8", "react@>=16.8 || ^17.0.0 || ^18.0.0", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0", "react@^16 || ^17", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16", "react@>= 16.3.0", "react@>=16", "react@>=16.8", "react@>=16.8 || ^17.0.0 || ^18.0.0", "react@15.x || 16.x || 17.x", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -9031,6 +9106,11 @@
     "strip-bom" "^3.0.0"
 
 "tslib@^1.8.1":
+  "integrity" "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
+  "version" "1.14.1"
+
+"tslib@^1.9.3":
   "integrity" "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
