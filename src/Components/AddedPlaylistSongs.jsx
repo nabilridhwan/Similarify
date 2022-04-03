@@ -33,17 +33,15 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
         let pName = playlistName;
         let pDesc = playlistDescription;
 
-        // TODO: Check if playlist name is empty or not, if yes, then make a random name up
         if (pName === '') {
             pName = ('Similarify Playlist ' + Math.floor(Math.random() * 100));
         }
 
-        // TODO: Check if playlist description is empty or not, if yes, then make a random description up
+        // Check if playlist description is empty or not, if yes, then make a random description up
         if (pDesc === '') {
-            pDesc = `${addedSongs.map(s => {
-                return s.name + " by " + s.artist
-            }).join(" | ")}. This is a playlist created by Similarify (https://similarify.netlify.app). Find similar songs to the ones you like!`;
+            pDesc = "This playlist is created by Similarify (https://similarify.netlify.app). Find similar songs to the ones you like!";
         }
+
 
         // Get the created playlist id
 
@@ -145,18 +143,10 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             )}
 
 
-                            {/* Name playlist */}
-                            <label htmlFor="image_upload" className='block'>
-                                Playlist Name (Required)
-                            </label>
                             <input
                                 value={playlistName}
                                 type="text" className='search-box my-2' placeholder='Name your playlist' onChange={(e) => setPlaylistName(e.target.value)} />
 
-                            {/* Playlist Description */}
-                            <label htmlFor="image_upload" className='block'>
-                                Playlist Description (Optional)
-                            </label>
                             <textarea
                                 value={playlistDescription}
                                 placeholder='Describe your playlist (Optional)'

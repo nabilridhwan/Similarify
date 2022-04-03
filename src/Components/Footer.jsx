@@ -21,7 +21,7 @@ export default function Footer() {
             </p>
 
             <p>
-                <a href="https://github.com/nabilridhwan/Similarify">Similarify</a> v{process.env.REACT_APP_VERSION}
+                <a href="https://github.com/nabilridhwan/Similarify">Similarify is open source!</a>
             </p>
 
 

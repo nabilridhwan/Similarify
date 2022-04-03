@@ -1,3 +1,30 @@
+
+## 1.3.1
+
+### Added
+
+- None
+
+### Changed
+
+- Change the default description of playlists created
+    -   The playlists created now won't have the original songs name and titles inside the description.
+-   Removed versioning from footer (and changed footer layout)
+    -   The versioning won't render when deployed.
+-   Removed input labels in the playlist creation modal.
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## 1.3.0
 
 ### Added

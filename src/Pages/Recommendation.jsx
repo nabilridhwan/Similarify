@@ -50,9 +50,7 @@ export default function Recommendation() {
 
     let fetchSimilarSongs = async () => {
 
-        // TODO: Complete Spotify Recommendation
         // TODO: Add error functionality for status code != 200
-
         try {
 
 
