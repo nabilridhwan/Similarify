@@ -21,7 +21,7 @@ function saveToLocalStorage(state) {
   try {
     let s = { ...state }
     // delete s.apiKey
-    delete s.playlistSongs
+    // delete s.playlistSongs
     delete s.songs
     delete s.searchTerm
     delete s.searchResults

@@ -1,3 +1,24 @@
+## 1.4.0
+
+### Added
+
+- Added a song preview in the Recommendations page. Get started by clicking on a title of a song, a Spotify player will pop up!
+
+### Changed
+-   None
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## 1.3.4
 
 ### Added
