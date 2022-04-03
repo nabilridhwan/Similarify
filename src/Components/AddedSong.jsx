@@ -1,5 +1,4 @@
 import { motion} from "framer-motion";
-import { useDispatch } from "react-redux"
 import { FaTrash } from "react-icons/fa"
 
 export default function AddedSong({ track_name, track_artist, track_album_img, onRemovedClicked }) {
@@ -23,7 +22,7 @@ export default function AddedSong({ track_name, track_artist, track_album_img, o
 
                 <div className="flex-1">
 
-                    <h2>{track_name}</h2>
+                    <h2 className="font-bold">{track_name}</h2>
                     <h2 className="dark:text-white/50 text-sm text-black/50">
                         {track_artist}
                     </h2>

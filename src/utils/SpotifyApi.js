@@ -29,11 +29,27 @@ class SpotifyApi {
     }
 
     async getLikedSongs(limit = 50) {
-        return await fetch(`https://api.spotify.com/v1/me/tracks?limit=${limit}`, {
-            headers: {
-                "Authorization": "Bearer " + this.userToken
-            }
-        }).then(res => res.json())
+        let tracks = [];
+        let next = null;
+        let iteration = 0;
+        let link = `https://api.spotify.com/v1/me/tracks?limit=${limit}`;
+
+        do {
+
+            await fetch(link, {
+                    headers: {
+                        "Authorization": "Bearer " + this.userToken
+                    }
+                }).then(res => res.json())
+                .then(likedSongs => {
+                    iteration++
+                    next = likedSongs.next;
+                    tracks = [...tracks, ...likedSongs.items]
+                    link = next;
+                })
+        } while (iteration < 3)
+
+        return tracks;
     }
 
 
@@ -90,9 +106,9 @@ class SpotifyApi {
                         "Authorization": "Bearer " + this.userToken
                     }
                 }).then(res => res.json())
-                .then(d => {
-                    next = d.next;
-                    tracks = [...tracks, ...d.items]
+                .then(playlistTracks => {
+                    next = playlistTracks.next;
+                    tracks = [...tracks, ...playlistTracks.items]
                     link = next;
                 })
         } while (next != null)

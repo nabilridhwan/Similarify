@@ -19,7 +19,6 @@ import { useNavigate } from 'react-router-dom';
 import AddedPlaylistSongs from '../Components/AddedPlaylistSongs';
 import { clearPlaylistLink, clearSongsFromPlaylist, createdPlaylistToFalse } from '../actions';
 import Footer from '../Components/Footer';
-import ProgressBar from '../Components/ProgressBar';
 import DoneButton from '../Components/DoneButton';
 import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 

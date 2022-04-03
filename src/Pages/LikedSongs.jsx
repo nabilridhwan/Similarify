@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
-import Recommendation from "./Recommendation";
 
-import { FaRegSadCry} from "react-icons/fa"
-import { Link, useNavigate } from "react-router-dom";
+import { FaRegSadCry } from "react-icons/fa"
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
-import { useSelector, useDispatch } from "react-redux"
-import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
+import { useSelector } from "react-redux"
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
-import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 // Import
 
 let Spotify = new SpotifyApi();
 export default function LikedSongs() {
+
+    const location = useLocation();
 
     let apiKey = useSelector(state => state.apiKey);
 
@@ -30,7 +30,7 @@ export default function LikedSongs() {
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
-    let dispatch = useDispatch();
+    let [loading, setLoading] = useState(true)
 
     // Checks for token
     function checkForKey() {
@@ -47,13 +47,16 @@ export default function LikedSongs() {
                 Spotify.setToken(apiKey)
                 let data = await Spotify.getUserData()
 
+                setLoading(true)
                 await getLikedSongs();
+                setLoading(false)
 
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error?n=${error.message}`)
+                console.log(error.message)
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
         })();
     }, [])
@@ -70,7 +73,7 @@ export default function LikedSongs() {
             throw new Error(likedSongs.error.status)
         }
 
-        let n = likedSongs.items.map(song => {
+        let n = likedSongs.map(song => {
             return {
                 added_at: song.added_at,
                 id: song.track.id,
@@ -154,12 +157,18 @@ export default function LikedSongs() {
                 Search powered by Spotify
             </h1> */}
 
-            {likedSongs.length == 0 && (
+            {!loading && likedSongs.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaRegSadCry className="text-2xl my-5" />
                     <p className="text-sm">
                         You don't have any liked songs!
                     </p>
+                </div>
+            )}
+
+            {loading && (
+                <div className="flex items-center justify-center">
+                    <LoadingSpinner loading={loading} />
                 </div>
             )}
 
@@ -170,7 +179,7 @@ export default function LikedSongs() {
                         type: "tween",
                         ease: "easeOut"
                     }}
-                    className="my-5 grid gap-2 md:grid-cols-2">
+                    className="my-5 grid gap-2">
 
                     {likedSongs.map((track, index) => {
                         return (

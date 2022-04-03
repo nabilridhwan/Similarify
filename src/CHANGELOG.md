@@ -1,20 +1,22 @@
-#   Changelog
-All notable changes to this project will be documented in this file.
-
-
-## [1.3.0] - 2022-04-03
+## 1.3.0
 
 ### Added
 
 - Added the ability to add songs from your playlist
-
+-   Added loading spinners for liked songs and playlist songs when they're loading
+-   Added changelog page at `(/changelog)`
 
 ### Bugs
 -   Users with lower end devices may experience lags and stutters when viewing a playlist with a large amount of songs.
 
 ### Changed
 
-- None
+- Selecting from Liked songs will show 150 of your latest songs (previously was 50)
+-   Add to list button now has a "+" icon beside it
+-   Better error handling and output.
+    -   Any unknown error will yield the error message and error source and display it in the error page
+-   In the added songs / playlist added songs, the title of the song is now bold.
+-   All songs now have an underline signifying that clicking it will lead them to Spotify
 
 ### Fixed
 
@@ -27,7 +29,6 @@ All notable changes to this project will be documented in this file.
 ### Security
 
 - None
-
 
 ## 1.2.1
 

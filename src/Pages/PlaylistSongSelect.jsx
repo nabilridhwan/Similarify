@@ -1,43 +1,36 @@
 import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
-import Recommendation from "./Recommendation";
 
 import { FaRegSadCry } from "react-icons/fa"
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
-import { useSelector, useDispatch } from "react-redux"
-import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
+import { useSelector } from "react-redux"
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
-import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
 
-import { RotateSpinner } from "react-spinners-kit"
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 // Import
 
 let Spotify = new SpotifyApi();
 export default function PlaylistSongSelect() {
 
-    let apiKey = useSelector(state => state.apiKey);
     let location = useLocation()
-
-    let [playlistSongs, setPlaylistSongs] = useState([]);
-    let addedSongs = useSelector(state => state.songs);
+    let params = useParams();
     let navigate = useNavigate();
 
+    let apiKey = useSelector(state => state.apiKey);
+    let addedSongs = useSelector(state => state.songs);
+
+    let [playlistSongs, setPlaylistSongs] = useState([]);
     let [showAddedSongs, setShowAddedSongs] = useState(false);
-
-    let params = useParams();
-
-    let dispatch = useDispatch();
-
-    let [loading, setLoading] = useState(false)
+    let [loading, setLoading] = useState(true)
 
     // Checks for token
     function checkForKey() {
@@ -65,8 +58,7 @@ export default function PlaylistSongSelect() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                console.log(error)
-                // navigate(`/error?n=${error.message}`)
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: error})
             }
         })();
     }, [])
@@ -99,7 +91,7 @@ export default function PlaylistSongSelect() {
                     artist: song.track.artists.map(a => a.name).join(", "),
                     albumArt: img
                 }
-            }else{
+            } else {
                 return null
             }
         }).filter(song => song != null)
@@ -150,7 +142,7 @@ export default function PlaylistSongSelect() {
                 </h1>
 
                 <p className="dark:text-white/60 text-black/60">
-                    Select your tracks from this playlist ({playlistSongs.length} songs) {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} failed to add)</span>}
+                    Select your tracks from this playlist {!loading && `(${playlistSongs.length} songs)`} {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} failed to add)</span>}
                 </p>
             </div>
 
@@ -188,8 +180,7 @@ export default function PlaylistSongSelect() {
             )}
 
             <div className="flex justify-center">
-
-                <RotateSpinner size={30} color={"#e94798"} loading={loading} />
+                <LoadingSpinner loading={loading} />
             </div>
 
 
