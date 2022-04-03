@@ -1,3 +1,25 @@
+## 1.3.4
+
+### Added
+
+- None
+
+### Changed
+-   None
+
+### Fixed
+
+- None
+
+### Removed
+
+- Playlists name can't be clicked on (in Pick a Playlist page)
+
+### Security
+
+- None
+
+
 ## 1.3.3
 
 ### Added
