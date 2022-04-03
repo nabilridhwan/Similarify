@@ -13,8 +13,7 @@ import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import Playlist from "../Components/Playlist";
-
-// Import
+import LoadingSpinner from "../Components/LoadingSpinner"
 
 let Spotify = new SpotifyApi();
 export default function Playlists() {
@@ -23,6 +22,9 @@ export default function Playlists() {
 
     let [playlists, setPlaylists] = useState([]);
     let addedSongs = useSelector(state => state.songs);
+
+    let [loading, setLoading] = useState(true);
+
     let navigate = useNavigate();
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
@@ -42,7 +44,9 @@ export default function Playlists() {
                 Spotify.setToken(apiKey)
                 let data = await Spotify.getUserData()
 
+                setLoading(true)
                 await getLikedSongs();
+                setLoading(false)
 
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
@@ -131,12 +135,18 @@ export default function Playlists() {
                 Search powered by Spotify
             </h1> */}
 
-            {playlists.length == 0 && (
+            {!loading && playlists.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaRegSadCry className="text-2xl my-5" />
                     <p className="text-sm">
                         You don't have any playlists!
                     </p>
+                </div>
+            )}
+
+            {loading && (
+                <div className="flex justify-center items-center">
+                    <LoadingSpinner loading={loading} />
                 </div>
             )}
 

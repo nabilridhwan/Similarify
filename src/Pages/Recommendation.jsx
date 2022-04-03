@@ -145,7 +145,8 @@ export default function Recommendation() {
                         layout
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="dark:bg-darkCard dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10" key={song.id}>
+                        key={index}
+                        className="dark:bg-darkCard dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10">
 
                         <p className='text font-bold my-4'>
                             Since you liked...
@@ -185,7 +186,7 @@ export default function Recommendation() {
 
                         </p>
 
-                        {Array.isArray(song.similar) && song.similar.length
+                        {song.hasOwnProperty("similar") && song.similar.length
 
                             ?
 
@@ -198,7 +199,7 @@ export default function Recommendation() {
                                 })}
                             </div>
                             :
-                            <h5 className="my-3">No similar songs found</h5>
+                            <h5 className="my-3 font-bold">No similar songs found</h5>
 
                         }
                     </motion.div>

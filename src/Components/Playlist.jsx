@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
-import { FaArrowRight } from "react-icons/fa"
+import { FaArrowRight, FaChevronRight } from "react-icons/fa"
 import DefaultAlbumImage from "./DefaultImage";
 export default function Playlist({ playlist }) {
     let navigate = useNavigate();
@@ -11,6 +11,9 @@ export default function Playlist({ playlist }) {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                    onClick={() => navigate(`/playlist/${playlist.id}`, { state: { name: playlist.name, total: playlist.tracks } })}
                 transition={{
                     type: "tween",
                     ease: "easeOut"
@@ -26,7 +29,7 @@ export default function Playlist({ playlist }) {
                     <DefaultAlbumImage size={20} />
                 )}
 
-                <div className="ml-5">
+                <div className="ml-5 flex-1">
                     <a
                         rel="noreferrer"
                         target="_blank"
@@ -39,16 +42,14 @@ export default function Playlist({ playlist }) {
                     </p>
 
 
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => navigate(`/playlist/${playlist.id}`, { state: { name: playlist.name, total: playlist.tracks } })}
-                        className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
-                        Select songs
-                        <FaArrowRight className="ml-2" />
-                    </motion.button>
+
 
                 </div>
+
+                <motion.button
+                    className="text-white flex items-center px-2">
+                    <FaChevronRight className="ml-2" />
+                </motion.button>
 
             </motion.div>
         </div>

@@ -16,7 +16,7 @@ export default function SimilarTrack({ track, percentage }) {
 
             <div className='mx-5'>
 
-                <a href={track.external_urls.spotify} className="dark:text-white text-black font-bold hover:underline">
+                <a href={track.external_urls.spotify} className="dark:text-white text-black font-bold underline hover:no-underline">
                     {track.name}
                 </a>
 

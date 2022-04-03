@@ -1,3 +1,28 @@
+## 1.3.3
+
+### Added
+
+- Added proper loading animations for every section of the application (search, liked songs, playlists)
+
+### Changed
+-   Liked songs and Playlists links are now buttons in the search page
+-   Change loading animation
+-   The playlist page: Instead of showing "Select songs" button, the layout is now changed, there is a arrow right button signifying that the user can click on the individual playlist item.
+
+### Fixed
+
+- Recommendation page spewing out key error - it's now fixed!
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
+
+
 ## 1.3.2
 
 ### Added

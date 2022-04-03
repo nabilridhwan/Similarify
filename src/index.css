@@ -23,7 +23,7 @@ footer a{
 }
 
 .done-button{
-  @apply rounded-lg p-3 px-14 font-bold text-white shadow-[0_0_20px] shadow-green-400/80 fixed bottom-5  bg-green-500 
+  @apply rounded-lg p-3 px-14 font-bold text-white shadow-[0_0_20px] shadow-green-500/50 fixed bottom-5  bg-green-500 
 }
 
 .badge{
@@ -52,4 +52,20 @@ footer a{
 
 .changelog-section code{
   @apply font-mono bg-black/10 dark:bg-white/20 p-0.5 rounded-md;
+}
+
+.pagination{
+  @apply flex justify-center items-center space-x-2 space-y-2 flex-wrap;
+}
+
+.pagination li{
+  @apply flex justify-center items-center;
+}
+
+.pg{
+  @apply w-full h-full p-2;
+}
+
+.pg-active{
+  @apply border-2 border-pink-500 rounded-lg;
 }

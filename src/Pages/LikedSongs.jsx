@@ -84,7 +84,6 @@ export default function LikedSongs() {
         })
 
         setLikedSongs(n)
-        console.log(n)
     }
 
     // async function searchForTracks() {
