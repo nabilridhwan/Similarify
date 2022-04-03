@@ -1,6 +1,34 @@
 #   Changelog
 All notable changes to this project will be documented in this file.
 
+
+## [1.3.0] - 2022-04-03
+
+### Added
+
+- Added the ability to add songs from your playlist
+
+
+### Bugs
+-   Users with lower end devices may experience lags and stutters when viewing a playlist with a large amount of songs.
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
+
 ## 1.2.1
 
 ### Added

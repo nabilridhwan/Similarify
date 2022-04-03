@@ -71,6 +71,36 @@ class SpotifyApi {
         }).then(res => res.json())
     }
 
+    async getUserPlaylists() {
+        return await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
+            headers: {
+                "Authorization": "Bearer " + this.userToken
+            },
+        }).then(res => res.json())
+    }
+
+    async getTracksByPlaylistId(playlist_id) {
+        let tracks = [];
+        let next = null;
+        let link = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?limit=100`;
+
+        do {
+            await fetch(link, {
+                    headers: {
+                        "Authorization": "Bearer " + this.userToken
+                    }
+                }).then(res => res.json())
+                .then(d => {
+                    next = d.next;
+                    tracks = [...tracks, ...d.items]
+                    link = next;
+                })
+        } while (next != null)
+
+        return tracks;
+
+    }
+
     async createPlaylist(track_uris, playlist_name, playlist_description) {
         console.log(track_uris, playlist_name, playlist_description)
         return new Promise((resolve, reject) => {
@@ -134,7 +164,7 @@ class SpotifyApi {
                             }
                         }).catch(error => {
 
-                                reject("Error creating playlist")
+                            reject("Error creating playlist")
                         })
 
                 }

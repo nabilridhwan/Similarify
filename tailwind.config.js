@@ -9,7 +9,8 @@ module.exports = {
       },
       colors: {
         dark: "#121212",
-        darkCard: "#171717"
+        darkCard: "#171717",
+        defaultAlbumCover: "#282828"
       }
     },
   },

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 import Recommendation from "./Recommendation";
 
-import { FaSpotify, FaSearch } from "react-icons/fa"
+import { FaRegSadCry } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
@@ -16,19 +16,16 @@ import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
+import Playlist from "../Components/Playlist";
 
 // Import
 
 let Spotify = new SpotifyApi();
-function Search() {
-
-    let searchTermRedux = useSelector(state => state.searchTerm);
-    let [searchTerm, setSearchTerm] = useState(searchTermRedux);
-
-    let searchResults = useSelector(state => state.searchResults);
+export default function Playlists() {
 
     let apiKey = useSelector(state => state.apiKey);
 
+    let [playlists, setPlaylists] = useState([]);
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
@@ -36,28 +33,10 @@ function Search() {
 
     let dispatch = useDispatch();
 
-
     // Checks for token
     function checkForKey() {
         console.log("Checking for token")
-        if (window.location.hash) {
-
-            // Separate the access token from the '#' symbol
-            let hashes = window.location.hash.substring(1).split("&");
-            let hashes_value = hashes.map(hash => hash.split("=")[1]);
-            const [access_token] = hashes_value;
-
-            // Set the access token
-            Spotify.setToken(access_token);
-            dispatch(setApiKey(access_token));
-
-            console.log("Token exists: From hash")
-        }else if(apiKey){
-            Spotify.setToken(apiKey);
-            dispatch(setApiKey(apiKey));
-
-            console.log("Token exists: From redux")
-        } else {
+        if (!apiKey) {
             navigate("/authenticate")
         }
     }
@@ -65,17 +44,18 @@ function Search() {
         checkForKey();
 
         (async () => {
-
-            console.log("Checking for expiry")
             try {
+                Spotify.setToken(apiKey)
                 let data = await Spotify.getUserData()
+
+                await getLikedSongs();
+
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
-                console.log("Token is not expired")
             } catch (error) {
-                console.log("Token expired")
-                navigate(`/error/${error.message}`)
+                console.log(error)
+                navigate(`/error?n=${error.message}`)
             }
         })();
     }, [])
@@ -83,59 +63,59 @@ function Search() {
     function handleFormSubmit(e) {
         // Prevent default submit action
         e.preventDefault();
-        searchForTracks()
+        // searchForTracks()
     }
 
-    async function searchForTracks() {
-        // Alert user that they need to enter something
-        if (searchTerm === "") {
-            alert("Please enter a search term!");
-        } else {
-            // Clear search results
+    async function getLikedSongs() {
+        let playlists = await Spotify.getUserPlaylists()
+        if (playlists.hasOwnProperty("error")) {
+            throw new Error(playlists.error.status)
+        }
 
-            try {
-                let sT = encodeURI(searchTerm.trim())
-                dispatch(setSearchTermRedux(searchTerm.trim()))
 
-                console.log(`Searching Spotify for ${sT}`)
-                let results = await Spotify.search(sT);
+        if (playlists.hasOwnProperty("items")) {
 
-                let tracks = results.tracks.items.map(track => {
-                    return {
-                        name: track.name,
-                        artist: track.artists.map(a => a.name).join(", "),
-                        album: track.album.name,
-                        albumArt: track.album.images[0].url,
-                        id: track.id,
-                    }
-                })
+            let n = playlists.items.map(playlist => {
 
-                dispatch(setSearchResults(tracks, addedSongs));
-            } catch (error) {
-                // Reauthenticate user
-                navigate("/authenticate")
-            }
+                console.log()
+
+                let img = null;
+
+                if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
+                    img = playlist.images[0].url
+                }
+
+                return {
+                    id: playlist.id,
+                    name: playlist.name,
+                    albumArt: img,
+                    tracks: playlist.tracks.total,
+                    owner: playlist.owner.display_name
+                }
+            })
+
+            setPlaylists(n)
+            // console.log(n)
         }
     }
 
     return (
         <Container>
-            {/* <BackButton to="/" /> */}
+            <BackButton />
 
             {/* <ProgressBar current={1} total={2} /> */}
 
             <div className="my-5">
                 <h1 className="font-bold text-2xl" >
-                    Search for Songs
+                    Pick a playlist
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Search for the songs that you already like or <Link to={"/likedsongs"} className="underline text-pink-500"> get recommendations from your liked songs!</Link> or <Link to="/playlists" className="underline text-pink-500"> your playlists!</Link>
+                    Select the songs you like from your Spotify playlists.
                 </p>
-
             </div>
 
             {/* Search form */}
-            <form onSubmit={handleFormSubmit}>
+            {/* <form onSubmit={handleFormSubmit}>
                 <input
                     value={searchTerm}
                     className="search-box"
@@ -144,7 +124,6 @@ function Search() {
                     placeholder="Imagine Dragons" />
 
 
-                {/* Search button */}
                 <button
                     disabled={searchTerm === ""}
                     className="transition flex items-center justify-center btn shadow-sm bg-pink-500 shadow-pink-500/30 text-white w-full disabled-button  my-5"
@@ -152,21 +131,22 @@ function Search() {
                     <FaSearch className="mr-2" />
                     Search
                 </button>
-            </form>
+            </form> */}
 
             {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
                 <FaSpotify className="mr-2" />
                 Search powered by Spotify
             </h1> */}
 
-            {searchResults.length == 0 && (
+            {playlists.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
-                    <FaSearch className="text-2xl my-5" />
+                    <FaRegSadCry className="text-2xl my-5" />
                     <p className="text-sm">
-                        Search for the songs you already like, and add them to your list!
+                        You don't have any playlists!
                     </p>
                 </div>
             )}
+
 
             <AnimatePresence exitBeforeEnter>
                 <motion.div
@@ -174,11 +154,11 @@ function Search() {
                         type: "tween",
                         ease: "easeOut"
                     }}
-                    className="my-5 grid gap-2 md:grid-cols-2">
+                    className="my-5 grid gap-2">
 
-                    {searchResults.map((track, index) => {
+                    {playlists.map((playlist, index) => {
                         return (
-                            <SpotifySong track={track} key={track.id} />
+                            <Playlist key={playlist.id} playlist={playlist} />
                         )
                     })}
                 </motion.div>
@@ -202,5 +182,3 @@ function Search() {
         </Container >
     )
 }
-
-export default Search;
