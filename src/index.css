@@ -33,3 +33,23 @@ footer a{
 .disabled-button{
   @apply disabled:bg-black/30 disabled:text-white/50 disabled:shadow-none disabled:dark:bg-white/10 dark:disabled:text-white/10;
 }
+
+.changelog-section h2{
+  @apply font-extrabold text-4xl mt-10 text-pink-500;
+}
+
+.changelog-section h3{
+  @apply font-bold text-lg ml-3;
+}
+
+.changelog-section ul{
+  @apply list-disc ml-10;
+}
+
+.changelog-section li{
+  @apply text-sm py-1 leading-relaxed;
+}
+
+.changelog-section code{
+  @apply font-mono bg-black/10 dark:bg-white/20 p-0.5 rounded-md;
+}

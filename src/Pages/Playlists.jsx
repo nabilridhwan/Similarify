@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
-import Recommendation from "./Recommendation";
 
 import { FaRegSadCry } from "react-icons/fa"
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
-import SpotifySong from "../Components/SpotifySong";
 
-import { useSelector, useDispatch } from "react-redux"
-import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
+import { useSelector} from "react-redux"
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
-import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
 import Playlist from "../Components/Playlist";
 
@@ -30,8 +26,6 @@ export default function Playlists() {
     let navigate = useNavigate();
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
-
-    let dispatch = useDispatch();
 
     // Checks for token
     function checkForKey() {
@@ -54,8 +48,7 @@ export default function Playlists() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                console.log(error)
-                navigate(`/error?n=${error.message}`)
+                navigate(`/error?n=${error.message}`, {state: error})
             }
         })();
     }, [])

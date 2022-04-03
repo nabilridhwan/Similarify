@@ -129,7 +129,7 @@ function Search() {
                     Search for Songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Search for the songs that you already like or <Link to={"/likedsongs"} className="underline text-pink-500"> get recommendations from your liked songs!</Link> or <Link to="/playlists" className="underline text-pink-500"> your playlists!</Link>
+                    Search for the songs that you already like or get recommendations from your <Link to={"/likedsongs"} className="underline text-pink-500"> liked songs </Link> or <Link to="/playlists" className="underline text-pink-500"> playlists!</Link>
                 </p>
 
             </div>

@@ -1,10 +1,9 @@
-import { FaSpotify, FaPlus} from "react-icons/fa";
+import { FaPlus} from "react-icons/fa";
 
 import {useSelector, useDispatch} from "react-redux";
 import { addSongToPlaylist } from '../actions';
 
 import {motion} from "framer-motion"
-import { Link } from "react-router-dom";
 
 export default function SimilarTrack({ track, percentage }) {
 

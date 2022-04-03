@@ -1,5 +1,4 @@
 import { motion } from "framer-motion"
-import { IoMdClose } from "react-icons/io"
 import { useDispatch } from "react-redux";
 
 export default function CreatedPlaylistModal({ playlistLink, onClose }) {

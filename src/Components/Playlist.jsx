@@ -18,8 +18,6 @@ export default function Playlist({ playlist }) {
                 className="flex items-center">
 
 
-                {/* TODO: Handle no images */}
-
                 {playlist.albumArt ? (
 
                     <img
@@ -31,7 +29,7 @@ export default function Playlist({ playlist }) {
                 <div className="ml-5">
                     <a
                         href={`https://open.spotify.com/playlist/${playlist.id}`}
-                        className="font-bold hover:underline">
+                        className="font-bold underline hover:no-underline">
                         {playlist.name}
                     </a>
                     <p className="dark:text-white/50 text-black/50 text-sm">
@@ -39,11 +37,10 @@ export default function Playlist({ playlist }) {
                     </p>
 
 
-                    {/* TODO: Handle clicking of playlist */}
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => navigate(`/playlist/${playlist.id}`, { state: { name: playlist.name, total: playlist.tracksk } })}
+                        onClick={() => navigate(`/playlist/${playlist.id}`, { state: { name: playlist.name, total: playlist.tracks } })}
                         className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
                         Select songs
                         <FaArrowRight className="ml-2" />

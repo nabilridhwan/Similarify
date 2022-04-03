@@ -1,10 +1,8 @@
-import { FaSpotify, FaPlus } from "react-icons/fa"
-
 import { useDispatch } from "react-redux"
 import { DateTime } from "luxon";
 import { addSong } from "../actions";
 import { motion } from "framer-motion"
-import { useState } from "react";
+import {FaPlus} from "react-icons/fa"
 
 export default function SpotifySong({ overrideTopText, track }) {
 
@@ -40,7 +38,7 @@ export default function SpotifySong({ overrideTopText, track }) {
                 <div className="ml-5">
                     <a
                         href={`https://open.spotify.com/track/${track.id}`}
-                        className="font-bold hover:underline">
+                        className="font-bold underline hover:no-underline">
                         {track.name}
                     </a>
                     <p className="dark:text-white/50 text-black/50 text-sm">{track.artist}</p>
@@ -50,7 +48,8 @@ export default function SpotifySong({ overrideTopText, track }) {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleAdd(track)}
-                        className="btn bg-blue-500 text-white my-2 text-sm">
+                        className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
+                            <FaPlus className="mr-2" />
                         Add to list
                     </motion.button>
 

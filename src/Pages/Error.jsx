@@ -1,4 +1,4 @@
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
 import Footer from "../Components/Footer";
 
@@ -14,8 +14,8 @@ const ERRORS = {
     },
 
     "404": {
-title: "Ooh! This one seems lost!",
-message: "There's nothing here, or was there?"
+        title: "Ooh! This one seems lost!",
+        message: "There's nothing here, or was there?"
     }
 }
 
@@ -23,6 +23,10 @@ export default function Error() {
 
     const params = useParams();
     const errorCode = params.errno
+
+    let [searchParams, setSearchParams] = useSearchParams();
+
+    const from = searchParams.get("from")
 
     const error = ERRORS.hasOwnProperty(errorCode) ? ERRORS[errorCode] : {
         title: "Unknown error",
@@ -40,9 +44,31 @@ export default function Error() {
                     {error.message}
                 </p>
 
-                <Link 
-                to="/"
-                className="underline"
+                {
+                    !ERRORS.hasOwnProperty(errorCode) && (
+
+                        <div className="pt-5">
+                            <h2 className="font-bold">
+                                Error Message
+                            </h2>
+                            <p className="dark:text-white/60 text-black/60">
+                                {params.errno}
+                            </p>
+
+                            <h2 className="font-bold mt-3">
+                                Error Source
+                            </h2>
+                            <p className="dark:text-white/60 text-black/60">
+                                {from}
+                            </p>
+                        </div>
+                    )
+                }
+
+
+                <Link
+                    to="/"
+                    className="underline"
                 >
                     Go home
                 </Link>
@@ -50,7 +76,7 @@ export default function Error() {
 
 
             <Footer />
-        
+
 
         </Container >
     )
