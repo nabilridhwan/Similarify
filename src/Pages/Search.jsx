@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 import Recommendation from "./Recommendation";
 
-import { FaSpotify, FaSearch, FaHeart } from "react-icons/fa"
+import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
 import { RiPlayListFill } from "react-icons/ri"
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
@@ -163,6 +163,12 @@ function Search() {
                             <RiPlayListFill className="mr-2" />
                             <h1>Playlists</h1>
                         </SectionButton>
+
+                        <SectionButton to="/recentlyplayed">
+                            <FaRedoAlt className="mr-2" />
+                            <h1>Recently Played</h1>
+                        </SectionButton>
+
                     </div>
                 </div>
 

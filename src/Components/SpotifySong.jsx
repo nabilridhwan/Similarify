@@ -22,7 +22,7 @@ export default function SpotifySong({ overrideTopText, track }) {
 
             {track.added_at && (
                 <p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
-                    {overrideTopText ? "Added" : "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
+                    {overrideTopText ? overrideTopText  : "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
                 </p>
             )}
 

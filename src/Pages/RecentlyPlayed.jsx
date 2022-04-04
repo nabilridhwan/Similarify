@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,23 +13,24 @@ import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
-
 import LoadingSpinner from "../Components/LoadingSpinner";
+import LogOutButton from "../Components/LogOutButton";
 
 // Import
 
 let Spotify = new SpotifyApi();
-export default function PlaylistSongSelect() {
+export default function RecentlyPlayed() {
 
-    let location = useLocation()
-    let params = useParams();
-    let navigate = useNavigate();
+    const location = useLocation();
 
     let apiKey = useSelector(state => state.apiKey);
-    let addedSongs = useSelector(state => state.songs);
 
-    let [playlistSongs, setPlaylistSongs] = useState([]);
+    let [likedSongs, setLikedSongs] = useState([]);
+    let addedSongs = useSelector(state => state.songs);
+    let navigate = useNavigate();
+
     let [showAddedSongs, setShowAddedSongs] = useState(false);
+
     let [loading, setLoading] = useState(true)
 
     // Checks for token
@@ -40,9 +41,6 @@ export default function PlaylistSongSelect() {
         }
     }
     useEffect(() => {
-        if (params.hasOwnProperty("id") === false) {
-            navigate("/playlists")
-        }
         checkForKey();
 
         (async () => {
@@ -51,14 +49,15 @@ export default function PlaylistSongSelect() {
                 let data = await Spotify.getUserData()
 
                 setLoading(true)
-                await getPlaylistTracks();
+                await getRecentlyPlayedSongs();
                 setLoading(false)
 
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: error})
+                console.log(error.message)
+                // navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
         })();
     }, [])
@@ -69,43 +68,34 @@ export default function PlaylistSongSelect() {
         // searchForTracks()
     }
 
-    async function getPlaylistTracks() {
-        let allPlaylistSongs = await Spotify.getTracksByPlaylistId(params.id)
+    async function getRecentlyPlayedSongs() {
+        let recentlyPlayedSongs = await Spotify.getRecentlyPlayedSongs()
 
-        if (allPlaylistSongs.hasOwnProperty("error")) {
-            throw new Error(allPlaylistSongs.error.status)
+        console.log(recentlyPlayedSongs)
+        if (recentlyPlayedSongs.hasOwnProperty("error")) {
+            throw new Error(recentlyPlayedSongs.error.status)
         }
 
-        let n = allPlaylistSongs.reverse().map(song => {
-            let img = null;
-
-            if (song.hasOwnProperty("track") && song.track != null) {
-                if (song.track.hasOwnProperty("album") && song.track.album.images.length > 0 && song.track.album.images[0].hasOwnProperty("url")) {
-                    img = song.track.album.images[0].url
-                }
-
-                return {
-                    added_at: song.added_at,
-                    id: song.track.id,
-                    name: song.track.name,
-                    artist: song.track.artists.map(a => a.name).join(", "),
-                    albumArt: img,
-                    added: false
-                }
-            } else {
-                return null
+        let n = recentlyPlayedSongs.map(song => {
+            return {
+                added_at: song.played_at,
+                id: song.track.id,
+                name: song.track.name,
+                artist: song.track.artists.map(a => a.name).join(", "),
+                albumArt: song.track.album.images[0].url,
+                added: false
             }
-        }).filter(song => song != null)
+        })
 
-        n.forEach(playlistSong => {
+        n.forEach(likedSong => {
             addedSongs.forEach(addedSong => {
-                if(addedSong.id === playlistSong.id){
-                    playlistSong.added = true
+                if(addedSong.id === likedSong.id){
+                    likedSong.added = true
                 }
             })
         })
 
-        setPlaylistSongs(n)
+        setLikedSongs(n)
     }
 
     // async function searchForTracks() {
@@ -147,11 +137,10 @@ export default function PlaylistSongSelect() {
 
             <div className="py-5 clear-both">
                 <h1 className="font-bold text-2xl" >
-                    Select from "{location.state.name}"
+                    Select from your Recently Played songs
                 </h1>
-
                 <p className="dark:text-white/60 text-black/60">
-                    Select your tracks from this playlist {!loading && `(${playlistSongs.length} songs)`} {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} songs failed to load)</span>}
+                    You liked a song from your Spotify recently?
                 </p>
             </div>
 
@@ -179,19 +168,20 @@ export default function PlaylistSongSelect() {
                 Search powered by Spotify
             </h1> */}
 
-            {!loading && playlistSongs.length == 0 && (
+            {!loading && likedSongs.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaRegSadCry className="text-2xl my-5" />
                     <p className="text-sm">
-                        This playlist doesn't have any songs
+                        You don't have any recently played songs!
                     </p>
                 </div>
             )}
 
-            <div className="flex justify-center">
-                <LoadingSpinner loading={loading} />
-            </div>
-
+            {loading && (
+                <div className="flex items-center justify-center">
+                    <LoadingSpinner loading={loading} />
+                </div>
+            )}
 
 
             <AnimatePresence exitBeforeEnter>
@@ -202,9 +192,9 @@ export default function PlaylistSongSelect() {
                     }}
                     className="my-5 grid gap-2">
 
-                    {playlistSongs.map((track, index) => {
+                    {likedSongs.map((track, index) => {
                         return (
-                            <SpotifySong overrideTopText="added" track={track} key={track.id + "-" + index} />
+                            <SpotifySong overrideTopText={"Played"} track={track} key={track.id + "-" + index} />
                         )
                     })}
                 </motion.div>

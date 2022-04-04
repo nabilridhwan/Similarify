@@ -8,7 +8,7 @@ export default function SectionButton({ to = -1, children }) {
             onClick={() => navigate(to)}
             whileTap={{ scale: 0.9 }}
             whileHover={{ scale: 1.1 }}
-            className="dark:text-white dark:border-white text-black font-bold py-2 px-4 rounded-full border-2 border-black">
+            className="dark:text-white dark:border-white text-black font-bold py-2 px-4 text-sm rounded-full border-2 border-black mt-2">
 
             <div className="flex justify-center items-center">
                 {children}
