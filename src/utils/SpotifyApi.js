@@ -1,7 +1,7 @@
 class SpotifyApi {
 
     static REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-    static SCOPE = "playlist-modify-private,user-library-read";
+    static SCOPE = "playlist-modify-private,user-library-read,user-read-recently-played,user-read-currently-playing";
     static CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
     setToken(token) {
@@ -78,7 +78,7 @@ class SpotifyApi {
         return response.tracks.items[0]
     }
 
-    async getRecommendation(track_id, limit = 6, songParameters={}) {
+    async getRecommendation(track_id, limit = 6, songParameters = {}) {
         let mappedParams = Object.keys(songParameters).map(params => {
             return "&target_" + params + "=" + songParameters[params]
         }).join("")
@@ -156,11 +156,11 @@ class SpotifyApi {
 
 
                                 this.addTracksToPlaylist(playlistID, track_uris)
-                                .then(d => {
-                                    resolve(d)
-                                }).catch(e => {
-                                    reject(e)
-                                })
+                                    .then(d => {
+                                        resolve(d)
+                                    }).catch(e => {
+                                        reject(e)
+                                    })
 
                             } else {
                                 // Throw an error
@@ -203,6 +203,32 @@ class SpotifyApi {
                     reject("Error adding tracks to the created playlist")
                 })
         })
+    }
+
+    async getRecentlyPlayedSongs(limit = 50) {
+        console.log("[Spotify API] Fetching Recently Played Songs")
+        let tracks = [];
+        let next = null;
+        let iteration = 0;
+        let link = `https://api.spotify.com/v1/me/player/recently-played?limit=${limit}`;
+
+        do {
+
+            await fetch(link, {
+                    headers: {
+                        "Authorization": "Bearer " + this.userToken
+                    }
+                }).then(res => res.json())
+                .then(likedSongs => {
+                    iteration++
+                    console.log(iteration)
+                    next = likedSongs.next;
+                    tracks = [...tracks, ...likedSongs.items]
+                    link = next;
+                })
+        } while (next !== null && iteration < 3)
+        
+        return tracks;
     }
 
 }
