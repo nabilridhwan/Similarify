@@ -16,6 +16,7 @@
 -   Songs with modified parameters will now have a darker cogwheel icon to signify that there is some parameters that is adjusted.
 -   Spotify Player: The muted text: instead of showing "Playing X", It just shows "X" where X is the title and artist of the song.
 -   Changed Home screen text.
+-   Changed the "Create Playlist" button to be green.
 
 ### Fixed
 
