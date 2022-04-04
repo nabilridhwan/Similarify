@@ -33,7 +33,7 @@ export default function SpotifyPlayer({ track, onClose }) {
                     </h1>
 
                     <p className="dark:text-white/60 text-black/60">
-                        Playing {track.name} by {track.artists.map(a => a.name).join(", ")}
+                        {track.name} by {track.artists.map(a => a.name).join(", ")}
                     </p>
                 </div>
 

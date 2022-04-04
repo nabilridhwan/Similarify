@@ -89,12 +89,21 @@ export default function PlaylistSongSelect() {
                     id: song.track.id,
                     name: song.track.name,
                     artist: song.track.artists.map(a => a.name).join(", "),
-                    albumArt: img
+                    albumArt: img,
+                    added: false
                 }
             } else {
                 return null
             }
         }).filter(song => song != null)
+
+        n.forEach(playlistSong => {
+            addedSongs.forEach(addedSong => {
+                if(addedSong.id === playlistSong.id){
+                    playlistSong.added = true
+                }
+            })
+        })
 
         setPlaylistSongs(n)
     }

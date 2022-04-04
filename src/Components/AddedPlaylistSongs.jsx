@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { clearAddedSongs, clearSongsFromPlaylist, removeSongFromPlaylist, setPlaylistLink } from '../actions';
 import SpotifyApi from '../utils/SpotifyApi';
+import AddToExistingPlaylist from './AddToExistingPlaylist';
 
 export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
@@ -14,6 +15,7 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
     const dispatch = useDispatch();
 
     const [error, setError] = useState("");
+    const [showAddToExistingPlaylist, setShowAddToExistingPlaylist] = useState(false);
 
     const [playlistName, setPlaylistName] = useState('');
     const [playlistDescription, setPlaylistDescription] = useState('');
@@ -65,6 +67,18 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                 setError(error)
                 console.log(error)
             })
+    }
+
+    const handleOnAdded = (link) => {
+        dispatch(setPlaylistLink(link))
+
+        // Clear all songs
+        dispatch(clearAddedSongs())
+        dispatch(clearSongsFromPlaylist())
+    }
+
+    const handleAddToExistingPlaylist = () => {
+        setShowAddToExistingPlaylist(true)
     }
 
     return (
@@ -155,9 +169,15 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             ></textarea>
 
 
-                            <button onClick={handleCreatePlaylist} className="transition btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50 w-full disabled-button"
+                            <button onClick={handleCreatePlaylist} className="mt-2 transition btn bg-blue-500 block text-white text-center shadow-md w-full disabled-button"
                                 disabled={playlistName === ''}>
                                 Create Playlist
+                            </button>
+
+                            <button
+                                onClick={handleAddToExistingPlaylist}
+                                className="mt-2 transition btn bg-orange-500 block text-white text-center shadow-md w-full disabled-button">
+                                Add to Existing Playlist
                             </button>
 
                             <button
@@ -173,6 +193,12 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                     </AnimatePresence>
 
                 </div>
+
+                <AnimatePresence>
+                    {showAddToExistingPlaylist && (
+                        <AddToExistingPlaylist onAdded={handleOnAdded} onClose={() => setShowAddToExistingPlaylist(false)} />
+                    )}
+                </AnimatePresence>
             </motion.div>
         </motion.div>
     )

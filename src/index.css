@@ -58,8 +58,8 @@ footer a{
   @apply flex justify-center items-center space-x-2 space-y-2 flex-wrap;
 }
 
-.pagination li{
-  @apply flex justify-center items-center;
+li{
+  @apply my-1;
 }
 
 .pg{

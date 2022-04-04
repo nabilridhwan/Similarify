@@ -78,7 +78,7 @@ export default function AddedSongs({ onClose }) {
 
                                     {addedSongs.map((track, index) => {
                                         return (
-                                            <AddedSong track={track} onRemovedClicked={() => dispatch(removeSong(track))} key={track.id} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
+                                            <AddedSong changeableParameters={true} track={track} onRemovedClicked={() => dispatch(removeSong(track))} key={track.id} track_album_img={track.albumArt} track_name={track.name} track_artist={track.artist} />
                                         )
                                     })}
                                 </AnimatePresence>
@@ -86,7 +86,7 @@ export default function AddedSongs({ onClose }) {
                             </motion.div>
 
                             {addedSongs.length > 0 && (
-                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center shadow-md shadow-blue-500/50">
+                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center">
                                     Get Recommendations
                                 </Link>
                             )

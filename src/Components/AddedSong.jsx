@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaTrash, FaCog } from "react-icons/fa"
 import AdjustParameters from "./AdjustParameters";
 
-export default function AddedSong({ track_name, track_artist, track_album_img, onRemovedClicked, track}) {
+export default function AddedSong({ changeableParameters, track_name, track_artist, track_album_img, onRemovedClicked, track }) {
 
     const [showParameters, setShowParameters] = useState(false);
 
@@ -40,12 +40,23 @@ export default function AddedSong({ track_name, track_artist, track_album_img, o
                     <FaTrash />
                 </motion.button>
 
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setShowParameters(true)}
-                    className="rounded-full p-3 bg-gray-500 shadow-sm shadow-red-500/50 text-white flex justify-center items-center">
-                    <FaCog />
-                </motion.button>
+                {changeableParameters && (
+                    track.hasOwnProperty("parameters") && Object.keys(track.parameters).length > 0 ? (
+                        <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setShowParameters(true)}
+                            className="rounded-full p-3 bg-slate-700 shadow-sm text-white flex justify-center items-center">
+                            <FaCog />
+                        </motion.button>
+                    ) : (
+                        <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setShowParameters(true)}
+                            className="rounded-full p-3 bg-gray-500 shadow-sm text-white flex justify-center items-center">
+                            <FaCog />
+                        </motion.button>
+                    )
+                )}
             </div>
 
             {showParameters && (

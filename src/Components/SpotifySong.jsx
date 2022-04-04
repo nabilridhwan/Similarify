@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux"
 import { DateTime } from "luxon";
-import { addSong } from "../actions";
+import { addSong, removeSong } from "../actions";
 import { motion } from "framer-motion"
-import { FaPlus } from "react-icons/fa"
+import { FaPlus, FaTrash } from "react-icons/fa"
 
 export default function SpotifySong({ overrideTopText, track }) {
 
@@ -10,6 +10,10 @@ export default function SpotifySong({ overrideTopText, track }) {
 
     const handleAdd = (track) => {
         dispatch(addSong(track));
+    }
+
+    const handleRemove = (track) => {
+        dispatch(removeSong(track));
     }
 
     return (
@@ -45,15 +49,25 @@ export default function SpotifySong({ overrideTopText, track }) {
                     </a>
                     <p className="dark:text-white/50 text-black/50 text-sm">{track.artist}</p>
 
-
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => handleAdd(track)}
-                        className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
-                        <FaPlus className="mr-2" />
-                        Add to list
-                    </motion.button>
+                    {track.added ? (
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => handleRemove(track)}
+                            className="btn bg-red-500 text-white my-2 text-sm flex items-center">
+                            <FaTrash className="mr-2" />
+                            Remove from list
+                        </motion.button>
+                    ) : (
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => handleAdd(track)}
+                            className="btn bg-blue-500 text-white my-2 text-sm flex items-center">
+                            <FaPlus className="mr-2" />
+                            Add to list
+                        </motion.button>
+                    )}
 
                 </div>
 

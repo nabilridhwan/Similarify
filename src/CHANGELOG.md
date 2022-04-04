@@ -1,3 +1,34 @@
+## 1.5.0 — Adjust parameters and save to existing playlists!
+
+### Added
+
+- Added the ability to add songs to an existing playlist **_(In testing - provide feedback in the issues page)_**
+    -   Caution: Songs will be added regardless if it exists in the existing playlist.
+-   Added ability to change the parameters of a song to better suit your taste. **_(In testing - provide feedback in the issues page)_**
+    -   Get started by adding a song to your list, Click "Done" and adjust the parameters by pressing the Cogwheel button.
+        -   Click on any of the parameters to activate it.
+        -   Click on the parameter again to deactivate it.
+        -   Click save to save the parameters.
+        -   Click cancel to cancel your changes.
+
+### Changed
+-   When adding a song to either your playlist or your list, the button will change from "Add..." to "Remove..."
+-   Songs with modified parameters will now have a darker cogwheel icon to signify that there is some parameters that is adjusted.
+-   Spotify Player: The muted text: instead of showing "Playing X", It just shows "X" where X is the title and artist of the song.
+-   Changed Home screen text.
+
+### Fixed
+
+- Fixed Chevron icon being white in light mode making the icon invisible.
+
+### Removed
+
+- Removed unnecessary drop shadow/glowing effect from buttons in UI
+
+### Security
+
+- None
+
 ## 1.4.0
 
 ### Added
