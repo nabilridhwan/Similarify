@@ -1,3 +1,24 @@
+## 1.5.2 — Hotfix 🚑
+
+### Added
+
+-   None
+
+### Changed
+- Changed message when no similar songs found from "No similar songs found." to "No similar songs found. Consider changing the parameters (if set).".
+
+### Fixed
+
+-   None
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## 1.5.1 — Hotfix 🚑
 
 ### Added

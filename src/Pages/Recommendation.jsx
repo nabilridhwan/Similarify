@@ -209,7 +209,9 @@ export default function Recommendation() {
                                 })}
                             </div>
                             :
-                            <h5 className="my-3 font-bold">No similar songs found</h5>
+                            <h5 className="my-3 font-bold">
+                                No similar songs found. Consider changing the parameters (if set).
+                            </h5>
 
                         }
                     </motion.div>
