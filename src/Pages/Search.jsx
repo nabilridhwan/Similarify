@@ -4,7 +4,7 @@ import Recommendation from "./Recommendation";
 
 import { FaSpotify, FaSearch, FaHeart } from "react-icons/fa"
 import { RiPlayListFill } from "react-icons/ri"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +19,7 @@ import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
 import SectionButton from "../Components/SectionButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import LogOutButton from "../Components/LogOutButton";
 
 // Import
 
@@ -33,6 +34,8 @@ function Search() {
 
     let [loading, setLoading] = useState(false);
 
+    let [searchParams, setSearchParams] = useSearchParams();
+
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
@@ -43,7 +46,6 @@ function Search() {
 
     // Checks for token
     function checkForKey() {
-        console.log("Checking for token")
         if (window.location.hash) {
 
             // Separate the access token from the '#' symbol
@@ -69,7 +71,6 @@ function Search() {
         checkForKey();
 
         (async () => {
-
             console.log("Checking for expiry")
             try {
                 let data = await Spotify.getUserData()
@@ -136,7 +137,7 @@ function Search() {
 
     return (
         <Container>
-            {/* <BackButton to="/" /> */}
+            <LogOutButton />
 
             {/* <ProgressBar current={1} total={2} /> */}
 

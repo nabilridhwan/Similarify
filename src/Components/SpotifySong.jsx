@@ -43,7 +43,7 @@ export default function SpotifySong({ overrideTopText, track }) {
                     <a
                         rel="noreferrer"
                         target="_blank"
-                        href={`https://open.spotify.com/track/${track.id}`}
+                        href={`https://open.spotify.com/track/${track.id}?go=1`}
                         className="font-bold underline hover:no-underline">
                         {track.name}
                     </a>

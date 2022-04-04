@@ -19,21 +19,21 @@ export default function AdjustParameters({ track, onClose }) {
     })
 
     const description = [
-        "A confidence measure of whether the track is acoustic. The higher the value, the higher confidence the track is acoustic.",
+        "The higher the value, the higher confidence the track is acoustic.",
 
-        "Describes how suitable a track is for dancing based on a combination of musical elements. The higher the value, the 'dancier' the track.",
+        "The higher the value, the 'dancier' the track.",
 
-        "Energy is a measure intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. The higher the value, the more energetic the track.",
+        "The higher the value, the more energetic the track.",
 
-        "Predicts whether a track contains no vocals. The higher the value, the higher the likelihood the track contains no vocal contents.",
+        "The higher the value, the higher the likelihood the track contains no vocal contents.",
 
-        "Detects the presence of an audience in the recording. The higher the value, the higher the increased probability that the track was performed live.",
+        "The higher the value, the higher the increased probability that the track was performed live.",
 
-        "The overall loudness of a track in decibels. The higher the value, the louder the track.",
+        "The higher the value, the louder the track.",
 
-        "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 100 the attribute value.",
+        "The higher the value, the more exclusively speech-like exists in the recording (e.g. talk show, audio book, poetry).",
 
-        "A measure from describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
+        "The higher the value, the more the track sound more positive (e.g. happy, cheerful, euphoric), while the lower the value, the more the track sounds more negative (e.g. sad, depressed, angry)."
 
     ]
 
@@ -115,9 +115,9 @@ export default function AdjustParameters({ track, onClose }) {
                     Adjust specific parameters relative to this song to get better recommendations.
                 </p>
 
-                <motion.p 
+                <motion.p
                     whileTap={{ scale: 0.9 }}
-                onClick={handleClearParameters} className="text-red-500 my-2 cursor-pointer w-fit">
+                    onClick={handleClearParameters} className="text-red-500 my-2 cursor-pointer w-fit">
                     Clear Parameters
                 </motion.p>
 
@@ -138,7 +138,6 @@ export default function AdjustParameters({ track, onClose }) {
 
                 <motion.div
                     className="overflow-y-scroll overflow-x-hidden h-52 scroll-m-5">
-
                     {Object.keys(parameters).map((param, index) => {
                         return (
 
@@ -147,25 +146,47 @@ export default function AdjustParameters({ track, onClose }) {
                                 key={index}
                                 className="my-2">
 
-                                <motion.h1
-                                    whileTap={{ scale: 0.9 }}
-                                    className={`${!activeParams.includes(param) && "muted"} cursor-pointer`} onClick={() => handleClickParam(param)}>
-                                    {capitalizeFirstLetter(param)} {activeParams.includes(param) && (parameters[param.toLowerCase()] ? parameters[param.toLowerCase()] * 100 + "%" : "50%")}
-                                </motion.h1>
+                                <div className="flex items-center">
 
-                                {activeParams.includes(param) && (
 
-                                    <p
-                                        className="my-2 text-xs muted">
-                                        {description[index]}
-                                    </p>
-                                )}
+                                    {activeParams.includes(param) && (
+                                        <div className="h-2 w-2 bg-white rounded-full mr-2" />
+                                    )}
 
-                                {
-                                    activeParams.includes(param) && (
-                                        <input type="range" className="w-full" name={param.toLowerCase()} onChange={handleChange} value={parameters[param]} min={0} max={1} step={0.1} />
-                                    )
-                                }
+
+                                    <motion.h1
+                                        whileTap={{ scale: 0.9 }}
+                                        className={`${!activeParams.includes(param) ? "muted" : "font-bold"} w-fit cursor-pointer`}
+                                        onClick={() => handleClickParam(param)}>
+
+                                        {capitalizeFirstLetter(param)} {activeParams.includes(param) && (parameters[param.toLowerCase()] ? " - " + Math.round(parameters[param.toLowerCase()] * 100) + "%" : "50%")}
+
+                                    </motion.h1>
+                                </div>
+
+                                <AnimatePresence>
+                                    <motion.div
+                                        key={param}
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: activeParams.includes(param) ? 1 : 0, y: activeParams.includes(param) ? 0 : -10 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                    >
+
+                                        {activeParams.includes(param) && (
+
+                                            <motion.p
+                                                className="my-2 text-xs muted">
+                                                {description[index]}
+                                            </motion.p>
+                                        )}
+
+                                        {
+                                            activeParams.includes(param) && (
+                                                <motion.input type="range" className="w-full" name={param.toLowerCase()} onChange={handleChange} value={parameters[param]} min={0} max={1} step={0.01} />
+                                            )
+                                        }
+                                    </motion.div>
+                                </AnimatePresence>
 
                             </motion.div>
                         )

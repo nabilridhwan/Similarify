@@ -1,21 +1,13 @@
-import { FaSpotify } from "react-icons/fa"
+import { FaHeart} from "react-icons/fa"
 import { Link } from "react-router-dom"
 
 export default function Footer() {
     return (
         <footer className="dark:text-white/50 text-black/50 text-xs text-center">
-            <p className="m-0">
-
-                <a href="https://nabilridhwan.github.io">
-                    Nabil Ridhwan
-                </a> &copy; {new Date().getFullYear()}
+            <p className="m-0 flex justify-center items-center">
+Created with <FaHeart className="mx-1" /> by <a href="https://nabilridhwan.github.io" className="ml-1">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
             </p>
 
-
-
-            <p className="flex justify-center items-center">
-                Powered by <FaSpotify className="ml-1" />. We are not affiliated.
-            </p>
             <p>
                 Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
             </p>
@@ -30,6 +22,10 @@ export default function Footer() {
                 <Link to="/changelog">Changelog</Link>
             </p>
 
+            {/* <p>
+                <Link to="/about">About</Link>
+            </p>
+ */}
 
         </footer>
     )

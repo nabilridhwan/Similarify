@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaTrash, FaCog } from "react-icons/fa"
 import AdjustParameters from "./AdjustParameters";
@@ -32,13 +32,7 @@ export default function AddedSong({ changeableParameters, track_name, track_arti
                     </h2>
                 </div>
 
-                {/* Remove button */}
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={onRemovedClicked}
-                    className="rounded-full p-3 bg-red-500 shadow-sm shadow-red-500/50 text-white flex justify-center items-center">
-                    <FaTrash />
-                </motion.button>
+
 
                 {changeableParameters && (
                     track.hasOwnProperty("parameters") && Object.keys(track.parameters).length > 0 ? (
@@ -57,11 +51,21 @@ export default function AddedSong({ changeableParameters, track_name, track_arti
                         </motion.button>
                     )
                 )}
+
+                {/* Remove button */}
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={onRemovedClicked}
+                    className="rounded-full p-3 bg-red-500 shadow-sm shadow-red-500/50 text-white flex justify-center items-center">
+                    <FaTrash />
+                </motion.button>
             </div>
 
-            {showParameters && (
-                <AdjustParameters track={track} onClose={() => setShowParameters(false)} />
-            )}
+            <AnimatePresence>
+                {showParameters && (
+                    <AdjustParameters track={track} onClose={() => setShowParameters(false)} />
+                )}
+            </AnimatePresence>
 
 
         </motion.div>

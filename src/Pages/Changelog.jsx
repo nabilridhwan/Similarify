@@ -18,7 +18,7 @@ export function Changelog() {
 
             <BackButton />
 
-            <div className="changelog-section">
+            <div className="changelog-section clear-both py-1">
 
                 <ReactMarkdown>
                     {markdown}

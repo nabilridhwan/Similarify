@@ -1,3 +1,37 @@
+## 1.5.3 — Spotify approves 🎉
+>   Spotify approves the quota extension. `v1.5.3` is the first public release of Similarify. With that, there are some fixes and optimizations that is included in this update. Going forward, Sentry is added to monitor any uncaught exceptions, errors and traffic of the application.
+
+### Added
+-   Added logout button (so you can sign in with a different Spotify account)
+
+### Bugs
+-   In the recommendations page, the refresh button will overlap the details of the song in smaller screen devices.
+    -   This is due to the flex layout of the buttons and the details. Any suggestions on where the refresh button should go will be greatly appreciated!
+
+### Changed
+-   Spotify links now open in the Desktop app (only for Desktop users) instead of in the browser.
+-   The parameter now has a step of 1% instead of 10%
+-   Changed the description of the parameters so it's easier to understand.
+-   Swapped positions of the remove and the cogwheel buttons in the added song list window.
+-   Changed the error for expired token / authentication cancelled.
+
+### Fixed
+
+-   Fixed a jarring closing animation of the "Adjust parameters" window.
+-   Fixed some UI text layout (because animation looks weird).
+-   Fixed a bug where the refresh button does not work (thanks for Sentry for catching this!)
+    -   This is due to the parameters update which was introduced in `v1.5.2`. Songs with no parameters breaks the recommendation refresh feature.
+-   Songs won't be added if the songs already exists in the existing playlist.
+    -   This means that if out of 5 tracks and 3 of them exists, only 2 of them will be added.
+
+### Removed
+
+- Removed the Spotify player introduced in `v1.4.0` in favor of the Spotify links open in the desktop app.
+
+### Security
+
+- None
+
 ## 1.5.2 — Hotfix 🚑
 
 ### Added

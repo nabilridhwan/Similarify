@@ -111,7 +111,7 @@ export default function Recommendation() {
 
         let songOnIndex = clone[index];
 
-        let similarSongs = await spotifyApi.getRecommendation(songOnIndex.id);
+        let similarSongs = await spotifyApi.getRecommendation(songOnIndex.id, 6, songOnIndex.parameters);
 
         clone[index].similar = similarSongs.tracks;
 
@@ -129,20 +129,22 @@ export default function Recommendation() {
 
             {/* <ProgressBar current={2} /> */}
 
-            <h1
-                className='text-2xl font-bold'
-            >
-                Similar Songs
-            </h1>
+            <div className='clear-both pt-5'>
+                <h1
+                    className='text-2xl font-bold'
+                >
+                    Similar Songs
+                </h1>
 
-            <p className="dark:text-white/50 text-black/50">
-                Here are some similar songs you'd like.
-            </p>
+                <p className="dark:text-white/50 text-black/50">
+                    Here are some similar songs you'd like.
+                </p>
 
-            <h1 className="flex dark:text-white/50 text-sm my-8 text-black/50 justify-center items-center text-center">
-                <FaSpotify className="mr-2" />
-                Recommendations powered by Spotify
-            </h1>
+                <h1 className="flex dark:text-white/50 text-sm my-8 text-black/50 justify-center items-center text-center">
+                    <FaSpotify className="mr-2" />
+                    Recommendations powered by Spotify
+                </h1>
+            </div>
 
             {/* <p className='text-center font-bold'>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn bg-red-500 text-white w-full">Refresh</button> */}
@@ -186,7 +188,7 @@ export default function Recommendation() {
                                 onClick={() => handleRefresh(index)}
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                className='p-2 rounded-lg text-white bg-pink-700 border border-pink-900 shadow-md shadow-pink-700/30 flex'>
+                                className='p-2 rounded-lg text-white bg-pink-700 border border-pink-900 shadow-md shadow-pink-700/30'>
                                 <BiRefresh className='text-2xl' />
                             </motion.button>
                         </div>
