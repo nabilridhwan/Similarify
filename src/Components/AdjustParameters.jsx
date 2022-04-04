@@ -31,7 +31,7 @@ export default function AdjustParameters({ track, onClose }) {
 
         "The overall loudness of a track in decibels. The higher the value, the louder the track.",
 
-        "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+        "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 100 the attribute value.",
 
         "A measure from describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
 
@@ -86,6 +86,10 @@ export default function AdjustParameters({ track, onClose }) {
         onClose()
     }
 
+    const handleClearParameters = () => {
+        setActiveParams([])
+    }
+
     const capitalizeFirstLetter = (s) => {
         return s.charAt(0).toUpperCase() + s.slice(1);
     }
@@ -110,6 +114,12 @@ export default function AdjustParameters({ track, onClose }) {
                 <p className="text-sm dark:text-white/60 text-black/60">
                     Adjust specific parameters relative to this song to get better recommendations.
                 </p>
+
+                <motion.p 
+                    whileTap={{ scale: 0.9 }}
+                onClick={handleClearParameters} className="text-red-500 my-2 cursor-pointer w-fit">
+                    Clear Parameters
+                </motion.p>
 
                 <div className="my-5 flex space-x-2 items-center">
 

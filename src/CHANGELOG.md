@@ -1,3 +1,24 @@
+## 1.5.1 — Hotfix 🚑
+
+### Added
+
+- Added the ability to clear parameters previously set with a click of a button. This new feature is found in the "Adjust Parameters" window.
+
+### Changed
+- None
+
+### Fixed
+
+-   Fixed the top padding of "Added Playlist Songs" window because it would clip on some mobile devices.
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## 1.5.0 — Adjust parameters and save to existing playlists!
 
 ### Added
