@@ -114,10 +114,20 @@ function Search() {
                     album: track.album.name,
                     albumArt: track.album.images[0].url,
                     id: track.id,
+                    added: false
                 }
             })
 
-            dispatch(setSearchResults(tracks, addedSongs));
+            // Loop through addedSongs and add the added property to the track
+            tracks.forEach(track => {
+                addedSongs.forEach(addedTrack => {
+                    if (track.id == addedTrack.id) {
+                        track.added = true
+                    }
+                })
+            })
+
+            dispatch(setSearchResults(tracks));
         } catch (error) {
             // Reauthenticate user
             navigate("/authenticate")

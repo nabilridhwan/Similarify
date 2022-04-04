@@ -45,7 +45,7 @@ export default function Playlists() {
                 let data = await Spotify.getUserData()
 
                 setLoading(true)
-                await getLikedSongs();
+                await getUserPlaylists();
                 setLoading(false)
 
                 if (data.hasOwnProperty("error")) {
@@ -63,7 +63,7 @@ export default function Playlists() {
         // searchForTracks()
     }
 
-    async function getLikedSongs() {
+    async function getUserPlaylists() {
         let playlists = await Spotify.getUserPlaylists()
         if (playlists.hasOwnProperty("error")) {
             throw new Error(playlists.error.status)

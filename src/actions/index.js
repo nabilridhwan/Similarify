@@ -25,12 +25,11 @@ export function clearPlaylistLink(){
     }
 }
 
-export function setSearchResults(results, addedSongs){
+export function setSearchResults(results){
     return {
         type: 'SET',
         payload: {
             results: results,
-            addedSongs: addedSongs
         } 
     }
 }
@@ -45,6 +44,16 @@ export function setSearchTermRedux(searchTerm){
     return {
         type: 'SET_SEARCH_TERM',
         payload: searchTerm
+    }
+}
+
+export function setSongParameters(parameters, track){
+    return {
+        type: 'SET_SONG_PARAMETERS',
+        payload: {
+            parameters: parameters,
+            track: track
+        }
     }
 }
 

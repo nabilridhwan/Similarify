@@ -144,7 +144,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
                 {!loading && (
                     <div className="overflow-y-scroll overflow-x-hidden scroll-m-2 h-56 p-2 grid gap-4">
                         {playlists.map(playlist => {
-                            return <Playlist compact={true} onClickPlaylist={handleClickPlaylist} playlist={playlist} />
+                            return <Playlist key={playlist.id} compact={true} onClickPlaylist={handleClickPlaylist} playlist={playlist} />
                         })}
                     </div>
                 )}

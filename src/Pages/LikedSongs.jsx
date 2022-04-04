@@ -80,7 +80,16 @@ export default function LikedSongs() {
                 name: song.track.name,
                 artist: song.track.artists.map(a => a.name).join(", "),
                 albumArt: song.track.album.images[0].url,
+                added: false
             }
+        })
+
+        n.forEach(likedSong => {
+            addedSongs.forEach(addedSong => {
+                if(addedSong.id === likedSong.id){
+                    likedSong.added = true
+                }
+            })
         })
 
         setLikedSongs(n)

@@ -1,16 +1,15 @@
-import { FaPlus} from "react-icons/fa";
+import { FaPlus , FaTrash} from "react-icons/fa";
 
-import {useSelector, useDispatch} from "react-redux";
-import { addSongToPlaylist } from '../actions';
+import { useSelector, useDispatch } from "react-redux";
+import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
 
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 import SpotifyPlayer from "./SpotifyPlayer";
 import { useState } from "react";
 
 export default function SimilarTrack({ track, percentage }) {
 
     const dispatch = useDispatch();
-    const apiKey = useSelector(state => state.apiKey);
 
     const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
 
@@ -20,9 +19,9 @@ export default function SimilarTrack({ track, percentage }) {
 
             <div className='mx-5'>
 
-                <p 
-                onClick={() => setShowSpotifyPlayer(true)}
-                className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
+                <p
+                    onClick={() => setShowSpotifyPlayer(true)}
+                    className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
                     {track.name}
                 </p>
 
@@ -31,20 +30,31 @@ export default function SimilarTrack({ track, percentage }) {
                 </p>
 
                 {/* Add to playlist button */}
-                <motion.button 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => dispatch(addSongToPlaylist(track))} 
-                className='btn mt-2 flex items-center justify-center text-sm bg-blue-500 text-white'>
-                    <FaPlus className="mr-2" />
-                    Add to playlist
-                </motion.button>
+                {track.added ? (
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => dispatch(removeSongFromPlaylist(track))}
+                        className='btn mt-2 flex items-center justify-center text-sm bg-red-500 text-white'>
+                        <FaTrash className="mr-2" />
+                        Remove from playlist
+                    </motion.button>
+                ) : (
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => dispatch(addSongToPlaylist(track))}
+                        className='btn mt-2 flex items-center justify-center text-sm bg-blue-500 text-white'>
+                        <FaPlus className="mr-2" />
+                        Add to playlist
+                    </motion.button>
+                )}
             </div>
 
             {showSpotifyPlayer && (
-                <SpotifyPlayer 
-                onClose={() => setShowSpotifyPlayer(false)}
-                track={track} />
+                <SpotifyPlayer
+                    onClose={() => setShowSpotifyPlayer(false)}
+                    track={track} />
             )}
 
         </div>

@@ -11,7 +11,7 @@ export default function Home() {
             {/* Header */}
             <div className='my-20'>
                 <h1 className='text-6xl font-extrabold my-2'>
-                    Come and Discover new songs!
+                    Discover new songs!
                 </h1>
                 <p className='dark:text-white/60 text-black/60'>Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you like based on the songs you already like! </p>
             </div>

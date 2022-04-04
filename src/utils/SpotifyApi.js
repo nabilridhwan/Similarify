@@ -78,8 +78,12 @@ class SpotifyApi {
         return response.tracks.items[0]
     }
 
-    async getRecommendation(track_id, limit = 6) {
-        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=${limit}`, {
+    async getRecommendation(track_id, limit = 6, songParameters) {
+        let mappedParams = Object.keys(songParameters).map(params => {
+            return "&target_" + params + "=" + songParameters[params]
+        }).join("")
+
+        return await fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${track_id}&limit=${limit}${mappedParams}`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + this.userToken
@@ -151,27 +155,12 @@ class SpotifyApi {
                                 } = data;
 
 
-                                // Add the uris to the playlist id
-                                fetch("https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", {
-                                        method: "POST",
-                                        headers: {
-                                            "Authorization": "Bearer " + this.userToken,
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify({
-                                            "uris": track_uris
-                                        })
-
-                                    })
-                                    .then(res => res.json())
-                                    .then(data => {
-                                        resolve({
-                                            ...data,
-                                            link: playlistLink
-                                        })
-                                    }).catch(error => {
-                                        reject("Error adding tracks to the created playlist")
-                                    })
+                                this.addTracksToPlaylist(playlistID, track_uris)
+                                .then(d => {
+                                    resolve(d)
+                                }).catch(e => {
+                                    reject(e)
+                                })
 
                             } else {
                                 // Throw an error
@@ -187,6 +176,32 @@ class SpotifyApi {
             }).catch(error => {
                 reject("Error getting user data. Try refreshing this page.")
             })
+        })
+    }
+
+    async addTracksToPlaylist(playlistID, track_uris) {
+        return new Promise((resolve, reject) => {
+            // Add the uris to the playlist id
+            fetch("https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + this.userToken,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "uris": track_uris
+                    })
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    resolve({
+                        ...data,
+                        link: `https://open.spotify.com/playlist/${playlistID}`
+                    })
+                }).catch(error => {
+                    reject("Error adding tracks to the created playlist")
+                })
         })
     }
 

@@ -55,7 +55,7 @@ export default function Recommendation() {
 
 
             addedSongs.forEach(async song => {
-                let tracks = await spotifyApi.getRecommendation(song.id)
+                let tracks = await spotifyApi.getRecommendation(song.id, 6, song.parameters)
                 if (tracks.hasOwnProperty("error")) {
                     navigate("/search")
                 }
@@ -65,7 +65,17 @@ export default function Recommendation() {
                     if (s.name === song.name && s.artist === song.artist) {
                         s.similar = tracks.tracks;
                     }
+
                     return s;
+                })
+
+                // TODO: Fix the nested loop because its O(n^2)
+                mappedArray.forEach(song => {
+                    addedPlaylistSongs.forEach(playlistSong => {
+                        if (song.id === playlistSong.id) {
+                            song.added = true;
+                        }
+                    })
                 })
 
                 setSongs(mappedArray);
@@ -222,7 +232,7 @@ export default function Recommendation() {
                 {playlistLink && (
                     // Clear the playlist link on close (so it hides the modal)
                     <CreatedPlaylistModal onClose={() => {
-                        
+
                         dispatch(clearPlaylistLink())
                     }} playlistLink={playlistLink} />
                 )}

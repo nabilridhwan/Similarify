@@ -36,13 +36,17 @@ export default function CreatedPlaylistModal({ playlistLink, onClose }) {
                 </div> */}
 
 
-                <h1 className="text-3xl font-bold my-2">
-                    Playlist Created
-                </h1>
+                <div className="mb-5">
 
-                <p className="opacity-50">
-                    Your super shiny new cool playlist have been created!
-                </p>
+
+                    <h1 className="text-3xl font-bold my-2">
+                        Playlist Created/Modified
+                    </h1>
+
+                    <p className="opacity-50">
+                        Your super shiny cool playlist have been created/modified!
+                    </p>
+                </div>
 
                 <motion.button
                     whileHover={{ scale: 1.1 }}
