@@ -169,15 +169,15 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             ></textarea>
 
 
-                            <button onClick={handleCreatePlaylist} className="mt-2 transition btn bg-blue-500 block text-white text-center shadow-md w-full disabled-button"
+                            <button onClick={handleCreatePlaylist} className="mt-2 transition btn bg-green-500 block text-white text-center shadow-md w-full disabled-button"
                                 disabled={playlistName === ''}>
                                 Create Playlist
                             </button>
 
                             <button
                                 onClick={handleAddToExistingPlaylist}
-                                className="mt-2 transition btn bg-orange-500 block text-white text-center shadow-md w-full disabled-button">
-                                Add to Existing Playlist
+                                className="mt-2 transition btn bg-blue-500 block text-white text-center shadow-md w-full disabled-button">
+                                Add to an existing playlist
                             </button>
 
                             <button
