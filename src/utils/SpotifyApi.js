@@ -78,7 +78,7 @@ class SpotifyApi {
         return response.tracks.items[0]
     }
 
-    async getRecommendation(track_id, limit = 6, songParameters) {
+    async getRecommendation(track_id, limit = 6, songParameters={}) {
         let mappedParams = Object.keys(songParameters).map(params => {
             return "&target_" + params + "=" + songParameters[params]
         }).join("")

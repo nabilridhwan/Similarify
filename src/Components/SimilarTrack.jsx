@@ -1,4 +1,4 @@
-import { FaPlus , FaTrash} from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
@@ -13,6 +13,14 @@ export default function SimilarTrack({ track, percentage }) {
 
     const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
 
+    const handlePress = () => {
+
+        window.open(track.external_urls.spotify+"?go=1", "_blank");
+
+        // Enable the line below to show the Spotify player
+        // setShowSpotifyPlayer(true)
+    }
+
     return (
         <div className="flex items-center w-full mb-10 h-auto">
             <img src={track.album.images[0].url} className="w-20 h-auto" alt="Album Art" />
@@ -20,7 +28,7 @@ export default function SimilarTrack({ track, percentage }) {
             <div className='mx-5'>
 
                 <p
-                    onClick={() => setShowSpotifyPlayer(true)}
+                    onClick={handlePress}
                     className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
                     {track.name}
                 </p>

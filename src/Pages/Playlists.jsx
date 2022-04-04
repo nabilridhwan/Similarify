@@ -14,6 +14,7 @@ import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import Playlist from "../Components/Playlist";
 import LoadingSpinner from "../Components/LoadingSpinner"
+import LogOutButton from "../Components/LogOutButton";
 
 let Spotify = new SpotifyApi();
 export default function Playlists() {
@@ -102,7 +103,7 @@ export default function Playlists() {
 
             {/* <ProgressBar current={1} total={2} /> */}
 
-            <div className="my-5">
+            <div className="py-5 clear-both">
                 <h1 className="font-bold text-2xl" >
                     Pick a playlist
                 </h1>

@@ -82,7 +82,32 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
         const uris = addedPlaylistSongs.map(song => song.uri)
 
         setMessage("Adding songs to playlist...")
-        await Spotify.addTracksToPlaylist(playlist.id, uris)
+
+        // Get the current tracks from the playlist
+        let t = await Spotify.getTracksByPlaylistId(playlist.id)
+
+        // Get all the uris (filter the nulls and undefined)
+        let t_uris = t.map(t => {
+            if (t.hasOwnProperty("track") && t.track) {
+                return t.track.uri
+            }
+        }).filter(t => t)
+
+        // Final array of uris to add
+        let final = [];
+
+        // If there are no intersecting uris, add all the uris
+        uris.forEach(uri => {
+            if (!t_uris.includes(uri)) {
+                final.push(uri)
+            }
+        })
+
+        console.log(final.length)
+
+        if(final.length > 0) {
+        // Add it to the playlist
+        await Spotify.addTracksToPlaylist(playlist.id, final)
             .then(data => {
                 // console.log(data)
                 if (data.hasOwnProperty("error")) {
@@ -98,6 +123,10 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
             }).finally(() => {
                 setMessage("")
             })
+        }else{
+            setError("No new songs to add. All songs already exists in the playlist.")
+            setMessage("")
+        }
     }
 
     return (

@@ -14,6 +14,7 @@ import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import LogOutButton from "../Components/LogOutButton";
 
 // Import
 
@@ -132,7 +133,7 @@ export default function LikedSongs() {
 
             {/* <ProgressBar current={1} total={2} /> */}
 
-            <div className="my-5">
+            <div className="py-5 clear-both">
                 <h1 className="font-bold text-2xl" >
                     Select your liked songs
                 </h1>
