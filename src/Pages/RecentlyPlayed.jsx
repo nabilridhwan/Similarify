@@ -21,11 +21,9 @@ import LogOutButton from "../Components/LogOutButton";
 let Spotify = new SpotifyApi();
 export default function RecentlyPlayed() {
 
-    const location = useLocation();
-
     let apiKey = useSelector(state => state.apiKey);
 
-    let [likedSongs, setLikedSongs] = useState([]);
+    let [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
@@ -87,15 +85,26 @@ export default function RecentlyPlayed() {
             }
         })
 
-        n.forEach(likedSong => {
-            addedSongs.forEach(addedSong => {
-                if(addedSong.id === likedSong.id){
-                    likedSong.added = true
-                }
-            })
+        let finalTracks = {};
+
+        n.forEach(recentlyPlayedSong => {
+            console.log(finalTracks)
+            if (!finalTracks.hasOwnProperty(recentlyPlayedSong.id)) {
+                finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
+            } 
         })
 
-        setLikedSongs(n)
+        console.table(addedSongs)
+
+        addedSongs.forEach(addedSong => {
+            if (finalTracks.hasOwnProperty(addedSong.id)) {
+                finalTracks[addedSong.id].added = true
+            }
+        })
+
+        console.log(Object.values(finalTracks))
+
+        setRecentlyPlayedSongs(Object.values(finalTracks))
     }
 
     // async function searchForTracks() {
@@ -168,7 +177,7 @@ export default function RecentlyPlayed() {
                 Search powered by Spotify
             </h1> */}
 
-            {!loading && likedSongs.length == 0 && (
+            {!loading && recentlyPlayedSongs.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
                     <FaRegSadCry className="text-2xl my-5" />
                     <p className="text-sm">
@@ -192,7 +201,7 @@ export default function RecentlyPlayed() {
                     }}
                     className="my-5 grid gap-2">
 
-                    {likedSongs.map((track, index) => {
+                    {recentlyPlayedSongs.map((track, index) => {
                         return (
                             <SpotifySong overrideTopText={"Played"} track={track} key={track.id + "-" + index} />
                         )

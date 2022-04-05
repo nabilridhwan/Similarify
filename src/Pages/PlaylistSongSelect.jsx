@@ -97,13 +97,23 @@ export default function PlaylistSongSelect() {
             }
         }).filter(song => song != null)
 
+        let finalTracks = {};
+
         n.forEach(playlistSong => {
-            addedSongs.forEach(addedSong => {
-                if(addedSong.id === playlistSong.id){
-                    playlistSong.added = true
-                }
-            })
+            if(finalTracks.hasOwnProperty(playlistSong.id)) {
+                finalTracks[playlistSong.id].added = true
+            } else {
+                finalTracks[playlistSong.id] = playlistSong
+            }
         })
+
+        addedSongs.forEach(addedSong => {
+            if(finalTracks.hasOwnProperty(addedSong.id)) {
+                finalTracks[addedSong.id].added = true
+            }
+        })
+
+        setPlaylistSongs(Object.values(finalTracks))
 
         setPlaylistSongs(n)
     }

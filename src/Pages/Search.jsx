@@ -119,16 +119,62 @@ function Search() {
                 }
             })
 
-            // Loop through addedSongs and add the added property to the track
+            /* 
+
+            Final time complexity: O(n) - YES LINEAR TIME COMPLEXITY WOO HOO!
+
+            To fix the nested loop and O(n^2) time complexity, im using the object collection method: 
+            
+            {
+                "0HqZX76SFLDz2aW8aiqi7G": {
+                    "name": "The Greatest Show",
+                    "artist": "The Greatest Show",
+                    "album": "The Greatest Show",
+                    "albumArt": "https://i.scdn.co/image/ab67616d0000b2737c8f9b9b9b9b9b9b9b9b9b9b9b",
+                    "id": "0HqZX76SFLDz2aW8aiqi7G",
+                    "added": false
+                }
+            }
+            */
+
+            let finalTracks = {};
+
+            // Loop through objects and add to finalTracks
             tracks.forEach(track => {
-                addedSongs.forEach(addedTrack => {
-                    if (track.id == addedTrack.id) {
-                        track.added = true
-                    }
-                })
+                // If the track is already in the finalTracks object, set the added property to true 
+                if (finalTracks.hasOwnProperty(track.id)) {
+                    finalTracks[track.id].added = true;
+                } else {
+
+                    // If the track is not in the finalTracks object, add it to the finalTracks object
+                    finalTracks[track.id] = track;
+                }
             })
 
-            dispatch(setSearchResults(tracks));
+            // Do the same for added songs
+            addedSongs.forEach(addedTrack => {
+                if (finalTracks.hasOwnProperty(addedTrack.id)) {
+                    finalTracks[addedTrack.id].added = true;
+                }
+            })
+
+
+            // Loop through finalTracks and return them in a format which is like this (it can be done using Object.values):
+            /*
+                [
+                    {
+                        "name": "The Greatest Show",
+                        "artist": "The Greatest Show",
+                        "album": "The Greatest Show",
+                        "albumArt": "https://i.scdn.co/image/ab67616d0000b2737c8f9b9b9b9b9b9b9b9b9b9b9b",
+                        "id": "0HqZX76SFLDz2aW8aiqi7G",
+                        "added": false
+                    }
+                ]
+            */
+
+            // Dispatch redux event
+            dispatch(setSearchResults(Object.values(finalTracks)));
         } catch (error) {
             // Reauthenticate user
             navigate("/authenticate")
