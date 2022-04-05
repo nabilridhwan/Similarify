@@ -13,7 +13,7 @@ export default function CreatedPlaylistModal({ playlistLink, onClose }) {
         onClose();
 
         // Redirect to playlistLink
-        window.open(playlistLink, '_blank');
+        window.open(playlistLink + "?go=1", '_blank');
 
     }
 

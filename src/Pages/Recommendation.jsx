@@ -2,13 +2,10 @@ import { useState, useEffect } from 'react';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
-
 import { useDispatch } from 'react-redux';
 
-
-
 import { useSelector } from 'react-redux';
-import SpotifyApi from '../utils/SpotifyApi';
+import SpotifyInstance from '../utils/SpotifyInstance';
 import Container from '../Components/Container';
 import SimilarTrack from '../Components/SimilarTrack';
 import BackButton from '../Components/BackButton';
@@ -22,7 +19,6 @@ import Footer from '../Components/Footer';
 import DoneButton from '../Components/DoneButton';
 import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 
-let spotifyApi = new SpotifyApi();
 
 export default function Recommendation() {
 
@@ -44,8 +40,11 @@ export default function Recommendation() {
             // Redirect to search page
             navigate(-1);
         }
-        spotifyApi.setToken(apiKey);
-        fetchSimilarSongs();
+        SpotifyInstance.setToken(apiKey);
+
+        (async () => {
+            await fetchSimilarSongs();
+        })();
     }, [])
 
     let fetchSimilarSongs = async () => {
@@ -55,7 +54,7 @@ export default function Recommendation() {
 
 
             addedSongs.forEach(async song => {
-                let tracks = await spotifyApi.getRecommendation(song.id, 6, song.parameters)
+                let tracks = await SpotifyInstance.getRecommendation(song.id, 6, song.parameters)
                 if (tracks.hasOwnProperty("error")) {
                     navigate("/search")
                 }
@@ -70,13 +69,13 @@ export default function Recommendation() {
                 })
 
                 // TODO: Fix the nested loop because its O(n^2)
-                mappedArray.forEach(song => {
-                    addedPlaylistSongs.forEach(playlistSong => {
-                        if (song.id === playlistSong.id) {
-                            song.added = true;
-                        }
-                    })
-                })
+                // mappedArray.forEach(song => {
+                //     addedPlaylistSongs.forEach(playlistSong => {
+                //         if (song.id === playlistSong.id) {
+                //             song.added = true;
+                //         }
+                //     })
+                // })
 
                 setSongs(mappedArray);
             })
@@ -111,7 +110,7 @@ export default function Recommendation() {
 
         let songOnIndex = clone[index];
 
-        let similarSongs = await spotifyApi.getRecommendation(songOnIndex.id, 6, songOnIndex.parameters);
+        let similarSongs = await SpotifyInstance.getRecommendation(songOnIndex.id, 6, songOnIndex.parameters);
 
         clone[index].similar = similarSongs.tracks;
 

@@ -9,7 +9,7 @@ Created with <FaHeart className="mx-1" /> by <a href="https://nabilridhwan.githu
             </p>
 
             <p>
-                Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
+                Found a bug or want a feature? Submit an issue <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
             </p>
 
             <p>

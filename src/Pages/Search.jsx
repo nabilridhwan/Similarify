@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
-import Recommendation from "./Recommendation";
 
-import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
+import { FaRedoAlt, FaSearch, FaHeart, FaPlus} from "react-icons/fa"
 import { RiPlayListFill } from "react-icons/ri"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
@@ -13,17 +11,15 @@ import SpotifySong from "../Components/SpotifySong";
 import { useSelector, useDispatch } from "react-redux"
 import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
-import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
-import ProgressBar from "../Components/ProgressBar";
 import DoneButton from "../Components/DoneButton";
 import SectionButton from "../Components/SectionButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 
-// Import
+// Shared Spotify Instance
+import SpotifyInstance from "../utils/SpotifyInstance"
 
-let Spotify = new SpotifyApi();
 function Search() {
 
     let searchTermRedux = useSelector(state => state.searchTerm);
@@ -54,12 +50,12 @@ function Search() {
             const [access_token] = hashes_value;
 
             // Set the access token
-            Spotify.setToken(access_token);
+            SpotifyInstance.setToken(access_token);
             dispatch(setApiKey(access_token));
 
             console.log("Token exists: From hash")
         } else if (apiKey) {
-            Spotify.setToken(apiKey);
+            SpotifyInstance.setToken(apiKey);
             dispatch(setApiKey(apiKey));
 
             console.log("Token exists: From redux")
@@ -73,14 +69,14 @@ function Search() {
         (async () => {
             console.log("Checking for expiry")
             try {
-                let data = await Spotify.getUserData()
+                let data = await SpotifyInstance.getUserData()
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
                 console.log("Token is not expired")
             } catch (error) {
                 console.log("Token expired")
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
+                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
         })();
     }, [])
@@ -105,7 +101,7 @@ function Search() {
             console.log(`Searching Spotify for ${sT}`)
 
             setLoading(true)
-            let results = await Spotify.search(sT);
+            let results = await SpotifyInstance.search(sT);
             setLoading(false)
 
             let tracks = results.tracks.items.map(track => {
@@ -192,13 +188,13 @@ function Search() {
                     Search for Songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Search for the songs that you already like.
+                    Search for songs you already love!
                 </p>
 
                 <div className="nav my-5 space-y-4">
                     <p
                         className="text-sm"
-                    >Alternatively, pick from:</p>
+                    >Alternatively, pick from your:</p>
                     <div className="section flex flex-wrap space-x-2">
                         <SectionButton to="/likedsongs">
                             <FaHeart className="mr-2" />
@@ -214,6 +210,11 @@ function Search() {
                             <FaRedoAlt className="mr-2" />
                             <h1>Recently Played</h1>
                         </SectionButton>
+
+                        {/* <SectionButton onButtonPress={() => console.log("Not implemented")}>
+                            <FaPlus className="mr-2" />
+                            <h1>Add your currently playing song</h1>
+                        </SectionButton> */}
 
                     </div>
                 </div>

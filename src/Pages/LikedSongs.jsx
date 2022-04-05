@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,9 +15,8 @@ import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 
-// Import
+import SpotifyInstance from "../utils/SpotifyInstance";
 
-let Spotify = new SpotifyApi();
 export default function LikedSongs() {
 
     const location = useLocation();
@@ -43,14 +41,11 @@ export default function LikedSongs() {
     useEffect(() => {
         checkForKey();
 
+        // Get user data
         (async () => {
             try {
-                Spotify.setToken(apiKey)
-                let data = await Spotify.getUserData()
-
-                setLoading(true)
-                await getLikedSongs();
-                setLoading(false)
+                SpotifyInstance.setToken(apiKey)
+                let data = await SpotifyInstance.getUserData()
 
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
@@ -59,6 +54,13 @@ export default function LikedSongs() {
                 console.log(error.message)
                 navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
+        })();
+
+        // Get liked songs
+        (async () => {
+            setLoading(true)
+            await getLikedSongs();
+            setLoading(false)
         })();
     }, [])
 
@@ -69,7 +71,7 @@ export default function LikedSongs() {
     }
 
     async function getLikedSongs() {
-        let likedSongs = await Spotify.getLikedSongs()
+        let likedSongs = await SpotifyInstance.getLikedSongs()
         if (likedSongs.hasOwnProperty("error")) {
             throw new Error(likedSongs.error.status)
         }
@@ -146,7 +148,7 @@ export default function LikedSongs() {
                     Select your liked songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Select songs that you already like
+                    Select songs from the almighty list!
                 </p>
             </div>
 

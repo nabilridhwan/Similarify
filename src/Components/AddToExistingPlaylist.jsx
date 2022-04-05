@@ -2,13 +2,13 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import SpotifyApi from "../utils/SpotifyApi";
 import LoadingSpinner from "./LoadingSpinner";
 import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";
 import Playlist from "./Playlist";
 
-let Spotify = new SpotifyApi();
+import SpotifyInstance from "../utils/SpotifyInstance";
+
 export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
     const apiKey = useSelector(state => state.apiKey);
@@ -29,10 +29,10 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
         (async () => {
             // Check if the user is still logged in
             console.log("Checking for expiry")
-            Spotify.setToken(apiKey)
+            SpotifyInstance.setToken(apiKey)
 
             try {
-                let data = await Spotify.getUserData()
+                let data = await SpotifyInstance.getUserData()
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
                 }
@@ -51,7 +51,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
     }, [])
 
     async function getUserPlaylists() {
-        let playlists = await Spotify.getUserPlaylists()
+        let playlists = await SpotifyInstance.getUserPlaylists()
         if (playlists.hasOwnProperty("error")) {
             throw new Error(playlists.error.status)
         }
@@ -87,7 +87,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
         setMessage("Adding songs to playlist...")
 
         // Get the current tracks from the playlist
-        let t = await Spotify.getTracksByPlaylistId(playlist.id)
+        let t = await SpotifyInstance.getTracksByPlaylistId(playlist.id)
 
         // Get all the uris (filter the nulls and undefined)
         let t_uris = t.map(t => {
@@ -110,7 +110,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
         if (final.length > 0) {
             // Add it to the playlist
-            await Spotify.addTracksToPlaylist(playlist.id, final)
+            await SpotifyInstance.addTracksToPlaylist(playlist.id, final)
                 .then(data => {
                     // console.log(data)
                     if (data.hasOwnProperty("error")) {

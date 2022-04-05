@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +15,8 @@ import Playlist from "../Components/Playlist";
 import LoadingSpinner from "../Components/LoadingSpinner"
 import LogOutButton from "../Components/LogOutButton";
 
-let Spotify = new SpotifyApi();
+import SpotifyInstance from "../utils/SpotifyInstance";
+
 export default function Playlists() {
 
     let apiKey = useSelector(state => state.apiKey);
@@ -43,12 +43,8 @@ export default function Playlists() {
 
         (async () => {
             try {
-                Spotify.setToken(apiKey)
-                let data = await Spotify.getUserData()
-
-                setLoading(true)
-                await getUserPlaylists();
-                setLoading(false)
+                SpotifyInstance.setToken(apiKey)
+                let data = await SpotifyInstance.getUserData()
 
                 if (data.hasOwnProperty("error")) {
                     throw new Error(data.error.status)
@@ -56,6 +52,12 @@ export default function Playlists() {
             } catch (error) {
                 navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
+        })();
+
+        (async () => {
+            setLoading(true)
+            await getUserPlaylists();
+            setLoading(false)
         })();
     }, [])
 
@@ -66,7 +68,7 @@ export default function Playlists() {
     }
 
     async function getUserPlaylists() {
-        let playlists = await Spotify.getUserPlaylists()
+        let playlists = await SpotifyInstance.getUserPlaylists()
         if (playlists.hasOwnProperty("error")) {
             throw new Error(playlists.error.status)
         }
