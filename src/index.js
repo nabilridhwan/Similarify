@@ -6,18 +6,27 @@ import "./index.css"
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
-// import * as Sentry from "@sentry/react";
-// import { BrowserTracing } from "@sentry/tracing";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
-// Sentry.init({
-//   dsn: "https://3541196f669c4d4aa91958963e365afc@o1187436.ingest.sentry.io/6307336",
-//   integrations: [new BrowserTracing()],
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    // dev code
+    console.log("Running in development mode")
+} else {
+    // production code
 
-//   // Set tracesSampleRate to 1.0 to capture 100%
-//   // of transactions for performance monitoring.
-//   // We recommend adjusting this value in production
-//   tracesSampleRate: 0.5
-// });
+    console.log("Running in production mode")
+
+Sentry.init({
+  dsn: "https://3541196f669c4d4aa91958963e365afc@o1187436.ingest.sentry.io/6307336",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0.5
+});
+}
 
 
 
