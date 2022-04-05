@@ -57,7 +57,7 @@ export default function LikedSongs() {
                 }
             } catch (error) {
                 console.log(error.message)
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
+                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
         })();
     }, [])
@@ -85,15 +85,23 @@ export default function LikedSongs() {
             }
         })
 
+        let finalTracks = {};
+
         n.forEach(likedSong => {
-            addedSongs.forEach(addedSong => {
-                if(addedSong.id === likedSong.id){
-                    likedSong.added = true
-                }
-            })
+            if (finalTracks.hasOwnProperty(likedSong.id)) {
+                finalTracks[likedSong.id].added = true
+            } else {
+                finalTracks[likedSong.id] = likedSong
+            }
         })
 
-        setLikedSongs(n)
+        addedSongs.forEach(addedSong => {
+            if (finalTracks.hasOwnProperty(addedSong.id)) {
+                finalTracks[addedSong.id].added = true
+            }
+        })
+
+        setLikedSongs(Object.values(finalTracks))
     }
 
     // async function searchForTracks() {
