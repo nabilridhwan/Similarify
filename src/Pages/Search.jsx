@@ -278,10 +278,12 @@ function Search() {
             </motion.div>
 
 
-            {addedSongs.length > 0 && (
+            <AnimatePresence>
+                {addedSongs.length > 0 && (
 
-                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-            )}
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>

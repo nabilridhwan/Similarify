@@ -5,8 +5,9 @@ export default function DoneButton({ overrideText, k, onClick }) {
         <div
             className="w-full flex items-center justify-center">
             <motion.button
-                initial={{ opacity: 0, y: 100 }}
+                initial={{ opacity: 0, y: 70 }}
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 70 }}
                 layout
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}

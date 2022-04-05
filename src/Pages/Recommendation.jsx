@@ -220,9 +220,11 @@ export default function Recommendation() {
                 )
             })}
 
-            {addedPlaylistSongs.length > 0 && (
-                <DoneButton overrideText={"Create Playlist"} onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} />
-            )}
+            <AnimatePresence>
+                {addedPlaylistSongs.length > 0 && (
+                    <DoneButton overrideText={"Create Playlist"} onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>

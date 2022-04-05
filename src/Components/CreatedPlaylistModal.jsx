@@ -1,5 +1,7 @@
 import { motion } from "framer-motion"
 import { useDispatch } from "react-redux";
+import ModalHeader from "./ModalHeader";
+import ModalWindow from "./ModalWindow";
 
 export default function CreatedPlaylistModal({ playlistLink, onClose }) {
 
@@ -22,31 +24,9 @@ export default function CreatedPlaylistModal({ playlistLink, onClose }) {
             exit={{ opacity: 0, }}
             className="bg-black/70 fixed flex justify-center items-center top-0 left-0 w-screen h-screen">
 
-            <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 100, opacity: 0 }}
-                className="border border-black/10 dark:border-white/10 bg-white dark:bg-darkCard p-7 mx-7 rounded-lg">
+            <ModalWindow>
 
-                {/* <div className="w-full flex justify-end">
-
-                    <button className="text-white bg-red-500 rounded-full p-1 shadow-md shadow-red-500/50">
-                        <IoMdClose className="text-2xl" />
-                    </button>
-                </div> */}
-
-
-                <div className="mb-5">
-
-
-                    <h1 className="text-3xl font-bold my-2">
-                        Playlist Created/Modified
-                    </h1>
-
-                    <p className="opacity-50">
-                        Your super shiny cool playlist have been created/modified!
-                    </p>
-                </div>
+                <ModalHeader title="Playlist Created/Modified" subtitle="Your super shiny cool playlist have been created/modified!" />
 
                 <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -61,7 +41,10 @@ export default function CreatedPlaylistModal({ playlistLink, onClose }) {
                     onClick={onClose} className="btn  bg-red-500 text-white w-full">
                     Close
                 </motion.button>
-            </motion.div>
+
+            </ModalWindow>
+
+
         </motion.div>
     )
 }

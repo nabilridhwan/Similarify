@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSongParameters } from "../actions";
+import ModalHeader from "./ModalHeader";
+import ModalWindow from "./ModalWindow";
 
 export default function AdjustParameters({ track, onClose }) {
 
@@ -101,25 +103,17 @@ export default function AdjustParameters({ track, onClose }) {
             exit={{ opacity: 0, }}
             className="bg-black/70 fixed flex justify-center items-center top-0 left-0 w-screen h-screen">
 
-            <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 100, opacity: 0 }}
-                className="border border-black/10 dark:border-white/10 bg-white dark:bg-darkCard w-11/12 md:w-1/3 mx-7 p-4 rounded-lg">
+            <ModalWindow>
 
-                <h1 className="font-bold text-xl" >
-                    Adjust Parameters
-                </h1>
+                <ModalHeader title="Adjust Parameters" subtitle="Adjust specific parameters relative to this song to get better recommendations." />
 
-                <p className="text-sm dark:text-white/60 text-black/60">
-                    Adjust specific parameters relative to this song to get better recommendations.
-                </p>
-
-                <motion.p
+                <button
                     whileTap={{ scale: 0.9 }}
-                    onClick={handleClearParameters} className="text-red-500 my-2 cursor-pointer w-fit">
-                    Clear Parameters
-                </motion.p>
+                    onClick={handleClearParameters}
+
+                    className='text-red-500 font-bold mt-5'>
+                    Clear All Parameters
+                </button>
 
                 <div className="my-5 flex space-x-2 items-center">
 
@@ -207,7 +201,8 @@ export default function AdjustParameters({ track, onClose }) {
                     onClick={onClose} className="btn  bg-red-500 text-white w-full">
                     Close
                 </motion.button>
-            </motion.div>
+
+            </ModalWindow>
         </motion.div>
     )
 }

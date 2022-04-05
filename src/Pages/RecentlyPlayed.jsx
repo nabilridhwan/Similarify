@@ -91,7 +91,7 @@ export default function RecentlyPlayed() {
             console.log(finalTracks)
             if (!finalTracks.hasOwnProperty(recentlyPlayedSong.id)) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
-            } 
+            }
         })
 
         console.table(addedSongs)
@@ -210,10 +210,12 @@ export default function RecentlyPlayed() {
             </AnimatePresence>
 
 
-            {addedSongs.length > 0 && (
+            <AnimatePresence>
+                {addedSongs.length > 0 && (
 
-                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-            )}
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>

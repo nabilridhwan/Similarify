@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SpotifyApi from "../utils/SpotifyApi";
 import LoadingSpinner from "./LoadingSpinner";
+import ModalHeader from "./ModalHeader";
+import ModalWindow from "./ModalWindow";
 import Playlist from "./Playlist";
 
 let Spotify = new SpotifyApi();
@@ -105,25 +107,25 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
         console.log(final.length)
 
-        if(final.length > 0) {
-        // Add it to the playlist
-        await Spotify.addTracksToPlaylist(playlist.id, final)
-            .then(data => {
-                // console.log(data)
-                if (data.hasOwnProperty("error")) {
-                    // Throw the error
-                    throw new Error(data.error.message)
-                }
+        if (final.length > 0) {
+            // Add it to the playlist
+            await Spotify.addTracksToPlaylist(playlist.id, final)
+                .then(data => {
+                    // console.log(data)
+                    if (data.hasOwnProperty("error")) {
+                        // Throw the error
+                        throw new Error(data.error.message)
+                    }
 
-                // Run the on added function
-                onAdded(data.link)
-            }).catch(error => {
-                console.log(error)
-                setError(error.message)
-            }).finally(() => {
-                setMessage("")
-            })
-        }else{
+                    // Run the on added function
+                    onAdded(data.link)
+                }).catch(error => {
+                    console.log(error)
+                    setError(error.message)
+                }).finally(() => {
+                    setMessage("")
+                })
+        } else {
             setError("No new songs to add. All songs already exists in the playlist.")
             setMessage("")
         }
@@ -136,38 +138,25 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
             exit={{ opacity: 0, }}
             className="bg-black/70 fixed flex justify-center items-center top-0 left-0 w-screen h-screen">
 
-            <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 100, opacity: 0 }}
-                className="border border-black/10 dark:border-white/10 bg-white dark:bg-darkCard w-11/12 md:w-1/3 mx-7 p-4 rounded-lg">
+            <ModalWindow>
 
-                <div className="my-5 flex space-x-2 items-center">
 
-                    <div>
 
-                        <h1 className="font-bold text-2xl" >
-                            Pick a playlist
-                        </h1>
+                <ModalHeader title="Pick a playlist" subtitle="Select a playlist to add your songs to" />
+                <div className="my-2">
+                    {error && (
 
-                        <p className="text-black/60 dark:text-white/60 mt-2">
-                            Select a playlist to add your songs to
+                        <p className="text-sm text-red-500 mt-2">
+                            {error}
                         </p>
-
-                        {error && (
-
-                            <p className="text-sm text-red-500 mt-2">
-                                {error}
-                            </p>
-                        )}
+                    )}
 
 
-                        {message && (
-                            <p className="text-sm text-black/50 dark:text-white/50 mt-2">
-                                {message}
-                            </p>
-                        )}
-                    </div>
+                    {message && (
+                        <p className="text-sm text-black/50 dark:text-white/50 mt-2">
+                            {message}
+                        </p>
+                    )}
                 </div>
 
                 {!loading && (
@@ -194,8 +183,10 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
                     onClick={onClose} className="btn  bg-red-500 text-white w-full mt-3">
                     Cancel
                 </motion.button>
-            </motion.div>
 
-        </motion.div>
+
+            </ModalWindow>
+
+        </motion.div >
     )
 }

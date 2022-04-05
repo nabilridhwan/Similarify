@@ -58,7 +58,7 @@ export default function PlaylistSongSelect() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: error})
+                navigate(`/error/${error.message}?from=${location.pathname}`, { state: error })
             }
         })();
     }, [])
@@ -100,7 +100,7 @@ export default function PlaylistSongSelect() {
         let finalTracks = {};
 
         n.forEach(playlistSong => {
-            if(finalTracks.hasOwnProperty(playlistSong.id)) {
+            if (finalTracks.hasOwnProperty(playlistSong.id)) {
                 finalTracks[playlistSong.id].added = true
             } else {
                 finalTracks[playlistSong.id] = playlistSong
@@ -108,7 +108,7 @@ export default function PlaylistSongSelect() {
         })
 
         addedSongs.forEach(addedSong => {
-            if(finalTracks.hasOwnProperty(addedSong.id)) {
+            if (finalTracks.hasOwnProperty(addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })
@@ -221,10 +221,13 @@ export default function PlaylistSongSelect() {
             </AnimatePresence>
 
 
-            {addedSongs.length > 0 && (
+            <AnimatePresence>
 
-                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-            )}
+                {addedSongs.length > 0 && (
+
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>
