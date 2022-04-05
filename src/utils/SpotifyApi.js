@@ -47,7 +47,7 @@ class SpotifyApi {
                     tracks = [...tracks, ...likedSongs.items]
                     link = next;
                 })
-        } while (iteration < 3)
+        } while (next !== null && iteration < 3)
 
         return tracks;
     }

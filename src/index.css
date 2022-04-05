@@ -46,6 +46,10 @@ footer a{
   @apply list-disc ml-10;
 }
 
+.changelog-section > blockquote > p {
+  @apply text-sm my-5 leading-relaxed muted;
+}
+
 .changelog-section li{
   @apply text-sm py-1 leading-relaxed;
 }
