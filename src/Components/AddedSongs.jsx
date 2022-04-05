@@ -1,17 +1,18 @@
-import { motion, AnimatePresence} from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from "react-redux"
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AddedSong from './AddedSong';
 import { useEffect, useState } from 'react';
 
-import { clearAddedSongs, removeSong} from '../actions';
+import { clearAddedSongs, removeSong } from '../actions';
 import AdjustParameters from './AdjustParameters';
+import ModalHeader from './ModalHeader';
 
 export default function AddedSongs({ onClose }) {
 
     const addedSongs = useSelector(state => state.songs);
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         if (addedSongs.length === 0) {
             onClose()
@@ -45,16 +46,14 @@ export default function AddedSongs({ onClose }) {
 
 
 
+                    <ModalHeader title={
+                        addedSongs.length < 2 ? `${addedSongs.length} song added` : `${addedSongs.length} songs added`
+                    } subtitle="All your added songs appear here!" />
 
-                    <h2 className="text-2xl font-bold">
-                        {addedSongs.length < 2 ? `${addedSongs.length} song added` : `${addedSongs.length} songs added`}
-                    </h2>
-                    <p className="dark:text-white/60 text-black/60">All your added songs appear here!</p>
+                    <button
+                        onClick={() => dispatch(clearAddedSongs())}
 
-                    <button 
-                    onClick={() => dispatch(clearAddedSongs())}
-                    
-                    className='text-red-500 font-bold mt-5'>
+                        className='text-red-500 font-bold mt-5'>
                         Clear All
                     </button>
 
@@ -70,9 +69,9 @@ export default function AddedSongs({ onClose }) {
                             )}
 
 
-                            <motion.div 
-                            layout 
-                            className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
+                            <motion.div
+                                layout
+                                className="h-52 addedSongsAlbumArt my-5 overflow-y-scroll shadow-inner">
 
                                 <AnimatePresence>
 

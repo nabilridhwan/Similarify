@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import { useSelector} from "react-redux"
+import { useSelector } from "react-redux"
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
@@ -53,7 +53,7 @@ export default function Playlists() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error?n=${error.message}`, {state: error})
+                navigate(`/error?n=${error.message}`, { state: error })
             }
         })();
     }, [])
@@ -169,10 +169,13 @@ export default function Playlists() {
             </AnimatePresence>
 
 
-            {addedSongs.length > 0 && (
+            <AnimatePresence>
 
-                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-            )}
+                {addedSongs.length > 0 && (
+
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>

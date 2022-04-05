@@ -207,10 +207,13 @@ export default function LikedSongs() {
             </AnimatePresence>
 
 
-            {addedSongs.length > 0 && (
+            <AnimatePresence>
 
-                <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-            )}
+                {addedSongs.length > 0 && (
+
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
 
             {/* Added songs */}
             <AnimatePresence>
