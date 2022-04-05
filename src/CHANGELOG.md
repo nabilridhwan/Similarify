@@ -1,3 +1,27 @@
+## 1.6.0 - Select from your recently played songs 🔁🛠️
+>   This update introduced the ability to select from 50 of your most recently played songs (and also bug fixes and optimizations)
+
+### Added
+
+- Added the ability to select songs from your 50 most recently played songs.
+
+### Changed
+
+- Refactored components for UI consistency.
+-   Changed changelog page styling.
+
+### Fixed
+
+- Fixed back button being beside the header in the Select songs from playlist page.
+    -   This is due to the header not being cleared from both floats.
+-   Fixed the nested loop in every page where you can select songs (liked songs, search, etc.). The new time complexity for the process is `O(n)` which is linear and im super proud of this! 🎉
+-   Fixed bug where users with less than 150 liked songs won't see their liked songs in the Liked Songs page.
+-   Fixed jarring animation when you remove all songs from your list and the "Done" button just disappears. (same with Create Playlist button)
+
+### Removed
+
+- None
+
 ## 1.5.3 — Spotify approves 🎉
 >   Spotify approves the quota extension. `v1.5.3` is the first public release of Similarify. With that, there are some fixes and optimizations that is included in this update. Going forward, Sentry is added to monitor any uncaught exceptions, errors and traffic of the application.
 
