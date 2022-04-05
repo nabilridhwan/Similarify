@@ -136,7 +136,7 @@ export default function LikedSongs() {
     // }
 
     return (
-        <Container>
+        <Container goBack={true}>
             <BackButton />
 
             {/* <ProgressBar current={1} total={2} /> */}

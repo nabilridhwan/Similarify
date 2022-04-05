@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SpotifyApi from "../utils/SpotifyApi";
 import LoadingSpinner from "./LoadingSpinner";
 import ModalHeader from "./ModalHeader";
@@ -15,6 +15,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);
 
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
 
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
@@ -44,7 +45,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
                 console.log("Token is not expired")
             } catch (error) {
                 console.log("Token expired")
-                navigate(`/error/${error.message}`)
+                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
         })();
     }, [])

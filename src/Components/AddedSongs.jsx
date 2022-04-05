@@ -50,12 +50,12 @@ export default function AddedSongs({ onClose }) {
                         addedSongs.length < 2 ? `${addedSongs.length} song added` : `${addedSongs.length} songs added`
                     } subtitle="All your added songs appear here!" />
 
-                    <button
+                    <motion.button
                         onClick={() => dispatch(clearAddedSongs())}
-
+                        whileTap={{ scale: 0.95 }}
                         className='text-red-500 font-bold mt-5'>
                         Clear All
-                    </button>
+                    </motion.button>
 
                     <AnimatePresence >
 

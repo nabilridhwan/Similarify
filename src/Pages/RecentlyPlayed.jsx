@@ -27,6 +27,8 @@ export default function RecentlyPlayed() {
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
+    const location = useLocation();
+
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
     let [loading, setLoading] = useState(true)
@@ -54,8 +56,7 @@ export default function RecentlyPlayed() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                console.log(error.message)
-                // navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
         })();
     }, [])
@@ -69,7 +70,6 @@ export default function RecentlyPlayed() {
     async function getRecentlyPlayedSongs() {
         let recentlyPlayedSongs = await Spotify.getRecentlyPlayedSongs()
 
-        console.log(recentlyPlayedSongs)
         if (recentlyPlayedSongs.hasOwnProperty("error")) {
             throw new Error(recentlyPlayedSongs.error.status)
         }
@@ -88,21 +88,17 @@ export default function RecentlyPlayed() {
         let finalTracks = {};
 
         n.forEach(recentlyPlayedSong => {
-            console.log(finalTracks)
             if (!finalTracks.hasOwnProperty(recentlyPlayedSong.id)) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
             }
         })
 
-        console.table(addedSongs)
 
         addedSongs.forEach(addedSong => {
             if (finalTracks.hasOwnProperty(addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })
-
-        console.log(Object.values(finalTracks))
 
         setRecentlyPlayedSongs(Object.values(finalTracks))
     }

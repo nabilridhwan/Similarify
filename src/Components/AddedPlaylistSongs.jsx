@@ -116,12 +116,12 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                         All your added playlist songs appear here!
                     </p>
 
-                    <button
+                    <motion.button
                         onClick={onClearAll}
-
+                        whileTap={{ scale: 0.95 }}
                         className='text-red-500 font-bold mt-5'>
                         Clear All
-                    </button>
+                    </motion.button>
 
                     <AnimatePresence >
 

@@ -107,13 +107,13 @@ export default function AdjustParameters({ track, onClose }) {
 
                 <ModalHeader title="Adjust Parameters" subtitle="Adjust specific parameters relative to this song to get better recommendations." />
 
-                <button
+                <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={handleClearParameters}
 
                     className='text-red-500 font-bold mt-5'>
                     Clear All Parameters
-                </button>
+                </motion.button>
 
                 <div className="my-5 flex space-x-2 items-center">
 

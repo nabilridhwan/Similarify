@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,6 +25,7 @@ export default function Playlists() {
     let addedSongs = useSelector(state => state.songs);
 
     let [loading, setLoading] = useState(true);
+    const location = useLocation();
 
     let navigate = useNavigate();
 
@@ -53,7 +54,7 @@ export default function Playlists() {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error?n=${error.message}`, { state: error })
+                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
         })();
     }, [])

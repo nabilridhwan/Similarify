@@ -4,7 +4,7 @@ import Recommendation from "./Recommendation";
 
 import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
 import { RiPlayListFill } from "react-icons/ri"
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,7 +34,7 @@ function Search() {
 
     let [loading, setLoading] = useState(false);
 
-    let [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
 
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
@@ -80,7 +80,7 @@ function Search() {
                 console.log("Token is not expired")
             } catch (error) {
                 console.log("Token expired")
-                navigate(`/error/${error.message}`)
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
         })();
     }, [])
