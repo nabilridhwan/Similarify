@@ -46,7 +46,7 @@ export default function Playlists() {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
 
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
@@ -69,12 +69,12 @@ export default function Playlists() {
 
     async function getUserPlaylists() {
         let playlists = await SpotifyInstance.getUserPlaylists()
-        if (playlists.hasOwnProperty("error")) {
+        if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
             throw new Error(playlists.error.status)
         }
 
 
-        if (playlists.hasOwnProperty("items")) {
+        if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
 
             let n = playlists.items.map(playlist => {
 

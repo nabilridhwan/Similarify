@@ -40,7 +40,7 @@ export default function PlaylistSongSelect() {
         }
     }
     useEffect(() => {
-        if (params.hasOwnProperty("id") === false) {
+        if (Object.prototype.hasOwnProperty.call(params, 'id') === false) {
             navigate("/playlists")
         }
         checkForKey();
@@ -50,7 +50,7 @@ export default function PlaylistSongSelect() {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
 
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
@@ -74,15 +74,15 @@ export default function PlaylistSongSelect() {
     async function getPlaylistTracks() {
         let allPlaylistSongs = await SpotifyInstance.getTracksByPlaylistId(params.id)
 
-        if (allPlaylistSongs.hasOwnProperty("error")) {
+        if (Object.prototype.hasOwnProperty.call(allPlaylistSongs, 'error')) {
             throw new Error(allPlaylistSongs.error.status)
         }
 
         let n = allPlaylistSongs.reverse().map(song => {
             let img = null;
 
-            if (song.hasOwnProperty("track") && song.track != null) {
-                if (song.track.hasOwnProperty("album") && song.track.album.images.length > 0 && song.track.album.images[0].hasOwnProperty("url")) {
+            if (Object.prototype.hasOwnProperty.call(song, 'track') && song.track != null) {
+                if (Object.prototype.hasOwnProperty.call(song.track, 'album') && song.track.album.images.length > 0 && song.track.album.images[0].hasOwnProperty("url")) {
                     img = song.track.album.images[0].url
                 }
 
@@ -102,7 +102,7 @@ export default function PlaylistSongSelect() {
         let finalTracks = {};
 
         n.forEach(playlistSong => {
-            if (finalTracks.hasOwnProperty(playlistSong.id)) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[playlistSong.id].added = true
             } else {
                 finalTracks[playlistSong.id] = playlistSong
@@ -110,7 +110,7 @@ export default function PlaylistSongSelect() {
         })
 
         addedSongs.forEach(addedSong => {
-            if (finalTracks.hasOwnProperty(addedSong.id)) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[addedSong.id].added = true
             }
         })

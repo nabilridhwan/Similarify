@@ -55,7 +55,7 @@ export default function Recommendation() {
 
             addedSongs.forEach(async song => {
                 let tracks = await SpotifyInstance.getRecommendation(song.id, 6, song.parameters)
-                if (tracks.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(tracks, 'error')) {
                     navigate("/search")
                 }
                 setSongs([...songs, tracks])
@@ -197,7 +197,7 @@ export default function Recommendation() {
 
                         </p>
 
-                        {song.hasOwnProperty("similar") && song.similar.length
+                        {Object.prototype.hasOwnProperty.call(song, 'similar') && song.similar.length
 
                             ?
 

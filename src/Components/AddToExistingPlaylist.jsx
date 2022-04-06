@@ -33,7 +33,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
             try {
                 let data = await SpotifyInstance.getUserData()
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
 
@@ -52,12 +52,12 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
     async function getUserPlaylists() {
         let playlists = await SpotifyInstance.getUserPlaylists()
-        if (playlists.hasOwnProperty("error")) {
+        if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
             throw new Error(playlists.error.status)
         }
 
 
-        if (playlists.hasOwnProperty("items")) {
+        if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
 
             let n = playlists.items.map(playlist => {
                 let img = null;
@@ -91,7 +91,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
         // Get all the uris (filter the nulls and undefined)
         let t_uris = t.map(t => {
-            if (t.hasOwnProperty("track") && t.track) {
+            if (Object.prototype.hasOwnProperty.call(t, 'track') && t.track) {
                 return t.track.uri
             }
         }).filter(t => t)
@@ -113,7 +113,7 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
             await SpotifyInstance.addTracksToPlaylist(playlist.id, final)
                 .then(data => {
                     // console.log(data)
-                    if (data.hasOwnProperty("error")) {
+                    if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                         // Throw the error
                         throw new Error(data.error.message)
                     }

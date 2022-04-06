@@ -47,7 +47,7 @@ export default function LikedSongs() {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
 
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
@@ -72,7 +72,7 @@ export default function LikedSongs() {
 
     async function getLikedSongs() {
         let likedSongs = await SpotifyInstance.getLikedSongs()
-        if (likedSongs.hasOwnProperty("error")) {
+        if (Object.prototype.hasOwnProperty.call(likedSongs, 'error')) {
             throw new Error(likedSongs.error.status)
         }
 
@@ -90,7 +90,7 @@ export default function LikedSongs() {
         let finalTracks = {};
 
         n.forEach(likedSong => {
-            if (finalTracks.hasOwnProperty(likedSong.id)) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[likedSong.id].added = true
             } else {
                 finalTracks[likedSong.id] = likedSong
@@ -98,7 +98,7 @@ export default function LikedSongs() {
         })
 
         addedSongs.forEach(addedSong => {
-            if (finalTracks.hasOwnProperty(addedSong.id)) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[addedSong.id].added = true
             }
         })

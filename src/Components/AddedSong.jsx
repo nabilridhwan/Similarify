@@ -35,7 +35,7 @@ export default function AddedSong({ changeableParameters, track_name, track_arti
 
 
                 {changeableParameters && (
-                    track.hasOwnProperty("parameters") && Object.keys(track.parameters).length > 0 ? (
+                    Object.prototype.hasOwnProperty.call(track, 'parameters') && Object.keys(track.parameters).length > 0 ? (
                         <motion.button
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setShowParameters(true)}

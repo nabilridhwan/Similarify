@@ -48,7 +48,7 @@ export default function RecentlyPlayed() {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
 
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
@@ -72,7 +72,7 @@ export default function RecentlyPlayed() {
     async function getRecentlyPlayedSongs() {
         let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
 
-        if (recentlyPlayedSongs.hasOwnProperty("error")) {
+        if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
             throw new Error(recentlyPlayedSongs.error.status)
         }
 
@@ -90,14 +90,14 @@ export default function RecentlyPlayed() {
         let finalTracks = {};
 
         n.forEach(recentlyPlayedSong => {
-            if (!finalTracks.hasOwnProperty(recentlyPlayedSong.id)) {
+            if (!Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
             }
         })
 
 
         addedSongs.forEach(addedSong => {
-            if (finalTracks.hasOwnProperty(addedSong.id)) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                 finalTracks[addedSong.id].added = true
             }
         })
