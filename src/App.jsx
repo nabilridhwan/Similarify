@@ -61,18 +61,18 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/changelog" element={<Changelog />} />
+          {/* <Route path="/search" element={<Search />} />
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/authenticate" element={<Authenticate />} />
           <Route path="/likedsongs" element={<LikedSongs />} />
           <Route path="/playlists" element={<Playlists />} />
-          <Route path="/changelog" element={<Changelog />} />
           <Route path="/recentlyplayed" element={<RecentlyPlayed/>} />
 
           <Route path="/playlist/:id" element={<PlaylistSongSelect />} />
 
+          <Route path="/authenticationfailed" element={<AuthenticationFailed />} /> */}
           <Route path="/error/:errno" element={<Error />} />
-          <Route path="/authenticationfailed" element={<AuthenticationFailed />} />
           <Route path="*" element={<Navigate to={"/error/404"} />} />
 
         </Routes>
