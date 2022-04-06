@@ -70,7 +70,7 @@ function Search() {
             console.log("Checking for expiry")
             try {
                 let data = await SpotifyInstance.getUserData()
-                if (data.hasOwnProperty("error")) {
+                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
                 console.log("Token is not expired")
@@ -138,7 +138,7 @@ function Search() {
             // Loop through objects and add to finalTracks
             tracks.forEach(track => {
                 // If the track is already in the finalTracks object, set the added property to true 
-                if (finalTracks.hasOwnProperty(track.id)) {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                     finalTracks[track.id].added = true;
                 } else {
 
@@ -149,7 +149,7 @@ function Search() {
 
             // Do the same for added songs
             addedSongs.forEach(addedTrack => {
-                if (finalTracks.hasOwnProperty(addedTrack.id)) {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
                     finalTracks[addedTrack.id].added = true;
                 }
             })

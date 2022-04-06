@@ -28,7 +28,7 @@ export default function Error() {
 
     const from = searchParams.get("from")
 
-    const error = ERRORS.hasOwnProperty(errorCode) ? ERRORS[errorCode] : {
+    const error = Object.prototype.hasOwnProperty.call(ERRORS, errorCode) ? ERRORS[errorCode] : {
         title: "Unknown error",
         message: "An unknown error has occured. Please try again later."
     }
@@ -45,7 +45,7 @@ export default function Error() {
                 </p>
 
                 {
-                    !ERRORS.hasOwnProperty(errorCode) && (
+                    !Object.prototype.hasOwnProperty.call(ERRORS, errorCode) && (
 
                         <div className="pt-5">
                             <h2 className="font-bold">
