@@ -13,9 +13,10 @@ import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
-import LogOutButton from "../Components/LogOutButton";
 
-import SpotifyInstance from "../utils/SpotifyInstance";
+import SpotifyInstance from "../utils/SpotifyInstance"
+
+// Import
 
 export default function LikedSongs() {
 
@@ -41,11 +42,14 @@ export default function LikedSongs() {
     useEffect(() => {
         checkForKey();
 
-        // Get user data
         (async () => {
             try {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
+
+                setLoading(true)
+                await getLikedSongs();
+                setLoading(false)
 
                 if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
@@ -54,13 +58,6 @@ export default function LikedSongs() {
                 console.log(error.message)
                 navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
-        })();
-
-        // Get liked songs
-        (async () => {
-            setLoading(true)
-            await getLikedSongs();
-            setLoading(false)
         })();
     }, [])
 
@@ -90,7 +87,7 @@ export default function LikedSongs() {
         let finalTracks = {};
 
         n.forEach(likedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, likedSong.id)) {
                 finalTracks[likedSong.id].added = true
             } else {
                 finalTracks[likedSong.id] = likedSong
@@ -98,7 +95,7 @@ export default function LikedSongs() {
         })
 
         addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })
@@ -148,7 +145,7 @@ export default function LikedSongs() {
                     Select your liked songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Select songs from the almighty list!
+                    Select songs that you already like
                 </p>
             </div>
 

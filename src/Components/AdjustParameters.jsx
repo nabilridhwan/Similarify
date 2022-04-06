@@ -21,21 +21,21 @@ export default function AdjustParameters({ track, onClose }) {
     })
 
     const description = [
-        "The higher the value, the more likely the recommended track is acoustic.",
+        "The higher the value, the higher confidence the track is acoustic.",
 
-        `The higher the value, the "dancier" the recommended track.`,
+        "The higher the value, the 'dancier' the track.",
 
-        "The higher the value, the more energetic the recommended track is.",
+        "The higher the value, the more energetic the track.",
 
-        "The higher the value, the higher the track's chances of having no vocal content.",
+        "The higher the value, the higher the likelihood the track contains no vocal contents.",
 
-        "The higher the value, the higher the probability the recommended track is performed live.",
+        "The higher the value, the higher the increased probability that the track was performed live.",
 
         "The higher the value, the louder the track.",
 
-        "The higher the value, the more speech exists in the recording (e.g., talk show, audiobook, poetry)",
+        "The higher the value, the more exclusively speech-like exists in the recording (e.g. talk show, audio book, poetry).",
 
-        "The higher the value, the more positive the track sounds (e.g., happy, cheerful). However, the lower the value, the more the track sounds negative (e.g., sad, depressed, angry)"
+        "The higher the value, the more the track sound more positive (e.g. happy, cheerful, euphoric), while the lower the value, the more the track sounds more negative (e.g. sad, depressed, angry)."
 
     ]
 
@@ -105,7 +105,7 @@ export default function AdjustParameters({ track, onClose }) {
 
             <ModalWindow>
 
-                <ModalHeader title="Adjust Parameters" subtitle="Adjust parameters relative to this song to get better recommendations" />
+                <ModalHeader title="Adjust Parameters" subtitle="Adjust specific parameters relative to this song to get better recommendations." />
 
                 <motion.button
                     whileTap={{ scale: 0.9 }}

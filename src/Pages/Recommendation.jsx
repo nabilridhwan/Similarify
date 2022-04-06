@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
+
 import { useDispatch } from 'react-redux';
 
+
+
 import { useSelector } from 'react-redux';
-import SpotifyInstance from '../utils/SpotifyInstance';
 import Container from '../Components/Container';
 import SimilarTrack from '../Components/SimilarTrack';
 import BackButton from '../Components/BackButton';
@@ -19,6 +21,7 @@ import Footer from '../Components/Footer';
 import DoneButton from '../Components/DoneButton';
 import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 
+import SpotifyInstance from "../utils/SpotifyInstance"
 
 export default function Recommendation() {
 
@@ -41,17 +44,13 @@ export default function Recommendation() {
             navigate(-1);
         }
         SpotifyInstance.setToken(apiKey);
-
-        (async () => {
-            await fetchSimilarSongs();
-        })();
+        fetchSimilarSongs();
     }, [])
 
     let fetchSimilarSongs = async () => {
 
         // TODO: Add error functionality for status code != 200
         try {
-
 
             addedSongs.forEach(async song => {
                 let tracks = await SpotifyInstance.getRecommendation(song.id, 6, song.parameters)
@@ -68,8 +67,12 @@ export default function Recommendation() {
                     return s;
                 })
 
+
+
+
                 // TODO: Fix the nested loop because its O(n^2)
                 // mappedArray.forEach(song => {
+                //     console.log(song)
                 //     addedPlaylistSongs.forEach(playlistSong => {
                 //         if (song.id === playlistSong.id) {
                 //             song.added = true;
@@ -77,8 +80,9 @@ export default function Recommendation() {
                 //     })
                 // })
 
-                setSongs(mappedArray);
+                setSongs(checkForDuplicates(mappedArray));
             })
+
         } catch (error) {
             navigate("/authenticate")
         }
@@ -105,6 +109,25 @@ export default function Recommendation() {
         // })
     }
 
+    const checkForDuplicates = (mappedArray) => {
+        mappedArray.forEach(track => {
+            if (Object.prototype.hasOwnProperty.call(track, "similar")) {
+                console.log(`${track.name} has similar tracks`)
+
+                addedPlaylistSongs.forEach(playlistTrack => {
+
+                    track.similar.forEach(similarTrack => {
+                        if (playlistTrack.id === similarTrack.id) {
+                            similarTrack.added = true;
+                        }
+                    })
+                })
+            }
+        })
+
+        return mappedArray;
+    }
+
     const handleRefresh = async (index) => {
         let clone = [...addedSongs];
 
@@ -114,7 +137,9 @@ export default function Recommendation() {
 
         clone[index].similar = similarSongs.tracks;
 
-        setSongs(clone)
+
+
+        setSongs(checkForDuplicates(clone))
 
     }
 

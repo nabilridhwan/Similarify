@@ -221,6 +221,7 @@ class SpotifyApi {
                 }).then(res => res.json())
                 .then(likedSongs => {
                     iteration++
+                    console.log(iteration)
                     next = likedSongs.next;
                     tracks = [...tracks, ...likedSongs.items]
                     link = next;

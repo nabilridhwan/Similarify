@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
 
 import { motion } from "framer-motion"
-// import SpotifyPlayer from "./SpotifyPlayer";
+import SpotifyPlayer from "./SpotifyPlayer";
 import { useState } from "react";
 
 export default function SimilarTrack({ track, percentage }) {
@@ -15,7 +15,7 @@ export default function SimilarTrack({ track, percentage }) {
 
     const handlePress = () => {
 
-        window.open(track.external_urls.spotify + "?go=1", "_blank");
+        window.open(track.external_urls.spotify+"?go=1", "_blank");
 
         // Enable the line below to show the Spotify player
         // setShowSpotifyPlayer(true)
@@ -59,12 +59,12 @@ export default function SimilarTrack({ track, percentage }) {
                 )}
             </div>
 
-            {/* {showSpotifyPlayer && (
+            {showSpotifyPlayer && (
                 <SpotifyPlayer
                     onClose={() => setShowSpotifyPlayer(false)}
                     track={track} />
             )}
- */}
+
         </div>
 
     )

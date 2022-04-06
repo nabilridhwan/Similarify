@@ -4,9 +4,8 @@ import AddedSong from './AddedSong';
 import { useEffect, useState } from 'react';
 
 import { clearAddedSongs, clearSongsFromPlaylist, removeSongFromPlaylist, setPlaylistLink } from '../actions';
+import SpotifyApi from '../utils/SpotifyApi';
 import AddToExistingPlaylist from './AddToExistingPlaylist';
-
-import SpotifyInstance from '../utils/SpotifyInstance';
 
 export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
@@ -50,8 +49,9 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
         // Extract the uri:
         const uris = addedPlaylistSongs.map(track => track.uri)
-        SpotifyInstance.setToken(apiKey)
-        SpotifyInstance.createPlaylist(uris, pName, pDesc)
+        const spotifyApi = new SpotifyApi();
+        spotifyApi.setToken(apiKey)
+        spotifyApi.createPlaylist(uris, pName, pDesc)
             .then(d => {
                 // setCreatedPlaylist(true)
                 console.log("Playlist created successfully!")

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,10 +16,9 @@ import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 
-import SpotifyInstance from "../utils/SpotifyInstance";
-
 // Import
 
+let Spotify = new SpotifyApi();
 export default function RecentlyPlayed() {
 
     let apiKey = useSelector(state => state.apiKey);
@@ -45,21 +45,19 @@ export default function RecentlyPlayed() {
 
         (async () => {
             try {
-                SpotifyInstance.setToken(apiKey)
-                let data = await SpotifyInstance.getUserData()
+                Spotify.setToken(apiKey)
+                let data = await Spotify.getUserData()
+
+                setLoading(true)
+                await getRecentlyPlayedSongs();
+                setLoading(false)
 
                 if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
-        })();
-
-        (async () => {
-            setLoading(true)
-            await getRecentlyPlayedSongs();
-            setLoading(false)
         })();
     }, [])
 
@@ -70,7 +68,7 @@ export default function RecentlyPlayed() {
     }
 
     async function getRecentlyPlayedSongs() {
-        let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
+        let recentlyPlayedSongs = await Spotify.getRecentlyPlayedSongs()
 
         if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
             throw new Error(recentlyPlayedSongs.error.status)
@@ -147,7 +145,7 @@ export default function RecentlyPlayed() {
                     Select from your Recently Played songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    You liked a song from your Spotify recently? Pick 'em!
+                    You liked a song from your Spotify recently?
                 </p>
             </div>
 

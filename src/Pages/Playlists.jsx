@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SpotifyInstance from "../utils/SpotifyInstance";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -14,8 +15,6 @@ import DoneButton from "../Components/DoneButton";
 import Playlist from "../Components/Playlist";
 import LoadingSpinner from "../Components/LoadingSpinner"
 import LogOutButton from "../Components/LogOutButton";
-
-import SpotifyInstance from "../utils/SpotifyInstance";
 
 export default function Playlists() {
 
@@ -46,18 +45,16 @@ export default function Playlists() {
                 SpotifyInstance.setToken(apiKey)
                 let data = await SpotifyInstance.getUserData()
 
+                setLoading(true)
+                await getUserPlaylists();
+                setLoading(false)
+
                 if (Object.prototype.hasOwnProperty.call(data, 'error')) {
                     throw new Error(data.error.status)
                 }
             } catch (error) {
                 navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
             }
-        })();
-
-        (async () => {
-            setLoading(true)
-            await getUserPlaylists();
-            setLoading(false)
         })();
     }, [])
 

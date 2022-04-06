@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { FaRedoAlt, FaSearch, FaHeart, FaPlus} from "react-icons/fa"
+import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
 import { RiPlayListFill } from "react-icons/ri"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
@@ -17,7 +17,6 @@ import SectionButton from "../Components/SectionButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 
-// Shared Spotify Instance
 import SpotifyInstance from "../utils/SpotifyInstance"
 
 function Search() {
@@ -76,7 +75,7 @@ function Search() {
                 console.log("Token is not expired")
             } catch (error) {
                 console.log("Token expired")
-                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
+                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
             }
         })();
     }, [])
@@ -138,7 +137,7 @@ function Search() {
             // Loop through objects and add to finalTracks
             tracks.forEach(track => {
                 // If the track is already in the finalTracks object, set the added property to true 
-                if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, track.id)) {
                     finalTracks[track.id].added = true;
                 } else {
 
@@ -149,7 +148,7 @@ function Search() {
 
             // Do the same for added songs
             addedSongs.forEach(addedTrack => {
-                if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, addedTrack.id)) {
                     finalTracks[addedTrack.id].added = true;
                 }
             })
@@ -188,13 +187,13 @@ function Search() {
                     Search for Songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
-                    Search for songs you already love!
+                    Search for the songs that you already like.
                 </p>
 
                 <div className="nav my-5 space-y-4">
                     <p
                         className="text-sm"
-                    >Alternatively, pick from your:</p>
+                    >Alternatively, pick from:</p>
                     <div className="section flex flex-wrap space-x-2">
                         <SectionButton to="/likedsongs">
                             <FaHeart className="mr-2" />
@@ -210,11 +209,6 @@ function Search() {
                             <FaRedoAlt className="mr-2" />
                             <h1>Recently Played</h1>
                         </SectionButton>
-
-                        {/* <SectionButton onButtonPress={() => console.log("Not implemented")}>
-                            <FaPlus className="mr-2" />
-                            <h1>Add your currently playing song</h1>
-                        </SectionButton> */}
 
                     </div>
                 </div>

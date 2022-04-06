@@ -1,28 +1,3 @@
-## 1.6.1 - Little fixes here and there! 🪚
->   Made the bridge that the workers go on to deliver you your recommended songs fancier and with speed boosts too!
-
-### Added
--   None
-
-### Bugs
--   In the recommendations page, if you added a song into your playlist and refreshed the recommendation, and if the same song appears in the refreshed recommendation, the button will display "Add to Playlist" even though it already has been added.
-
-### Changed
-
--   Changed certain UI Elements and text displayed in the application.
--   Changed the description of each parameters *again* to make it easier to understand!
-
-### Fixed
-
--   After modifying playlists, clicking on "Go To Playlist" now will open the playlist in the Spotify Desktop App (On Desktop, duh!)
--   All API calls run in parallel. (e.g. `/me` and `/playlists` will run in parallel)
--   Now, the app uses one instance of `SpotifyApi()` instead of multiple scattered around each component. (This might have an improvement on performance). The new instance can be found at `/src/utils/SpotifyInstance.js`
-
-### Removed
-
-- Removed the detection for added songs in the recommendations page (since it wasn't working anyway, and it takes up time to run the O(n^2) time complexity code.)
-
-
 ## 1.6.0 - Select from your recently played songs 🔁🛠️
 >   This update introduced the ability to select from 50 of your most recently played songs (and also bug fixes and optimizations)
 
