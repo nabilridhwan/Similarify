@@ -34,8 +34,8 @@ export default function LikedSongs() {
     const { apiKey, error, loggedIn } = useApiKey();
 
     useEffect(() => {
+
         (async () => {
-            setLoading(true)
             await getLikedSongs();
             setLoading(false)
         })();

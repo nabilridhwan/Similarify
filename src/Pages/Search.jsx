@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
 import { useSelector, useDispatch } from "react-redux"
-import { setSearchResults, removeSong, setApiKey, setSearchTermRedux } from "../actions";
+import { setSearchResults, removeSong, setApiKey, setSearchTermRedux, clearSongsFromPlaylist, clearPlaylistLink } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
@@ -19,6 +19,8 @@ import LogOutButton from "../Components/LogOutButton";
 
 import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from "../hooks/useApiKey";
+import AddedPlaylistSongs from "../Components/AddedPlaylistSongs";
+import CreatedPlaylistModal from "../Components/CreatedPlaylistModal";
 
 function Search() {
 
@@ -26,10 +28,12 @@ function Search() {
     let [searchTerm, setSearchTerm] = useState(searchTermRedux);
 
     let searchResults = useSelector(state => state.searchResults);
+    const addedPlaylistSongs = useSelector(state => state.playlistSongs);
+    const playlistLink = useSelector(state => state.playlistLink);
+
+    const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
 
     let [loading, setLoading] = useState(false);
-
-    const location = useLocation();
 
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
@@ -38,7 +42,7 @@ function Search() {
 
     let dispatch = useDispatch();
 
-    let {apiKey, loggedIn, error} = useApiKey();
+    let { apiKey, loggedIn, error } = useApiKey();
 
 
     useEffect(() => {
@@ -137,6 +141,10 @@ function Search() {
         }
     }
 
+    const handleClickOnCurrentPlaylist = () => {
+        setShowAddedPlaylistSongs(true)
+    }
+
     return (
         <Container>
             <LogOutButton />
@@ -171,6 +179,8 @@ function Search() {
                             <h1>Recently Played</h1>
                         </SectionButton>
 
+
+
                     </div>
                 </div>
 
@@ -187,14 +197,34 @@ function Search() {
                     placeholder="Imagine Dragons" />
 
 
-                {/* Search button */}
-                <button
-                    disabled={searchTerm === ""}
-                    className="transition flex items-center justify-center btn shadow-sm bg-pink-500 shadow-pink-500/30 text-white w-full disabled-button  my-5"
-                    onClick={searchForTracks}>
-                    <FaSearch className="mr-2" />
-                    Search
-                </button>
+                <motion.div
+                    layout="position"
+                    className="grid md:grid-cols-2 gap-2 my-5">
+
+                    {/* Search button */}
+                    <button
+                        disabled={searchTerm === ""}
+                        className={`${addedPlaylistSongs.length == 0 && "col-span-2"} transition flex items-center justify-center btn shadow-sm bg-pink-500 shadow-pink-500/30 text-white w-full disabled-button`}
+                        onClick={searchForTracks}>
+                        <FaSearch className="mr-2" />
+                        Search
+                    </button>
+
+                    {addedPlaylistSongs.length > 0 && (
+
+                        <button
+                            disabled={searchTerm === ""}
+                            className="transition flex items-center justify-center btn shadow-sm bg-blue-500 shadow-pink-500/30 text-white w-full disabled-button"
+                            onClick={handleClickOnCurrentPlaylist}>
+                            <RiPlayListFill className="mr-2" />
+                            View Current Playlist
+                        </button>
+                    )}
+
+
+
+
+                </motion.div>
             </form>
 
             {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
@@ -245,6 +275,23 @@ function Search() {
             <AnimatePresence>
                 {showAddedSongs && (
                     <AddedSongs onClose={() => setShowAddedSongs(false)} />
+                )}
+            </AnimatePresence>
+
+
+            <AnimatePresence>
+                {showAddedPlaylistSongs && (
+                    <AddedPlaylistSongs onClearAll={() => dispatch(clearSongsFromPlaylist())} onClose={() => setShowAddedPlaylistSongs(false)} />
+                )}
+            </AnimatePresence>
+
+
+            <AnimatePresence>
+                {playlistLink && (
+                    // Clear the playlist link on close (so it hides the modal)
+                    <CreatedPlaylistModal onClose={() => {
+                        dispatch(clearPlaylistLink())
+                    }} playlistLink={playlistLink} />
                 )}
             </AnimatePresence>
 
