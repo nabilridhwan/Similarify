@@ -59,11 +59,11 @@ export default function SimilarTrack({ track, percentage }) {
                 )}
             </div>
 
-            {showSpotifyPlayer && (
+            {/* {showSpotifyPlayer && (
                 <SpotifyPlayer
                     onClose={() => setShowSpotifyPlayer(false)}
                     track={track} />
-            )}
+            )} */}
 
         </div>
 

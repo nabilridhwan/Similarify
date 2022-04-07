@@ -83,3 +83,10 @@ export function clearSongsFromPlaylist(){
         type: 'CLEAR_SONGS_PLAYLIST'
     }
 }
+
+export function setApiKeyExpiration(expirationISOString){
+    return{
+        type: 'SET_API_KEY_EXPIRATION',
+        payload: expirationISOString
+    }
+}

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,13 +14,12 @@ import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
+import SpotifyInstance from "../utils/SpotifyInstance";
+import useApiKey from "../hooks/useApiKey";
 
 // Import
 
-let Spotify = new SpotifyApi();
 export default function RecentlyPlayed() {
-
-    let apiKey = useSelector(state => state.apiKey);
 
     let [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
     let addedSongs = useSelector(state => state.songs);
@@ -33,31 +31,13 @@ export default function RecentlyPlayed() {
 
     let [loading, setLoading] = useState(true)
 
-    // Checks for token
-    function checkForKey() {
-        console.log("Checking for token")
-        if (!apiKey) {
-            navigate("/authenticate")
-        }
-    }
+    const { apiKey, error, loggedIn } = useApiKey();
+
     useEffect(() => {
-        checkForKey();
-
         (async () => {
-            try {
-                Spotify.setToken(apiKey)
-                let data = await Spotify.getUserData()
-
-                setLoading(true)
-                await getRecentlyPlayedSongs();
-                setLoading(false)
-
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-            } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
-            }
+            setLoading(true)
+            await getRecentlyPlayedSongs();
+            setLoading(false)
         })();
     }, [])
 
@@ -68,7 +48,7 @@ export default function RecentlyPlayed() {
     }
 
     async function getRecentlyPlayedSongs() {
-        let recentlyPlayedSongs = await Spotify.getRecentlyPlayedSongs()
+        let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
 
         if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
             throw new Error(recentlyPlayedSongs.error.status)
@@ -88,14 +68,14 @@ export default function RecentlyPlayed() {
         let finalTracks = {};
 
         n.forEach(recentlyPlayedSong => {
-            if (!Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
             }
         })
 
 
         addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })

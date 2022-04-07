@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -14,52 +13,35 @@ import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 
+import SpotifyInstance from "../utils/SpotifyInstance";
+
 import LoadingSpinner from "../Components/LoadingSpinner";
+import useApiKey from "../hooks/useApiKey";
 
-// Import
-
-let Spotify = new SpotifyApi();
 export default function PlaylistSongSelect() {
 
     let location = useLocation()
     let params = useParams();
     let navigate = useNavigate();
 
-    let apiKey = useSelector(state => state.apiKey);
     let addedSongs = useSelector(state => state.songs);
 
     let [playlistSongs, setPlaylistSongs] = useState([]);
     let [showAddedSongs, setShowAddedSongs] = useState(false);
     let [loading, setLoading] = useState(true)
 
-    // Checks for token
-    function checkForKey() {
-        console.log("Checking for token")
-        if (!apiKey) {
-            navigate("/authenticate")
-        }
-    }
+
+    const { apiKey, error, loggedIn } = useApiKey();
+
     useEffect(() => {
         if (Object.prototype.hasOwnProperty.call(params, 'id') === false) {
             navigate("/playlists")
         }
-        checkForKey();
 
         (async () => {
-            try {
-                Spotify.setToken(apiKey)
-                let data = await Spotify.getUserData()
-
-                setLoading(true)
-                await getPlaylistTracks();
-                setLoading(false)
-
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-            } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, { state: error })
-            }
+            setLoading(true)
+            await getPlaylistTracks();
+            setLoading(false)
         })();
     }, [])
 
@@ -70,7 +52,7 @@ export default function PlaylistSongSelect() {
     }
 
     async function getPlaylistTracks() {
-        let allPlaylistSongs = await Spotify.getTracksByPlaylistId(params.id)
+        let allPlaylistSongs = await SpotifyInstance.getTracksByPlaylistId(params.id)
 
         if (Object.prototype.hasOwnProperty.call(allPlaylistSongs, 'error')) {
             throw new Error(allPlaylistSongs.error.status)
@@ -100,7 +82,7 @@ export default function PlaylistSongSelect() {
         let finalTracks = {};
 
         n.forEach(playlistSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, playlistSong.id)) {
                 finalTracks[playlistSong.id].added = true
             } else {
                 finalTracks[playlistSong.id] = playlistSong
@@ -108,14 +90,14 @@ export default function PlaylistSongSelect() {
         })
 
         addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })
 
-        setPlaylistSongs(Object.values(finalTracks))
+        console.log(finalTracks)
 
-        setPlaylistSongs(n)
+        setPlaylistSongs(Object.values(finalTracks))
     }
 
     // async function searchForTracks() {
