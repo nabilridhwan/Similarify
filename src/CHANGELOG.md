@@ -1,3 +1,23 @@
+## 1.6.3 - The upgrade time 😈
+>   We upgraded the bridge and the workers too! (We upgraded React from 17 to 18) 🥳 and added one new teeny weeny feature that I found useful to myself.
+### Added
+
+- __[UNDER TESTING]__ Added the ability to view your current state of your playlist (when you go back from Recommendations, and there is still songs in your playlist) 
+
+### Bugs
+-   After creating a playlist form the new feature added above, the songs that are added (to your list or to the playlist) might still show "Remove from list/Remove from Playlist" even though the items are already removed.
+
+### Changed
+
+- Upgraded from React `17` to React `18`
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
 ## 1.6.2 - Phew, dodged a bullet! ✋🔫
 >   The bridge that the workers used to bring you your recommended songs broke after a human didn't double check the fixes done by the bot. It's okay now! Along with the original fix, there are new few fixes too!
 

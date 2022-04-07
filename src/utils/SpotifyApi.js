@@ -1,6 +1,6 @@
 class SpotifyApi {
 
-    static REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+    static REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI || window.location.hostname + "/search"
     static SCOPE = "playlist-modify-private,user-library-read,user-read-recently-played,user-read-currently-playing";
     static CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 

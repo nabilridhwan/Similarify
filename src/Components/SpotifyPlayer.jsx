@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist } from "../actions";
 import { FaPlus } from "react-icons/fa"
 
-import Spotify from "react-spotify-embed";
+// import Spotify from "react-spotify-embed";
 
 export default function SpotifyPlayer({ track, onClose }) {
 
@@ -37,10 +37,10 @@ export default function SpotifyPlayer({ track, onClose }) {
                     </p>
                 </div>
 
-                <Spotify
+                {/* <Spotify
                     wide
                     link={`https://open.spotify.com/track/${track.id}`}
-                />
+                /> */}
 
                 {/* Add to playlist button */}
                 <motion.button
