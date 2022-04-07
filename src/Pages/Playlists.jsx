@@ -15,12 +15,10 @@ import DoneButton from "../Components/DoneButton";
 import Playlist from "../Components/Playlist";
 import LoadingSpinner from "../Components/LoadingSpinner"
 import LogOutButton from "../Components/LogOutButton";
+import useApiKey from "../hooks/useApiKey";
 
 export default function Playlists() {
 
-    let apiKey = useSelector(state => state.apiKey);
-
-    let [playlists, setPlaylists] = useState([]);
     let addedSongs = useSelector(state => state.songs);
 
     let [loading, setLoading] = useState(true);
@@ -28,33 +26,19 @@ export default function Playlists() {
 
     let navigate = useNavigate();
 
+    const [playlists, setPlaylists] = useState([]);
+
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
+
+    const { apiKey, error, loggedIn } = useApiKey();
+
     // Checks for token
-    function checkForKey() {
-        console.log("Checking for token")
-        if (!apiKey) {
-            navigate("/authenticate")
-        }
-    }
     useEffect(() => {
-        checkForKey();
-
         (async () => {
-            try {
-                SpotifyInstance.setToken(apiKey)
-                let data = await SpotifyInstance.getUserData()
-
-                setLoading(true)
-                await getUserPlaylists();
-                setLoading(false)
-
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-            } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
-            }
+            setLoading(true)
+            await getUserPlaylists();
+            setLoading(false)
         })();
     }, [])
 

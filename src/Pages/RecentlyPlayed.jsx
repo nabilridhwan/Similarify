@@ -15,12 +15,11 @@ import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 import SpotifyInstance from "../utils/SpotifyInstance";
+import useApiKey from "../hooks/useApiKey";
 
 // Import
 
 export default function RecentlyPlayed() {
-
-    let apiKey = useSelector(state => state.apiKey);
 
     let [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
     let addedSongs = useSelector(state => state.songs);
@@ -32,31 +31,13 @@ export default function RecentlyPlayed() {
 
     let [loading, setLoading] = useState(true)
 
-    // Checks for token
-    function checkForKey() {
-        console.log("Checking for token")
-        if (!apiKey) {
-            navigate("/authenticate")
-        }
-    }
+    const { apiKey, error, loggedIn } = useApiKey();
+
     useEffect(() => {
-        checkForKey();
-
         (async () => {
-            try {
-                SpotifyInstance.setToken(apiKey)
-                let data = await SpotifyInstance.getUserData()
-
-                setLoading(true)
-                await getRecentlyPlayedSongs();
-                setLoading(false)
-
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-            } catch (error) {
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
-            }
+            setLoading(true)
+            await getRecentlyPlayedSongs();
+            setLoading(false)
         })();
     }, [])
 

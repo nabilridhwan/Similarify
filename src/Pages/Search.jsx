@@ -18,6 +18,7 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 
 import SpotifyInstance from "../utils/SpotifyInstance"
+import useApiKey from "../hooks/useApiKey";
 
 function Search() {
 
@@ -25,7 +26,6 @@ function Search() {
     let [searchTerm, setSearchTerm] = useState(searchTermRedux);
 
     let searchResults = useSelector(state => state.searchResults);
-    let apiKey = useSelector(state => state.apiKey);
 
     let [loading, setLoading] = useState(false);
 
@@ -38,47 +38,8 @@ function Search() {
 
     let dispatch = useDispatch();
 
+    let {apiKey, loggedIn, error} = useApiKey();
 
-    // Checks for token
-    function checkForKey() {
-        if (window.location.hash) {
-
-            // Separate the access token from the '#' symbol
-            let hashes = window.location.hash.substring(1).split("&");
-            let hashes_value = hashes.map(hash => hash.split("=")[1]);
-            const [access_token] = hashes_value;
-
-            // Set the access token
-            SpotifyInstance.setToken(access_token);
-            dispatch(setApiKey(access_token));
-
-            console.log("Token exists: From hash")
-        } else if (apiKey) {
-            SpotifyInstance.setToken(apiKey);
-            dispatch(setApiKey(apiKey));
-
-            console.log("Token exists: From redux")
-        } else {
-            navigate("/authenticate")
-        }
-    }
-    useEffect(() => {
-        checkForKey();
-
-        (async () => {
-            console.log("Checking for expiry")
-            try {
-                let data = await SpotifyInstance.getUserData()
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-                console.log("Token is not expired")
-            } catch (error) {
-                console.log("Token expired")
-                navigate(`/error/${error.message}?from=${location.pathname}`, {state: {error: error.message}})
-            }
-        })();
-    }, [])
 
     useEffect(() => {
         if (searchTerm.length == 0) {

@@ -22,6 +22,7 @@ import DoneButton from '../Components/DoneButton';
 import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 
 import SpotifyInstance from "../utils/SpotifyInstance"
+import useApiKey from '../hooks/useApiKey';
 
 export default function Recommendation() {
 
@@ -30,11 +31,13 @@ export default function Recommendation() {
     let [songs, setSongs] = useState([]);
 
     const addedSongs = useSelector(state => state.songs);
-    const apiKey = useSelector(state => state.apiKey);
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);
     const playlistLink = useSelector(state => state.playlistLink);
 
     const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
+
+
+    const { apiKey, error, loggedIn } = useApiKey();
 
     const navigate = useNavigate();
 
@@ -44,12 +47,14 @@ export default function Recommendation() {
             navigate(-1);
         }
         SpotifyInstance.setToken(apiKey);
-        fetchSimilarSongs();
+
+        (async () => {
+            await fetchSimilarSongs();
+        })();
     }, [])
 
     let fetchSimilarSongs = async () => {
 
-        // TODO: Add error functionality for status code != 200
         try {
 
             addedSongs.forEach(async song => {
@@ -66,19 +71,6 @@ export default function Recommendation() {
 
                     return s;
                 })
-
-
-
-
-                // TODO: Fix the nested loop because its O(n^2)
-                // mappedArray.forEach(song => {
-                //     console.log(song)
-                //     addedPlaylistSongs.forEach(playlistSong => {
-                //         if (song.id === playlistSong.id) {
-                //             song.added = true;
-                //         }
-                //     })
-                // })
 
                 setSongs(checkForDuplicates(mappedArray));
             })

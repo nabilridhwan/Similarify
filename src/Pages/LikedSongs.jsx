@@ -15,14 +15,13 @@ import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 
 import SpotifyInstance from "../utils/SpotifyInstance"
+import useApiKey from "../hooks/useApiKey";
 
 // Import
 
 export default function LikedSongs() {
 
     const location = useLocation();
-
-    let apiKey = useSelector(state => state.apiKey);
 
     let [likedSongs, setLikedSongs] = useState([]);
     let addedSongs = useSelector(state => state.songs);
@@ -32,32 +31,13 @@ export default function LikedSongs() {
 
     let [loading, setLoading] = useState(true)
 
-    // Checks for token
-    function checkForKey() {
-        console.log("Checking for token")
-        if (!apiKey) {
-            navigate("/authenticate")
-        }
-    }
+    const { apiKey, error, loggedIn } = useApiKey();
+
     useEffect(() => {
-        checkForKey();
-
         (async () => {
-            try {
-                SpotifyInstance.setToken(apiKey)
-                let data = await SpotifyInstance.getUserData()
-
-                setLoading(true)
-                await getLikedSongs();
-                setLoading(false)
-
-                if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                    throw new Error(data.error.status)
-                }
-            } catch (error) {
-                console.log(error.message)
-                navigate(`/error/${error.message}?from=${location.pathname}`, { state: { error: error.message } })
-            }
+            setLoading(true)
+            await getLikedSongs();
+            setLoading(false)
         })();
     }, [])
 

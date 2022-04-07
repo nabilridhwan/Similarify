@@ -17,14 +17,12 @@ export default function Authenticate() {
                 try {
                     SpotifyInstance.setToken(apiKey);
                     await SpotifyInstance.getUserData()
-
                     console.log("Successfully authenticated, Redirected to search")
                     navigate("/search")
                 } catch (error) {
                     SpotifyApi.authenticateUser();
                 }
             } else {
-
                 SpotifyApi.authenticateUser();
             }
         })();

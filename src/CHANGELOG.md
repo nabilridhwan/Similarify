@@ -1,8 +1,11 @@
 ## 1.6.2 - Phew, dodged a bullet! ✋🔫
->   Wow, I did mess up... (I should've checked the code made by the bot before merging) BUT hey, it's okay now!
+>   The bridge that the workers used to bring you your recommended songs broke after a human didn't double check the fixes done by the bot. It's okay now! Along with the original fix, there are new few fixes too!
+
+>   Fixes which is development focused is prefixed with __[DEV]__
 
 ### Added
--   None
+-   __[DEV]__ Added a custom hook to check for Spotify API key if it exists and if it is valid. This hook is found in `src/hooks/useApikey.js`
+-   Added back Sentry for error tracking in production mode.
 
 ### Changed
 -   None
@@ -14,7 +17,7 @@
     -   This bug has been fixed (but the horrors of `O(n^2)` comes back and haunts the Recommended page)
 
 ### Removed
--   None
+-   __[NEW]__ Removed `console.log()` in production mode. This prevents sensitive data from leaking out in the console.
 
 ## 1.6.1 - Little fixes here and there! 🪚
 >   Made the bridge that the workers go on to deliver you your recommended songs fancier and with speed boosts too!

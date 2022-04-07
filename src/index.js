@@ -4,30 +4,44 @@ import reportWebVitals from './reportWebVitals';
 import "./index.css"
 
 import App from './App.jsx';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  BrowserRouter
+} from 'react-router-dom';
+import * as Sentry from "@sentry/react";
+import {
+  BrowserTracing
+} from "@sentry/tracing";
 
-// import * as Sentry from "@sentry/react";
-// import { BrowserTracing } from "@sentry/tracing";
 
-// Sentry.init({
-//   dsn: "https://3541196f669c4d4aa91958963e365afc@o1187436.ingest.sentry.io/6307336",
-//   integrations: [new BrowserTracing()],
+if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
+  console.log("Development mode")
+} else {
 
-//   // Set tracesSampleRate to 1.0 to capture 100%
-//   // of transactions for performance monitoring.
-//   // We recommend adjusting this value in production
-//   tracesSampleRate: 0.5
-// });
+  // Override console.log operations
+  let console = {};
+  console.log = function () { }
+  window.console = console;
+
+  // Sentry
+  Sentry.init({
+    dsn: "https://3541196f669c4d4aa91958963e365afc@o1187436.ingest.sentry.io/6307336",
+    integrations: [new BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 0.5
+  });
+}
 
 
 
 ReactDOM.render(
-    <React.StrictMode>
-      <BrowserRouter>
+  <React.StrictMode >
+    <BrowserRouter >
       <App />
-      </BrowserRouter>
-    </React.StrictMode>
-  ,
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
