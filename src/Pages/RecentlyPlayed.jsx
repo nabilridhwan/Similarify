@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SpotifyApi from "../utils/SpotifyApi";
 
 import { FaRegSadCry } from "react-icons/fa"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,10 +14,10 @@ import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
+import SpotifyInstance from "../utils/SpotifyInstance";
 
 // Import
 
-let Spotify = new SpotifyApi();
 export default function RecentlyPlayed() {
 
     let apiKey = useSelector(state => state.apiKey);
@@ -45,8 +44,8 @@ export default function RecentlyPlayed() {
 
         (async () => {
             try {
-                Spotify.setToken(apiKey)
-                let data = await Spotify.getUserData()
+                SpotifyInstance.setToken(apiKey)
+                let data = await SpotifyInstance.getUserData()
 
                 setLoading(true)
                 await getRecentlyPlayedSongs();
@@ -68,7 +67,7 @@ export default function RecentlyPlayed() {
     }
 
     async function getRecentlyPlayedSongs() {
-        let recentlyPlayedSongs = await Spotify.getRecentlyPlayedSongs()
+        let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
 
         if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
             throw new Error(recentlyPlayedSongs.error.status)
@@ -88,14 +87,14 @@ export default function RecentlyPlayed() {
         let finalTracks = {};
 
         n.forEach(recentlyPlayedSong => {
-            if (!Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
             }
         })
 
 
         addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, )) {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
         })

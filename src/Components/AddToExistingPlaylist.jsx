@@ -2,7 +2,6 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import SpotifyApi from "../utils/SpotifyApi";
 import LoadingSpinner from "./LoadingSpinner";
 import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";

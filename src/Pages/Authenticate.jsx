@@ -3,6 +3,7 @@ import Container from "../Components/Container";
 import SpotifyApi from "../utils/SpotifyApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import SpotifyInstance from "../utils/SpotifyInstance";
 export default function Authenticate() {
 
     let apiKey = useSelector(state => state.apiKey);
@@ -14,9 +15,8 @@ export default function Authenticate() {
             // if the apiKey exists
             if (apiKey) {
                 try {
-                    let Spotify = new SpotifyApi();
-                    Spotify.setToken(apiKey);
-                    await Spotify.getUserData()
+                    SpotifyInstance.setToken(apiKey);
+                    await SpotifyInstance.getUserData()
 
                     console.log("Successfully authenticated, Redirected to search")
                     navigate("/search")
@@ -31,7 +31,6 @@ export default function Authenticate() {
     }, [])
 
     return (
-        <Container>
-        </Container>
+        <Container />
     )
 }
