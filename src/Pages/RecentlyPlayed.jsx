@@ -69,13 +69,6 @@ export default function RecentlyPlayed() {
                 finalTracks[addedSong.id].added = true
             }
 
-            if (currentlyPlaying && addedSong.id === currentlyPlaying.id) {
-                const obj = {
-                    ...currentlyPlaying,
-                }
-                obj.added = true
-                setCurrentlyPlaying(obj)
-            }
         })
 
         setRecentlyPlayedSongs(Object.values(finalTracks))
@@ -99,6 +92,13 @@ export default function RecentlyPlayed() {
                     id: currentlyPlayed.item.id,
                     name: currentlyPlayed.item.name,
                 }
+
+                // Check if currently playing song is already in the list
+                addedSongs.forEach(addedSong => {
+                    if (addedSong.id === obj.id) {
+                        obj.added = true
+                    }
+                })
 
                 setCurrentlyPlaying(obj);
             }
@@ -135,20 +135,11 @@ export default function RecentlyPlayed() {
                 }
             })
 
-
             addedSongs.forEach(addedSong => {
                 if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                     finalTracks[addedSong.id].added = true
                 }
 
-                // Check for currently playing
-                if (currentlyPlaying && addedSong.id === currentlyPlaying.id) {
-                    const obj = {
-                        ...currentlyPlaying,
-                    }
-                    obj.added = true
-                    setCurrentlyPlaying(obj)
-                }
             })
 
             setRecentlyPlayedSongs(Object.values(finalTracks))
@@ -286,24 +277,28 @@ export default function RecentlyPlayed() {
                 )}
 
 
-                <AnimatePresence>
-                    {addedSongs.length > 0 && (
 
-                        <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
-                    )}
-                </AnimatePresence>
 
-                {/* Added songs */}
-                <AnimatePresence>
-                    {showAddedSongs && (
-                        <AddedSongs onClose={() => setShowAddedSongs(false)} />
-                    )}
-                </AnimatePresence>
-
-                <Footer />
 
 
             </motion.div>
+
+            <AnimatePresence>
+                {addedSongs.length > 0 && (
+
+                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                )}
+            </AnimatePresence>
+
+            {/* Added songs */}
+            <AnimatePresence>
+                {showAddedSongs && (
+                    <AddedSongs onClose={() => setShowAddedSongs(false)} />
+                )}
+            </AnimatePresence>
+
+
+            <Footer />
         </Container >
     )
 }
