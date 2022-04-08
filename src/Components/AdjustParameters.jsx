@@ -2,42 +2,26 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSongParameters } from "../actions";
+import Parameter from "../utils/Parameter";
 import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";
 
 export default function AdjustParameters({ track, onClose }) {
 
     const dispatch = useDispatch();
-    const [parameters, setParameters] = useState({
-        "accousticness": 0.5,
-        "danceability": 0.5,
-        "energy": 0.5,
-        "instrumentalness": 0.5,
-        "liveness": 0.5,
-        "loudness": 0.5,
-        "speechiness": 0.5,
-        "valence": 0.5,
 
-    })
-
-    const description = [
-        "The higher the value, the higher confidence the track is acoustic.",
-
-        "The higher the value, the 'dancier' the track.",
-
-        "The higher the value, the more energetic the track.",
-
-        "The higher the value, the higher the likelihood the track contains no vocal contents.",
-
-        "The higher the value, the higher the increased probability that the track was performed live.",
-
-        "The higher the value, the louder the track.",
-
-        "The higher the value, the more exclusively speech-like exists in the recording (e.g. talk show, audio book, poetry).",
-
-        "The higher the value, the more the track sound more positive (e.g. happy, cheerful, euphoric), while the lower the value, the more the track sounds more negative (e.g. sad, depressed, angry)."
-
-    ]
+    const [parameters, setParameters] = useState(
+        [
+            new Parameter("Accousticness", "The higher the value, the higher confidence the track is acoustic.", 0.5, 0, 1, 0.01),
+            new Parameter("Popularity", "The higher the value, the more popular the track is.", 50, 0, 100, 1, 1),
+            new Parameter("Danceability", "The higher the value, the more danceable the track.", 0.5, 0, 1, 0.01),
+            new Parameter("Energy", "The higher the value, the more energetic the track.", 0.5, 0, 1, 0.01),
+            new Parameter("Instrumentalness", "The higher the value, the more likely the track is instrumental.", 0.5, 0, 1, 0.01),
+            new Parameter("Liveness", "The higher the value, the more likely the track is live.", 0.5, 0, 1, 0.01),
+            new Parameter("Speechiness", "The higher the value, the more likely the track is speech.", 0.5, 0, 1, 0.01),
+            new Parameter("Valence", "The higher the value, the more positive the track.", 0.5, 0, 1, 0.01),
+        ]
+    )
 
     const addedSongs = useSelector(state => state.songs);
 
@@ -46,43 +30,74 @@ export default function AdjustParameters({ track, onClose }) {
     const [activeParams, setActiveParams] = useState([])
 
     useEffect(() => {
+        // TODO: Read the current song parameters (if any)
         if (currentSongParams) {
-            setParameters({ ...parameters, ...currentSongParams })
+            console.log(currentSongParams)
+
+            let cloneParameters = { ...parameters }
+
+            Object.keys(cloneParameters).forEach(parameterIndex => {
+                const cP = cloneParameters[parameterIndex]
+                Object.keys(currentSongParams).forEach(currentParamName => {
+                    if (cP.isTheSameAs(currentParamName)) {
+                        console.log(currentParamName)
+                        cP.value = currentSongParams[currentParamName];
+                    }
+                })
+            })
+
+            setActiveParams(Object.keys(currentSongParams))
+            setParameters({ ...cloneParameters })
 
             // Set active params
-            setActiveParams(Object.keys(currentSongParams))
+            // setActiveParams(Object.keys(currentSongParams))
         }
     }, [])
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        const newObj = { ...parameters, [name]: value }
+    const handleChange = (e, currentParameter) => {
+
+        // TODO: Handle the value change
+
+        const { value } = e.target;
+
+        currentParameter.setValue(value);
+
+        const newObj = { ...parameters, [currentParameter.name]: currentParameter.getValue() }
         setParameters(newObj)
     }
 
-    const handleClickParam = (param) => {
-        if (activeParams.includes(param)) {
+    const handleClickParam = (index) => {
+        const currentParameter = parameters[index];
+
+        // Check if activeParams contains the current parameter's name
+        if (activeParams.includes(currentParameter.name)) {
             // remove param from activeParams
-            setActiveParams(activeParams.filter(p => p !== param))
+            setActiveParams(activeParams.filter(p => p !== currentParameter.name))
         } else {
 
             // Push the param to active params
-            setActiveParams(Array.from(new Set([...activeParams, param])))
+
+            // If it does not contain, concatenate with the activeParams and the parameter name
+            setActiveParams(Array.from(new Set([...activeParams, currentParameter.name])))
         }
     }
 
     const handleClickSave = () => {
         let newParams = { ...parameters }
-        Object.keys(newParams).forEach(key => {
-            if (!activeParams.includes(key)) {
-                delete newParams[key]
+        let finalObject = {};
+        Object.keys(newParams).forEach(paramIndex => {
+            const currentParameter = newParams[paramIndex];
+            if (activeParams.includes(currentParameter.name)) {
+                finalObject[currentParameter.name] = currentParameter.value
             }
+
+
         })
 
-        console.log(`New parameters for ${track.name}: ${JSON.stringify(newParams)}`)
+        console.log(`New parameters for ${track.name}: ${JSON.stringify(finalObject)}`)
 
         // New parameters are here! do whatever you want to do with it
-        dispatch(setSongParameters(newParams, track))
+        dispatch(setSongParameters(finalObject, track))
 
         // Close the window
         onClose()
@@ -132,7 +147,9 @@ export default function AdjustParameters({ track, onClose }) {
 
                 <motion.div
                     className="overflow-y-scroll overflow-x-hidden h-52 scroll-m-5">
-                    {Object.keys(parameters).map((param, index) => {
+                    {Object.keys(parameters).map((parameterIndex, index) => {
+
+                        const currentParameter = parameters[parameterIndex];
                         return (
 
 
@@ -143,40 +160,47 @@ export default function AdjustParameters({ track, onClose }) {
                                 <div className="flex items-center">
 
 
-                                    {activeParams.includes(param) && (
+                                    {activeParams.includes(currentParameter.name) && (
                                         <div className="h-2 w-2 bg-white rounded-full mr-2" />
                                     )}
 
 
                                     <motion.h1
                                         whileTap={{ scale: 0.9 }}
-                                        className={`${!activeParams.includes(param) ? "muted" : "font-bold"} w-fit cursor-pointer`}
-                                        onClick={() => handleClickParam(param)}>
+                                        className={`${!activeParams.includes(currentParameter.name) ? "muted" : "font-bold"} w-fit cursor-pointer`}
+                                        onClick={() => handleClickParam(index)}>
 
-                                        {capitalizeFirstLetter(param)} {activeParams.includes(param) && (parameters[param.toLowerCase()] ? " - " + Math.round(parameters[param.toLowerCase()] * 100) + "%" : "50%")}
+                                        {currentParameter.name} {activeParams.includes(currentParameter.name) && " - " + Math.round(parameters[parameterIndex].getDisplayValue()) + "%"}
 
                                     </motion.h1>
                                 </div>
 
                                 <AnimatePresence>
                                     <motion.div
-                                        key={param}
+                                        key={parameterIndex}
                                         initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: activeParams.includes(param) ? 1 : 0, y: activeParams.includes(param) ? 0 : -10 }}
+                                        animate={{ opacity: activeParams.includes(currentParameter.name) ? 1 : 0, y: activeParams.includes(currentParameter.name) ? 0 : -10 }}
                                         exit={{ opacity: 0, y: -10 }}
                                     >
 
-                                        {activeParams.includes(param) && (
+                                        {activeParams.includes(currentParameter.name) && (
 
                                             <motion.p
                                                 className="my-2 text-xs muted">
-                                                {description[index]}
+                                                {currentParameter.description}
                                             </motion.p>
                                         )}
 
                                         {
-                                            activeParams.includes(param) && (
-                                                <motion.input type="range" className="w-full" name={param.toLowerCase()} onChange={handleChange} value={parameters[param]} min={0} max={1} step={0.01} />
+                                            activeParams.includes(currentParameter.name) && (
+                                                <motion.input
+                                                    type="range"
+                                                    className="w-full"
+                                                    onChange={(e) => handleChange(e, currentParameter)}
+                                                    value={currentParameter.getValue()}
+                                                    min={currentParameter.min}
+                                                    max={currentParameter.max}
+                                                    step={currentParameter.step} />
                                             )
                                         }
                                     </motion.div>
