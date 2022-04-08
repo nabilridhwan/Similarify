@@ -1,3 +1,30 @@
+
+## [1.8.0] - 2022-04-08
+
+>   Another one (feature)! along with a bug fix! 🥳
+
+### Added
+
+- Added new Parameter for your hands to tinkle with called Popularity. Hope you can find less popular songs, so you can show off how cool you are for 'discovering' an underground band and be proud of it!
+    -   Get started now by adjusting parameters of a song.
+
+### Changed
+
+- Changed footer margin.
+-   __[DEV]__ Parameters are now handled by the new Parameter class which can be found in `src/utils/Parameter.js`. Read the Parameter class file to find out it's properties and how it is used with `AdjustParameters.jsx`.
+
+### Fixed
+
+- Fixed an issue where the currently playing song, when added to your list won't show "Remove from list" when you exit and re-enter the Recently Played page.
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## [1.7.0] - 2022-04-08
 >   One new feature to the list! ✨. And, we fixed some part of the bridge that was off limits. (We fixed a bug!) ✨
 
