@@ -23,6 +23,7 @@ import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 
 import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from '../hooks/useApiKey';
+import ErrorMessage from '../Components/ErrorMessage';
 
 export default function Recommendation() {
 
@@ -37,7 +38,9 @@ export default function Recommendation() {
     const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
 
 
-    const { apiKey, error, loggedIn } = useApiKey();
+    const { apiKey, loggedIn } = useApiKey();
+
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
@@ -58,25 +61,33 @@ export default function Recommendation() {
         try {
 
             addedSongs.forEach(async song => {
-                let tracks = await SpotifyInstance.getRecommendation(song.id, 6, song.parameters)
-                if (Object.prototype.hasOwnProperty.call(tracks, 'error')) {
-                    navigate("/search")
-                }
-                setSongs([...songs, tracks])
+                try {
 
-                let mappedArray = [...addedSongs].map(s => {
-                    if (s.name === song.name && s.artist === song.artist) {
-                        s.similar = tracks.tracks;
+
+                    let tracks = await SpotifyInstance.getRecommendation(song.id, 6, song.parameters)
+                    if (Object.prototype.hasOwnProperty.call(tracks, 'error')) {
+                        navigate("/search")
                     }
+                    setSongs([...songs, tracks])
 
-                    return s;
-                })
+                    let mappedArray = [...addedSongs].map(s => {
+                        if (s.name === song.name && s.artist === song.artist) {
+                            s.similar = tracks.tracks;
+                        }
 
-                setSongs(checkForDuplicates(mappedArray));
+                        return s;
+                    })
+
+                    setSongs(checkForDuplicates(mappedArray));
+
+                } catch (error) {
+                    setError(error.message)
+                }
             })
 
         } catch (error) {
-            navigate("/authenticate")
+            console.log(error)
+            setError(error.message)
         }
 
         // let cloneSongs = [...addedSongs];
@@ -142,6 +153,10 @@ export default function Recommendation() {
 
             <BackButton />
 
+            {error && (
+                <ErrorMessage error={error} />
+            )}
+
 
             {/* <ProgressBar current={2} /> */}
 
@@ -174,7 +189,7 @@ export default function Recommendation() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         key={index}
-                        className="dark:bg-darkCard dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10">
+                        className="dark:bg-darkCard  dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10">
 
                         <p className='text font-bold my-4'>
                             Since you liked...

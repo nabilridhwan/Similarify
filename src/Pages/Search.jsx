@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
-import { RiPlayListFill } from "react-icons/ri"
+import { RiPlayListFill, RiPlayListAddFill } from "react-icons/ri"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
 
@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
 import { useSelector, useDispatch } from "react-redux"
-import { setSearchResults, removeSong, setApiKey, setSearchTermRedux, clearSongsFromPlaylist, clearPlaylistLink } from "../actions";
+import { setSearchResults, removeSong, setApiKey, setSearchTermRedux, clearSongsFromPlaylist, clearPlaylistLink, clearAddedSongs } from "../actions";
 import AddedSongs from "../Components/AddedSongs";
 import Footer from "../Components/Footer";
 import DoneButton from "../Components/DoneButton";
@@ -21,6 +21,8 @@ import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from "../hooks/useApiKey";
 import AddedPlaylistSongs from "../Components/AddedPlaylistSongs";
 import CreatedPlaylistModal from "../Components/CreatedPlaylistModal";
+import useError from "../hooks/useError";
+import ErrorMessage from "../Components/ErrorMessage";
 
 function Search() {
 
@@ -42,7 +44,9 @@ function Search() {
 
     let dispatch = useDispatch();
 
-    let { apiKey, loggedIn, error } = useApiKey();
+    let { apiKey, loggedIn } = useApiKey();
+
+    const [ error, setError ] = useState(null);
 
 
     useEffect(() => {
@@ -50,6 +54,51 @@ function Search() {
             dispatch(setSearchResults([]));
         }
     }, [searchTerm])
+
+    useEffect(() => {
+
+        console.log("Rechecking added songs against searchResults")
+
+        let finalTracks = {};
+
+        // Loop through objects and add to finalTracks
+        searchResults.forEach(track => {
+            // If the track is already in the finalTracks object, set the added property to true 
+            if (Object.prototype.hasOwnProperty.call(finalTracks, track.id)) {
+                finalTracks[track.id].added = true;
+            } else {
+
+                // If the track is not in the finalTracks object, add it to the finalTracks object
+                finalTracks[track.id] = track;
+                finalTracks[track.id].added = false;
+            }
+        })
+
+        // Do the same for added songs
+        addedSongs.forEach(addedTrack => {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedTrack.id)) {
+                finalTracks[addedTrack.id].added = true;
+            }
+        })
+
+
+        // Loop through finalTracks and return them in a format which is like this (it can be done using Object.values):
+        /*
+            [
+                {
+                    "name": "The Greatest Show",
+                    "artist": "The Greatest Show",
+                    "album": "The Greatest Show",
+                    "albumArt": "https://i.scdn.co/image/ab67616d0000b2737c8f9b9b9b9b9b9b9b9b9b9b9b",
+                    "id": "0HqZX76SFLDz2aW8aiqi7G",
+                    "added": false
+                }
+            ]
+        */
+
+        // Dispatch redux event
+        dispatch(setSearchResults(Object.values(finalTracks)));
+    }, [addedSongs])
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -136,10 +185,11 @@ function Search() {
             // Dispatch redux event
             dispatch(setSearchResults(Object.values(finalTracks)));
         } catch (error) {
-            // Reauthenticate user
-            navigate("/authenticate")
+            setError(error.message)
         }
     }
+
+
 
     const handleClickOnCurrentPlaylist = () => {
         setShowAddedPlaylistSongs(true)
@@ -151,6 +201,10 @@ function Search() {
 
             {/* <ProgressBar current={1} total={2} /> */}
 
+            {error && (
+                <ErrorMessage error={error} />
+            )}
+
             <div className="my-5">
                 <h1 className="font-bold text-2xl" >
                     Search for Songs
@@ -161,9 +215,9 @@ function Search() {
 
                 <div className="nav my-5 space-y-4">
                     <p
-                        className="text-sm"
+                        className="text-sm font-semibold"
                     >Alternatively, pick from:</p>
-                    <div className="section flex flex-wrap space-x-2">
+                    <div className="section flex flex-wrap space-x-1">
                         <SectionButton to="/likedsongs">
                             <FaHeart className="mr-2" />
                             <h1>Liked Songs</h1>
@@ -197,35 +251,26 @@ function Search() {
                     placeholder="Imagine Dragons" />
 
 
-                <motion.div
-                    layout="position"
-                    className="grid md:grid-cols-2 gap-2 my-5">
+                {/* Search button */}
+                <button
+                    disabled={searchTerm === ""}
+                    className={`mt-2 transition flex items-center justify-center btn shadow-sm bg-pink-500 text-white w-full disabled-button`}
+                    onClick={searchForTracks}>
+                    <FaSearch className="mr-2" />
+                    Search
+                </button>
 
-                    {/* Search button */}
-                    <button
-                        disabled={searchTerm === ""}
-                        className={`${addedPlaylistSongs.length == 0 && "col-span-2"} transition flex items-center justify-center btn shadow-sm bg-pink-500 shadow-pink-500/30 text-white w-full disabled-button`}
-                        onClick={searchForTracks}>
-                        <FaSearch className="mr-2" />
-                        Search
-                    </button>
-
-                    {addedPlaylistSongs.length > 0 && (
-
-                        <button
-                            disabled={searchTerm === ""}
-                            className="transition flex items-center justify-center btn shadow-sm bg-blue-500 shadow-pink-500/30 text-white w-full disabled-button"
-                            onClick={handleClickOnCurrentPlaylist}>
-                            <RiPlayListFill className="mr-2" />
-                            View Current Playlist
-                        </button>
-                    )}
-
-
-
-
-                </motion.div>
             </form>
+
+            {addedPlaylistSongs.length > 0 && (
+
+                <button
+                    className="mt-2 transition flex items-center justify-center btn shadow-sm bg-neutral-700 text-white w-full disabled-button"
+                    onClick={() => setShowAddedPlaylistSongs(true)}>
+                    <RiPlayListAddFill className="mr-2" />
+                    View Current Playlist
+                </button>
+            )}
 
             {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
                 <FaSpotify className="mr-2" />
@@ -277,7 +322,6 @@ function Search() {
                     <AddedSongs onClose={() => setShowAddedSongs(false)} />
                 )}
             </AnimatePresence>
-
 
             <AnimatePresence>
                 {showAddedPlaylistSongs && (

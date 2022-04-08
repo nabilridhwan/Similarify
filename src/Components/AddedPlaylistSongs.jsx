@@ -7,6 +7,7 @@ import { clearAddedSongs, clearSongsFromPlaylist, removeSongFromPlaylist, setPla
 import AddToExistingPlaylist from './AddToExistingPlaylist';
 
 import SpotifyInstance from '../utils/SpotifyInstance';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
@@ -17,6 +18,8 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
 
     const [error, setError] = useState("");
     const [showAddToExistingPlaylist, setShowAddToExistingPlaylist] = useState(false);
+
+    const [message, setMessage] = useState("");
 
     const [playlistName, setPlaylistName] = useState('');
     const [playlistDescription, setPlaylistDescription] = useState('');
@@ -31,6 +34,9 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
     }, [addedPlaylistSongs])
 
     const handleCreatePlaylist = () => {
+
+        setError(null);
+        setMessage("Creating Playlist");
         // setCreatedPlaylist(false)
 
         let pName = playlistName;
@@ -64,8 +70,10 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                 dispatch(clearSongsFromPlaylist())
             }).catch(error => {
                 console.log("There was an error while creating a playlist")
-                setError(error)
                 console.log(error)
+                setError(error)
+            }).finally(() => {
+                setMessage("")
             })
     }
 
@@ -150,10 +158,20 @@ export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
                             </motion.div>
 
                             {error && (
-
                                 <p className='text-red-500'>
                                     {error}
                                 </p>
+                            )}
+
+                            {message && (
+                                <div className="flex items-center">
+
+                                    <LoadingSpinner size={20} loading={true} />
+
+                                    <p className="text-sm ml-2 text-black/50 dark:text-white/50 mt-2">
+                                        {message}
+                                    </p>
+                                </div>
                             )}
 
 

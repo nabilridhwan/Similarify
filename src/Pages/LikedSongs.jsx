@@ -16,12 +16,12 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 
 import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from "../hooks/useApiKey";
+import ErrorMessage from "../Components/ErrorMessage";
+import useError from "../hooks/useError";
 
 // Import
 
 export default function LikedSongs() {
-
-    const location = useLocation();
 
     let [likedSongs, setLikedSongs] = useState([]);
     let addedSongs = useSelector(state => state.songs);
@@ -31,46 +31,27 @@ export default function LikedSongs() {
 
     let [loading, setLoading] = useState(true)
 
-    const { apiKey, error, loggedIn } = useApiKey();
+    const { error, setError } = useError();
+
+    const { apiKey, error: e, loggedIn } = useApiKey();
 
     useEffect(() => {
-
         (async () => {
             await getLikedSongs();
             setLoading(false)
         })();
     }, [])
 
-    function handleFormSubmit(e) {
-        // Prevent default submit action
-        e.preventDefault();
-        // searchForTracks()
-    }
-
-    async function getLikedSongs() {
-        let likedSongs = await SpotifyInstance.getLikedSongs()
-        if (Object.prototype.hasOwnProperty.call(likedSongs, 'error')) {
-            throw new Error(likedSongs.error.status)
-        }
-
-        let n = likedSongs.map(song => {
-            return {
-                added_at: song.added_at,
-                id: song.track.id,
-                name: song.track.name,
-                artist: song.track.artists.map(a => a.name).join(", "),
-                albumArt: song.track.album.images[0].url,
-                added: false
-            }
-        })
-
+    useEffect(() => {
+        console.log("Rechecking added songs against likedSongs")
         let finalTracks = {};
 
-        n.forEach(likedSong => {
+        likedSongs.forEach(likedSong => {
             if (Object.prototype.hasOwnProperty.call(finalTracks, likedSong.id)) {
                 finalTracks[likedSong.id].added = true
             } else {
                 finalTracks[likedSong.id] = likedSong
+                finalTracks[likedSong.id].added = false
             }
         })
 
@@ -81,6 +62,53 @@ export default function LikedSongs() {
         })
 
         setLikedSongs(Object.values(finalTracks))
+    }, [addedSongs])
+
+    function handleFormSubmit(e) {
+        // Prevent default submit action
+        e.preventDefault();
+        // searchForTracks()
+    }
+
+    async function getLikedSongs() {
+        try {
+            let likedSongs = await SpotifyInstance.getLikedSongs()
+            if (Object.prototype.hasOwnProperty.call(likedSongs, 'error')) {
+                throw new Error(likedSongs.error.status)
+            }
+
+            let n = likedSongs.map(song => {
+                return {
+                    added_at: song.added_at,
+                    id: song.track.id,
+                    name: song.track.name,
+                    artist: song.track.artists.map(a => a.name).join(", "),
+                    albumArt: song.track.album.images[0].url,
+                    added: false
+                }
+            })
+
+            let finalTracks = {};
+
+            n.forEach(likedSong => {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, likedSong.id)) {
+                    finalTracks[likedSong.id].added = true
+                } else {
+                    finalTracks[likedSong.id] = likedSong
+                    finalTracks[likedSong.id].added = false
+                }
+            })
+
+            addedSongs.forEach(addedSong => {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
+                    finalTracks[addedSong.id].added = true
+                }
+            })
+
+            setLikedSongs(Object.values(finalTracks))
+        } catch (error) {
+            setError(error.message)
+        }
     }
 
     // async function searchForTracks() {
@@ -127,7 +155,13 @@ export default function LikedSongs() {
                 <p className="dark:text-white/60 text-black/60">
                     Select songs that you already like
                 </p>
+
+
             </div>
+
+            {error && (
+                <ErrorMessage error={error} />
+            )}
 
             {/* Search form */}
             {/* <form onSubmit={handleFormSubmit}>

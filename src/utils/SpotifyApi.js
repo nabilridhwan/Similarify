@@ -14,6 +14,7 @@ class SpotifyApi {
     }
 
     async getUserData() {
+        // throw new Error("Mock Error in User Data")
         return await fetch("https://api.spotify.com/v1/me", {
             headers: {
                 "Authorization": "Bearer " + this.userToken
@@ -29,23 +30,31 @@ class SpotifyApi {
     }
 
     async getLikedSongs(limit = 50) {
+        // throw new Error("Mock Error in Liked Songs")
         let tracks = [];
         let next = null;
         let iteration = 0;
         let link = `https://api.spotify.com/v1/me/tracks?limit=${limit}`;
 
         do {
-
             await fetch(link, {
                     headers: {
                         "Authorization": "Bearer " + this.userToken
                     }
-                }).then(res => res.json())
+                }).then(res => {
+                    if (!res.ok) {
+                        throw Error(res.status)
+                    }
+                    return res.json()
+                })
                 .then(likedSongs => {
                     iteration++
                     next = likedSongs.next;
                     tracks = [...tracks, ...likedSongs.items]
                     link = next;
+                }).catch(error => {
+                    console.log(`[Spotify API] Error encountered while fetching liked songs in iteration ${iteration}`)
+                    throw new Error(`Error fetching liked songs: ${error.message}`)
                 })
         } while (next !== null && iteration < 3)
 
@@ -92,6 +101,7 @@ class SpotifyApi {
     }
 
     async getUserPlaylists() {
+        // throw new Error("Mock Error in User Playlists")
         return await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
             headers: {
                 "Authorization": "Bearer " + this.userToken
@@ -100,6 +110,7 @@ class SpotifyApi {
     }
 
     async getTracksByPlaylistId(playlist_id) {
+        // throw new Error("Mock Error in Tracks by Playlist ID")
         let tracks = [];
         let next = null;
         let link = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?limit=100`;
@@ -122,6 +133,7 @@ class SpotifyApi {
     }
 
     async createPlaylist(track_uris, playlist_name, playlist_description) {
+        // throw new Error("Mock Error in Create Playlist")
         console.log(track_uris, playlist_name, playlist_description)
         return new Promise((resolve, reject) => {
             // Get the User ID first
@@ -132,7 +144,7 @@ class SpotifyApi {
                     } = userData;
 
                     // Create a playlist and obtain the playlist id
-                    fetch("https://api.spotify.com/v1/users/" + userID + "/playlists", {
+                    fetch("https://api.spotify.com/v1/user/" + userID + "/playlists", {
                             method: "POST",
                             headers: {
                                 "Authorization": "Bearer " + this.userToken,
@@ -168,7 +180,6 @@ class SpotifyApi {
                                 reject("Error creating playlist")
                             }
                         }).catch(error => {
-
                             reject("Error creating playlist")
                         })
 
@@ -180,6 +191,7 @@ class SpotifyApi {
     }
 
     async addTracksToPlaylist(playlistID, track_uris) {
+        // throw new Error("Mock Error in Add Tracks to Playlist")
         return new Promise((resolve, reject) => {
             // Add the uris to the playlist id
             fetch("https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", {
@@ -206,6 +218,7 @@ class SpotifyApi {
     }
 
     async getRecentlyPlayedSongs(limit = 50) {
+        // throw new Error("Mock Error in Recently Played Songs")
         console.log("[Spotify API] Fetching Recently Played Songs")
         let tracks = [];
         let next = null;
@@ -226,8 +239,16 @@ class SpotifyApi {
                     link = next;
                 })
         } while (next !== null && iteration < 3)
-        
+
         return tracks;
+    }
+
+    async getCurrentlyPlayed(){
+        return await fetch("https://api.spotify.com/v1/me/player", {
+            headers: {
+                "Authorization": "Bearer " + this.userToken
+            }
+        }).then(res => res.json())
     }
 
 }

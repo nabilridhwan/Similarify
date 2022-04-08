@@ -50,83 +50,96 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
     }, [])
 
     async function getUserPlaylists() {
-        let playlists = await SpotifyInstance.getUserPlaylists()
-        if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
-            throw new Error(playlists.error.status)
-        }
+        try {
+            let playlists = await SpotifyInstance.getUserPlaylists()
+            if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
+                throw new Error(playlists.error.status)
+            }
 
 
-        if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
+            if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
 
-            let n = playlists.items.map(playlist => {
-                let img = null;
+                let n = playlists.items.map(playlist => {
+                    let img = null;
 
-                if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
-                    img = playlist.images[0].url
-                }
+                    if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
+                        img = playlist.images[0].url
+                    }
 
-                return {
-                    id: playlist.id,
-                    name: playlist.name,
-                    albumArt: img,
-                    tracks: playlist.tracks.total,
-                    owner: playlist.owner.display_name
-                }
-            })
+                    return {
+                        id: playlist.id,
+                        name: playlist.name,
+                        albumArt: img,
+                        tracks: playlist.tracks.total,
+                        owner: playlist.owner.display_name
+                    }
+                })
 
-            setPlaylists(n)
+                setPlaylists(n)
+            }
+
+        } catch (error) {
+            setError(error.message)
         }
     }
 
-    // TODO: Do not add duplicate songs
+    // Do not add duplicate songs
     const handleClickPlaylist = async (playlist) => {
-        setError("");
-        const uris = addedPlaylistSongs.map(song => song.uri)
+        try {
+            setError("");
 
-        setMessage("Adding songs to playlist...")
+            const uris = addedPlaylistSongs.map(song => song.uri)
 
-        // Get the current tracks from the playlist
-        let t = await SpotifyInstance.getTracksByPlaylistId(playlist.id)
+            setMessage("Adding songs to playlist...")
 
-        // Get all the uris (filter the nulls and undefined)
-        let t_uris = t.map(t => {
-            if (Object.prototype.hasOwnProperty.call(t, 'track') && t.track) {
-                return t.track.uri
+            // Get the current tracks from the playlist
+            let t = await SpotifyInstance.getTracksByPlaylistId(playlist.id)
+
+            // Get all the uris (filter the nulls and undefined)
+            let t_uris = t.map(t => {
+                if (Object.prototype.hasOwnProperty.call(t, 'track') && t.track) {
+                    return t.track.uri
+                }
+            }).filter(t => t)
+
+            // Final array of uris to add
+            let final = [];
+
+            // If there are no intersecting uris, add all the uris
+            uris.forEach(uri => {
+                if (!t_uris.includes(uri)) {
+                    final.push(uri)
+                }
+            })
+
+            console.log(final.length)
+
+            if (final.length > 0) {
+                // Add it to the playlist
+                await SpotifyInstance.addTracksToPlaylist(playlist.id, final)
+                    .then(data => {
+                        // console.log(data)
+                        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
+                            // Throw the error
+                            throw new Error(data.error.message)
+                        }
+
+                        // Run the on added function
+                        onAdded(data.link)
+                    }).catch(error => {
+                        console.log(error)
+                        setError(error.message)
+                    }).finally(() => {
+                        setMessage("")
+                    })
+            } else {
+                setError("No new songs to add. All songs already exists in the playlist.")
+                setMessage("")
             }
-        }).filter(t => t)
 
-        // Final array of uris to add
-        let final = [];
-
-        // If there are no intersecting uris, add all the uris
-        uris.forEach(uri => {
-            if (!t_uris.includes(uri)) {
-                final.push(uri)
-            }
-        })
-
-        console.log(final.length)
-
-        if (final.length > 0) {
-            // Add it to the playlist
-            await SpotifyInstance.addTracksToPlaylist(playlist.id, final)
-                .then(data => {
-                    // console.log(data)
-                    if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-                        // Throw the error
-                        throw new Error(data.error.message)
-                    }
-
-                    // Run the on added function
-                    onAdded(data.link)
-                }).catch(error => {
-                    console.log(error)
-                    setError(error.message)
-                }).finally(() => {
-                    setMessage("")
-                })
-        } else {
-            setError("No new songs to add. All songs already exists in the playlist.")
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
             setMessage("")
         }
     }
@@ -153,9 +166,14 @@ export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
 
 
                     {message && (
-                        <p className="text-sm text-black/50 dark:text-white/50 mt-2">
-                            {message}
-                        </p>
+                        <div className="flex items-center">
+
+                            <LoadingSpinner size={20} loading={true} />
+
+                            <p className="text-sm ml-2 text-black/50 dark:text-white/50 mt-2">
+                                {message}
+                            </p>
+                        </div>
                     )}
                 </div>
 

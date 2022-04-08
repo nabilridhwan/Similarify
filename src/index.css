@@ -58,6 +58,10 @@ footer a{
   @apply font-mono bg-black/10 dark:bg-white/20 p-0.5 rounded-md;
 }
 
+.changelog-section h4{
+  @apply text-xl my-2;
+}
+
 .pagination{
   @apply flex justify-center items-center space-x-2 space-y-2 flex-wrap;
 }

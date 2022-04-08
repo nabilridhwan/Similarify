@@ -1,3 +1,32 @@
+## [1.7.0] - 2022-04-08
+>   One new feature to the list! ✨. And, we fixed some part of the bridge that was off limits. (We fixed a bug!) ✨
+
+### Added
+
+-   Added Better error messages messages (You'll see an error for every type, either in pop up boxes or shown on screen)
+-   Added loading animations for creating or modifying playlists.
+-   Added the ability to add your currently playing song to the list. Get started from the Recently Played page!
+
+### Changed
+
+- Changed "View Current Playlist" button colors and icon.
+-   Changed animation of some stuff. (Especially noticeable in "Liked Songs" and "Recently Played" page)
+-   Changed wording in home page
+
+### Fixed
+
+-   After creating a playlist **from** using the "View Current Playlist" button, the songs that are added (to your list or to the playlist) might still show "Remove from list/Remove from Playlist" even though the items are already removed. (This bug was initially found in version `1.6.3 - The upgrade time 😈`)
+    -   This bug is fixed in this update!
+    -   This bug fix also indirectly fixes:
+        -   Every time the button is clicked, Spotify API will be called, this may affect bandwidth.
+        -   Every time the button is clicked and the search box input is empty, the "Added Playlist Song" window might not pop up.
+
+### Removed
+-   The party popper emoji from the home page.
+
+### Security
+
+- None
 ## 1.6.3 - The upgrade time 😈
 >   We upgraded the bridge and the workers too! (We upgraded React from 17 to 18) 🥳 and added one new teeny weeny feature that I found useful to myself.
 ### Added
@@ -5,7 +34,7 @@
 - __[UNDER TESTING]__ Added the ability to view your current state of your playlist (when you go back from Recommendations, and there is still songs in your playlist) 
 
 ### Bugs
--   After creating a playlist form the new feature added above, the songs that are added (to your list or to the playlist) might still show "Remove from list/Remove from Playlist" even though the items are already removed.
+-   After creating a playlist from the new feature added above, the songs that are added (to your list or to the playlist) might still show "Remove from list/Remove from Playlist" even though the items are already removed.
 
 ### Changed
 

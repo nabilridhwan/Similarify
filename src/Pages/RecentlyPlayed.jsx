@@ -7,7 +7,7 @@ import Container from "../Components/Container";
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
@@ -16,6 +16,9 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import LogOutButton from "../Components/LogOutButton";
 import SpotifyInstance from "../utils/SpotifyInstance";
 import useApiKey from "../hooks/useApiKey";
+import ErrorMessage from "../Components/ErrorMessage";
+import CurrentlyPlaying from "../Components/CurrentlyPlaying";
+import { addSong, removeSong } from "../actions";
 
 // Import
 
@@ -25,13 +28,18 @@ export default function RecentlyPlayed() {
     let addedSongs = useSelector(state => state.songs);
     let navigate = useNavigate();
 
-    const location = useLocation();
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
     let [loading, setLoading] = useState(true)
 
-    const { apiKey, error, loggedIn } = useApiKey();
+    const { apiKey, loggedIn } = useApiKey();
+
+    const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
+
+    const [error, setError] = useState(null);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -39,37 +47,19 @@ export default function RecentlyPlayed() {
             await getRecentlyPlayedSongs();
             setLoading(false)
         })();
+
+        (async () => {
+            await getCurrentlyPlayed();
+        })();
     }, [])
 
-    function handleFormSubmit(e) {
-        // Prevent default submit action
-        e.preventDefault();
-        // searchForTracks()
-    }
-
-    async function getRecentlyPlayedSongs() {
-        let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
-
-        if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
-            throw new Error(recentlyPlayedSongs.error.status)
-        }
-
-        let n = recentlyPlayedSongs.map(song => {
-            return {
-                added_at: song.played_at,
-                id: song.track.id,
-                name: song.track.name,
-                artist: song.track.artists.map(a => a.name).join(", "),
-                albumArt: song.track.album.images[0].url,
-                added: false
-            }
-        })
-
+    useEffect(() => {
         let finalTracks = {};
 
-        n.forEach(recentlyPlayedSong => {
+        recentlyPlayedSongs.forEach(recentlyPlayedSong => {
             if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
                 finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
+                finalTracks[recentlyPlayedSong.id].added = false;
             }
         })
 
@@ -78,9 +68,94 @@ export default function RecentlyPlayed() {
             if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
                 finalTracks[addedSong.id].added = true
             }
+
+            if (currentlyPlaying && addedSong.id === currentlyPlaying.id) {
+                const obj = {
+                    ...currentlyPlaying,
+                }
+                obj.added = true
+                setCurrentlyPlaying(obj)
+            }
         })
 
         setRecentlyPlayedSongs(Object.values(finalTracks))
+    }, [addedSongs])
+
+    function handleFormSubmit(e) {
+        // Prevent default submit action
+        e.preventDefault();
+        // searchForTracks()
+    }
+
+    async function getCurrentlyPlayed() {
+        try {
+            let currentlyPlayed = await SpotifyInstance.getCurrentlyPlayed();
+
+            if (Object.prototype.hasOwnProperty.call(currentlyPlayed, "item")) {
+                const obj = {
+                    added: false,
+                    albumArt: currentlyPlayed.item.album.images[0].url,
+                    artist: currentlyPlayed.item.artists.map(a => a.name).join(", "),
+                    id: currentlyPlayed.item.id,
+                    name: currentlyPlayed.item.name,
+                }
+
+                setCurrentlyPlaying(obj);
+            }
+        } catch (e) {
+            console.log("Couldn't get currently playing or user is not playing anything.")
+        }
+    }
+
+    async function getRecentlyPlayedSongs() {
+        try {
+            let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
+
+            if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
+                throw new Error(recentlyPlayedSongs.error.status)
+            }
+
+            let n = recentlyPlayedSongs.map(song => {
+                return {
+                    added_at: song.played_at,
+                    id: song.track.id,
+                    name: song.track.name,
+                    artist: song.track.artists.map(a => a.name).join(", "),
+                    albumArt: song.track.album.images[0].url,
+                    added: false
+                }
+            })
+
+            let finalTracks = {};
+
+            n.forEach(recentlyPlayedSong => {
+                if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
+                    finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
+                    finalTracks[recentlyPlayedSong.id].added = false;
+                }
+            })
+
+
+            addedSongs.forEach(addedSong => {
+                if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
+                    finalTracks[addedSong.id].added = true
+                }
+
+                // Check for currently playing
+                if (currentlyPlaying && addedSong.id === currentlyPlaying.id) {
+                    const obj = {
+                        ...currentlyPlaying,
+                    }
+                    obj.added = true
+                    setCurrentlyPlaying(obj)
+                }
+            })
+
+            setRecentlyPlayedSongs(Object.values(finalTracks))
+
+        } catch (error) {
+            setError(error.message)
+        }
     }
 
     // async function searchForTracks() {
@@ -116,7 +191,14 @@ export default function RecentlyPlayed() {
 
     return (
         <Container>
+
+
+
             <BackButton />
+
+            {error && (
+                <ErrorMessage error={error} />
+            )}
 
             {/* <ProgressBar current={1} total={2} /> */}
 
@@ -128,9 +210,11 @@ export default function RecentlyPlayed() {
                     You liked a song from your Spotify recently?
                 </p>
             </div>
-
-            {/* Search form */}
-            {/* <form onSubmit={handleFormSubmit}>
+            <motion.div
+                layout="position"
+            >
+                {/* Search form */}
+                {/* <form onSubmit={handleFormSubmit}>
                 <input
                     value={searchTerm}
                     className="search-box"
@@ -148,60 +232,78 @@ export default function RecentlyPlayed() {
                 </button>
             </form> */}
 
-            {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
+                {/* <h1 className="flex text-sm my-8 text-black/50 justify-center items-center text-center">
                 <FaSpotify className="mr-2" />
                 Search powered by Spotify
             </h1> */}
 
-            {!loading && recentlyPlayedSongs.length == 0 && (
-                <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
-                    <FaRegSadCry className="text-2xl my-5" />
-                    <p className="text-sm">
-                        You don't have any recently played songs!
-                    </p>
-                </div>
-            )}
-
-            {loading && (
-                <div className="flex items-center justify-center">
-                    <LoadingSpinner loading={loading} />
-                </div>
-            )}
 
 
-            <AnimatePresence exitBeforeEnter>
-                <motion.div
-                    transition={{
-                        type: "tween",
-                        ease: "easeOut"
+                {currentlyPlaying && (
+                    <CurrentlyPlaying handleAdd={(track) => {
+                        dispatch(addSong(track))
                     }}
-                    className="my-5 grid gap-2">
+                        handleRemove={(track) => {
+                            dispatch(removeSong(track))
+                        }}
 
-                    {recentlyPlayedSongs.map((track, index) => {
-                        return (
-                            <SpotifySong overrideTopText={"Played"} track={track} key={track.id + "-" + index} />
-                        )
-                    })}
-                </motion.div>
-            </AnimatePresence>
-
-
-            <AnimatePresence>
-                {addedSongs.length > 0 && (
-
-                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                        handleRefresh={() => {
+                            getCurrentlyPlayed();
+                        }}
+                        track={currentlyPlaying} />
                 )}
-            </AnimatePresence>
 
-            {/* Added songs */}
-            <AnimatePresence>
-                {showAddedSongs && (
-                    <AddedSongs onClose={() => setShowAddedSongs(false)} />
+
+                <AnimatePresence exitBeforeEnter>
+                    <motion.div
+                        transition={{
+                            type: "tween",
+                            ease: "easeOut"
+                        }}
+                        className="my-5 grid gap-2">
+
+                        {recentlyPlayedSongs.map((track, index) => {
+                            return (
+                                <SpotifySong overrideTopText={"Played"} track={track} key={track.id + "-" + index} />
+                            )
+                        })}
+                    </motion.div>
+                </AnimatePresence>
+
+                {!loading && recentlyPlayedSongs.length == 0 && (
+                    <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
+                        <FaRegSadCry className="text-2xl my-5" />
+                        <p className="text-sm">
+                            You don't have any recently played songs!
+                        </p>
+                    </div>
                 )}
-            </AnimatePresence>
 
-            <Footer />
+                {loading && (
+                    <div className="flex items-center justify-center">
+                        <LoadingSpinner loading={loading} />
+                    </div>
+                )}
 
+
+                <AnimatePresence>
+                    {addedSongs.length > 0 && (
+
+                        <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                    )}
+                </AnimatePresence>
+
+                {/* Added songs */}
+                <AnimatePresence>
+                    {showAddedSongs && (
+                        <AddedSongs onClose={() => setShowAddedSongs(false)} />
+                    )}
+                </AnimatePresence>
+
+                <Footer />
+
+
+            </motion.div>
         </Container >
     )
 }

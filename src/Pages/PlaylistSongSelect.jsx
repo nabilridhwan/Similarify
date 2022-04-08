@@ -45,6 +45,30 @@ export default function PlaylistSongSelect() {
         })();
     }, [])
 
+    useEffect(() => {
+        console.log("Rechecking added songs against playlistSongs")
+
+        let finalTracks = {};
+
+        playlistSongs.forEach(playlistSong => {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, playlistSong.id)) {
+                finalTracks[playlistSong.id].added = true
+            } else {
+                finalTracks[playlistSong.id] = playlistSong
+                finalTracks[playlistSong.id].added = false;
+            }
+        })
+
+        addedSongs.forEach(addedSong => {
+            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
+                finalTracks[addedSong.id].added = true
+            }
+        })
+
+        setPlaylistSongs(Object.values(finalTracks))
+
+    }, [addedSongs])
+
     function handleFormSubmit(e) {
         // Prevent default submit action
         e.preventDefault();
@@ -86,6 +110,7 @@ export default function PlaylistSongSelect() {
                 finalTracks[playlistSong.id].added = true
             } else {
                 finalTracks[playlistSong.id] = playlistSong
+                finalTracks[playlistSong.id].added = false;
             }
         })
 

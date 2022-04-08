@@ -16,6 +16,7 @@ import Playlist from "../Components/Playlist";
 import LoadingSpinner from "../Components/LoadingSpinner"
 import LogOutButton from "../Components/LogOutButton";
 import useApiKey from "../hooks/useApiKey";
+import ErrorMessage from "../Components/ErrorMessage";
 
 export default function Playlists() {
 
@@ -31,7 +32,9 @@ export default function Playlists() {
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
 
-    const { apiKey, error, loggedIn } = useApiKey();
+    const { apiKey, loggedIn } = useApiKey();
+
+    const [error, setError] = useState(null);
 
     // Checks for token
     useEffect(() => {
@@ -49,41 +52,51 @@ export default function Playlists() {
     }
 
     async function getUserPlaylists() {
-        let playlists = await SpotifyInstance.getUserPlaylists()
-        if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
-            throw new Error(playlists.error.status)
-        }
+        setError(null);
+        try {
+
+            let playlists = await SpotifyInstance.getUserPlaylists()
+            if (Object.prototype.hasOwnProperty.call(playlists, 'error')) {
+                throw new Error(playlists.error.status)
+            }
 
 
-        if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
+            if (Object.prototype.hasOwnProperty.call(playlists, 'items')) {
 
-            let n = playlists.items.map(playlist => {
+                let n = playlists.items.map(playlist => {
 
-                console.log()
+                    console.log()
 
-                let img = null;
+                    let img = null;
 
-                if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
-                    img = playlist.images[0].url
-                }
+                    if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
+                        img = playlist.images[0].url
+                    }
 
-                return {
-                    id: playlist.id,
-                    name: playlist.name,
-                    albumArt: img,
-                    tracks: playlist.tracks.total,
-                    owner: playlist.owner.display_name
-                }
-            })
+                    return {
+                        id: playlist.id,
+                        name: playlist.name,
+                        albumArt: img,
+                        tracks: playlist.tracks.total,
+                        owner: playlist.owner.display_name
+                    }
+                })
 
-            setPlaylists(n)
-            // console.log(n)
+                setPlaylists(n)
+                // console.log(n)
+            }
+        } catch (error) {
+            setError(error.message)
         }
     }
 
     return (
         <Container>
             <BackButton />
+
+            {error && (
+                <ErrorMessage error={error} />
+            )}
 
             {/* <ProgressBar current={1} total={2} /> */}
 

@@ -1,6 +1,6 @@
 
 import {motion} from "framer-motion"
-export default function Container({children, goBack}){
+export default function Container({children}){
     return (
         <motion.div 
         initial={{opacity: 0, }}

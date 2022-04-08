@@ -12,7 +12,7 @@ export default function Home() {
             {/* Header */}
             <div className='mt-20'>
                 <h1 className='text-6xl font-extrabold my-2'>
-                    Discover new songs 🎧🎶🎉
+                    Discover new songs 🎧🎶
                 </h1>
                 <p className='dark:text-white/60 text-black/60 text-lg'>Powered by recommendations from Spotify, Similarify is an application that helps you discover the songs you would like based on the songs you already like and compile them into a new playlist (or add them to an existing playlist!) </p>
             </div>
@@ -20,7 +20,7 @@ export default function Home() {
 
             <div className="my-5">
                 <h1>
-                    Read what's new with this update <Link to="/changelog" className="underline text-pink-500">here</Link>.
+                    Read what's new <Link to="/changelog" className="underline text-pink-500">here</Link>.
                 </h1>
             </div>
 

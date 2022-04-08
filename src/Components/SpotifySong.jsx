@@ -18,22 +18,26 @@ export default function SpotifySong({ overrideTopText, track }) {
 
     return (
 
-        <div>
+        <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+                type: "tween",
+                ease: "easeOut"
+            }}
+        >
 
             {track.added_at && (
-                <p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
-                    {overrideTopText ? overrideTopText  : "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
-                </p>
+                <motion.p
+                    className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2"
+                >
+                    {overrideTopText ? overrideTopText : "Liked"} {DateTime.fromISO(track.added_at).toRelative()}
+                </motion.p>
             )}
 
-            <motion.div
-                initial={{ opacity: 0, }}
-                animate={{ opacity: 1, }}
-                exit={{ opacity: 0, }}
-                transition={{
-                    type: "tween",
-                    ease: "easeOut"
-                }}
+            <div
+
                 className="flex items-center">
 
                 <img
@@ -71,8 +75,8 @@ export default function SpotifySong({ overrideTopText, track }) {
 
                 </div>
 
-            </motion.div>
-        </div>
+            </div>
+        </motion.div>
     )
 
 }
