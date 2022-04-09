@@ -1,6 +1,7 @@
 # Similarify
 
 Read the [changelog](./src/CHANGELOG.md) here.
+Go to the `beta` website deployment [here](https://next--similarify.netlify.app/).
 
 ### How the branches work
 -   main
