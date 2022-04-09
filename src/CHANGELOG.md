@@ -1,4 +1,27 @@
 
+## [Unreleased]
+>   OwO!
+
+### Added
+
+- None
+
+### Changed
+
+- Changed layout and animations of the home screen.
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## [0.9.0] - 2022-04-09
 >   We usually put humorous update notes here but that guy is on leave today and we have to take things seriously for today.
 
