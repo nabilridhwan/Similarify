@@ -34,7 +34,7 @@ export default function Home() {
                     Similarify does not store any of your data. It only uses your Spotify account to search and get recommendations.
                 </p>
 
-                <ol className='list-decimal text-sm space-y-2 ml-4'>
+                <ol className='list-decimal space-y-4 ml-4 leading-relaxed'>
                     <li className='list-item'>
                         Log in with your Spotify Account
                     </li>
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
 
             <Link
-                className="btn w-full justify-center flex flex-row items-center bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-none transition-all my-10"
+                className="btn w-full justify-center flex flex-row items-center bg-spotify text-white shadow-lg shadow-spotify/30 hover:bg-green-600 hover:shadow-none transition-all my-10"
                 to="/authenticate">
                 <FaSpotify className="mx-2" />
                 Login with Spotify
