@@ -167,7 +167,7 @@ export default function Playlists() {
 
                 {addedSongs.length > 0 && (
 
-                    <DoneButton onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                    <DoneButton item={addedSongs} onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
                 )}
             </AnimatePresence>
 

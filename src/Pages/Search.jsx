@@ -217,7 +217,7 @@ function Search() {
                     <p
                         className="text-sm font-semibold"
                     >Alternatively, pick from:</p>
-                    <div className="section flex flex-wrap space-x-1">
+                    <div className="section flex flex-wrap gap-2">
                         <SectionButton to="/likedsongs">
                             <FaHeart className="mr-2" />
                             <h1>Liked Songs</h1>
