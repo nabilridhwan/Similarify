@@ -6,7 +6,9 @@ export default function Footer() {
         <footer className="dark:text-white/50 text-black/50 text-xs text-center my-20 space-y-1">
 
 
-            <a href="https://next--similarify.netlify.app/">Try out new features of Similarify ✨</a>
+            <a href="https://next--similarify.netlify.app/">
+                Try out new features ✨
+            </a>
 
             <p>
                 Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
@@ -23,10 +25,6 @@ export default function Footer() {
             </p>
 
 
-
-            <p>
-                <Link to="/changelog">Changelog</Link>
-            </p>
 
             {/* <p>
                 <Link to="/about">About</Link>
