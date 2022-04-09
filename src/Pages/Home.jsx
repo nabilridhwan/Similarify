@@ -20,7 +20,7 @@ export default function Home() {
 
             <div className="my-5">
                 <h1>
-                    Read what's new <Link to="/changelog" className="underline text-pink-500">here</Link>.
+                    Read what's new <Link to="/changelog" className="underline text-brandColor">here</Link>.
                 </h1>
             </div>
 
