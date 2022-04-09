@@ -8,9 +8,9 @@ class SpotifyApi {
         this.userToken = token;
     }
 
-    static authenticateUser() {
+    static authenticateUser(url=this.REDIRECT_URI) {
 
-        window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${this.REDIRECT_URI}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
+        window.location = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${url}&scope=${this.SCOPE}&state=first-auth&show_dialog=true`
     }
 
     async getUserData() {

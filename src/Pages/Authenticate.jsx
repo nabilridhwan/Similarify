@@ -23,7 +23,8 @@ export default function Authenticate() {
                     SpotifyApi.authenticateUser();
                 }
             } else {
-                SpotifyApi.authenticateUser();
+                const origin = window.location.origin
+                SpotifyApi.authenticateUser(`${origin}/search`);
             }
         })();
     }, [])
