@@ -19,7 +19,7 @@ footer a{
 }
 
 .search-box{
-  @apply dark:bg-dark dark:border-white/30 dark:placeholder:text-white/30 w-full px-4 py-2 border-black/30 rounded-lg border outline-none focus:border-pink-500/80 transition ease-out duration-300;
+  @apply dark:bg-dark dark:border-white/30 dark:placeholder:text-white/30 w-full px-4 py-2 border-black/30 rounded-lg border outline-none focus:border-brandColor/80 transition ease-out duration-300;
 }
 
 .done-button{
@@ -35,7 +35,7 @@ footer a{
 }
 
 .changelog-section h2{
-  @apply font-extrabold text-4xl mt-10 text-pink-500;
+  @apply font-extrabold text-4xl mt-10 text-brandColor;
 }
 
 .changelog-section h3{
@@ -75,7 +75,7 @@ li{
 }
 
 .pg-active{
-  @apply border-2 border-pink-500 rounded-lg;
+  @apply border-2 border-brandColor rounded-lg;
 }
 
 .muted{

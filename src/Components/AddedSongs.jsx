@@ -90,7 +90,7 @@ export default function AddedSongs({ onClose }) {
                             </motion.div>
 
                             {addedSongs.length > 0 && (
-                                <Link to="/recommendation" className="btn bg-blue-500 block text-white text-center">
+                                <Link to="/recommendation" className="btn font-semibold bg-green-500 block text-white text-center">
                                     Get Recommendations
                                 </Link>
                             )

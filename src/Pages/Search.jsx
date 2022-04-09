@@ -254,8 +254,8 @@ function Search() {
                 {/* Search button */}
                 <button
                     disabled={searchTerm === ""}
-                    className={`mt-2 transition flex items-center justify-center btn shadow-sm bg-pink-500 text-white w-full disabled-button`}
-                    onClick={searchForTracks}>
+                    className={`mt-2 transition flex items-center justify-center btn shadow-sm bg-brandColor text-white w-full disabled-button`}
+                    >
                     <FaSearch className="mr-2" />
                     Search
                 </button>

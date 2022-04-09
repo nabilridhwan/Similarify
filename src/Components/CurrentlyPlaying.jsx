@@ -34,7 +34,7 @@ export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handl
                 </motion.button>
             </div>
 
-            <div className="dark:bg-darkCard border rounded-lg p-2 dark:border-white/10 border-black/20">
+            <div className="dark:bg-darkCard  border rounded-lg p-2 dark:border-white/10 border-black/20">
                 <div className="flex items-center">
                     <img src={track.albumArt} alt="currently playing album cover" className="w-20 h-20" />
 

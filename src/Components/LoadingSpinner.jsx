@@ -10,7 +10,7 @@ LoadingSpinner.propTypes = {
 export default function LoadingSpinner({ size = 30, loading }) {
     return (
         <div className="my-2">
-            <SwapSpinner size={size} color={"#e94798"} loading={loading} />
+            <SwapSpinner size={size} color={"#e11d48"} loading={loading} />
         </div>
     )
 }

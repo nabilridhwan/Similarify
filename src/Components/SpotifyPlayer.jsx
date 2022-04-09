@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist, setAudioPlayerVolume } from "../actions";
-import { FaPlus, FaTrash } from "react-icons/fa"
+import { FaPlus, FaTrash, FaSadCry } from "react-icons/fa"
 import { MdExplicit } from "react-icons/md"
 import React from "react";
 
@@ -112,37 +112,46 @@ export default function SpotifyPlayer({ track, onClose }) {
                     {track.preview_url ? (
                         <audio onVolumeChange={handleOnChangeVolume} controls ref={audioElemRef} >
                             <source src={track.preview_url} />
-
                             Your browser does not support the audio element.
                         </audio>
                     ) : (
-                        <p>
-                            No preview available
-                        </p>
+                        <div className="muted flex flex-col items-center justify-center my-10">
+                            <FaSadCry className="text-xl" />
+                            <p>
+                                No preview available
+                            </p>
+
+                        </div>
+
                     )}
                 </div>
 
                 {/* Add to playlist button */}
-                {track.added ? (
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => dispatch(removeSongFromPlaylist(track))}
-                        className='w-full btn mt-2 flex items-center justify-center bg-red-500 text-white'>
-                        <FaTrash className="mr-2" />
-                        Remove from playlist
-                    </motion.button>
-                ) : (
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => dispatch(addSongToPlaylist(track))}
-                        className='w-full btn mt-2 flex items-center justify-center bg-blue-500 text-white'>
-                        <FaPlus className="mr-2" />
-                        Add to playlist
-                    </motion.button>
+                {
+                    track.preview_url && (
+                        track.added ? (
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => dispatch(removeSongFromPlaylist(track))}
+                                className='w-full btn mt-2 flex items-center justify-center bg-red-500 text-white'>
+                                <FaTrash className="mr-2" />
+                                Remove from playlist
+                            </motion.button>
+                        ) : (
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => dispatch(addSongToPlaylist(track))}
+                                className='w-full btn mt-2 flex items-center justify-center bg-blue-500 text-white'>
+                                <FaPlus className="mr-2" />
+                                Add to playlist
+                            </motion.button>
 
-                )}
+                        )
+                    )
+                }
+
 
 
                 <motion.button

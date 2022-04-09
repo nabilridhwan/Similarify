@@ -10,17 +10,23 @@
 
 - Added the ability to click on the artist name, individually anywhere (except for the added songs and added playlist songs window).
 -   Added an explicit icon on songs that are explicit.
--   Added back the __REVAMPED__ Spotify Player (only in Recommended page)
+-   Added back the __REVAMPED__ Spotify Player (only in Recommended page).
     -   The player only shows the audio preview (30 seconds).
-    -   It also saves the audio volume (thank me later, PC users with headphones!)
--   __[DEV]__ Added propType checking for important components
+    -   It also saves the audio volume (thank me later, PC users with headphones!).
+-   __[DEV]__ Added propType checking for important components.
 
 ### Changed
+-   Now, only 100 of your liked songs pop up! (instead of 150).
+-   Changed Brand color.
+-   Get Recommendation button color is now green.
+-   Background color is now darker.
+-   Increased margin of the input slider of the Adjusts Parameter page - This is so that fat fingers can adjusts the parameters easily!
 - __[DEV]__ After the previous update's change that all song parameters are instances of the `Parameter` class. It is decided that Similarify adopts the Object Oriented Programming style. Now, Tracks are instances of the `Track` class, artists are instances of the `Artist` class and playlists are instances of the `Playlist` class. Check out the respective class files in `src/utils`!
 
 ### Fixed
 
 - Add to playlist button in the Spotify player now changes to "Remove from playlist' when you add the song to your playlist.
+-   Fixed an issue where clicking on the "Search" button will call the Spotify API 2 times.
 
 ### Removed
 
