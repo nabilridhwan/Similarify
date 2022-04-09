@@ -23,7 +23,7 @@ footer a{
 }
 
 .done-button{
-  @apply rounded-lg p-3 px-10 font-bold text-white shadow-[0_0_20px] shadow-green-500/50 fixed bottom-5  bg-green-500 
+  @apply rounded-lg p-3 px-10 font-bold text-white shadow-[0_0_30px] shadow-green-500/60 fixed bottom-5  bg-green-500 
 }
 
 .badge{

@@ -1,6 +1,7 @@
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 DoneButton.propTypes = {
     overrideText: PropTypes.string,
@@ -8,13 +9,33 @@ DoneButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-export default function DoneButton({ overrideText, k, onClick }) {
+export default function DoneButton({ item, overrideText, k, onClick }) {
+
+    const controls = useAnimation();
+
+    useEffect(() => {
+        (async () => {
+            await controls.set({ opacity: 0, y: 70 });
+            await controls.start({ opacity: 1, y: 0, });
+        })();
+
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const threshold = 3;
+            if (item.length > 0) {
+                await controls.set({ rotateX: 0 })
+                await controls.start({ rotateZ: [0, -threshold, 0, threshold, 0], transition: { duration: 0.25, ease: "easeIn" } })
+            }
+        })();
+    }, [item])
+
     return (
         <div
             className="w-full flex items-center justify-center">
             <motion.button
-                initial={{ opacity: 0, y: 70 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={controls}
                 exit={{ opacity: 0, y: 70 }}
                 layout
                 whileHover={{ scale: 1.1 }}
@@ -25,7 +46,7 @@ export default function DoneButton({ overrideText, k, onClick }) {
 
                 <motion.div
                     key={k}
-                    initial={{ scale: 1.6, }}
+                    initial={{ scale: 1.3, }}
                     animate={{ scale: 1, }}
                     transition={{
                         type: "tween",

@@ -286,7 +286,7 @@ export default function Recommendation() {
 
             <AnimatePresence>
                 {addedPlaylistSongs.length > 0 && (
-                    <DoneButton overrideText={"Create Playlist"} onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} />
+                    <DoneButton item={addedPlaylistSongs} overrideText={"Create Playlist"} onClick={() => setShowAddedPlaylistSongs(true)} k={addedPlaylistSongs.length} />
                 )}
             </AnimatePresence>
 
