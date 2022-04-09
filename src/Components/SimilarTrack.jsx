@@ -1,4 +1,5 @@
 import { FaPlus, FaTrash } from "react-icons/fa";
+import {MdExplicit} from "react-icons/md";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
@@ -35,11 +36,19 @@ export default function SimilarTrack({ track, percentage }) {
 
             <div className='mx-5'>
 
-                <p
-                    onClick={handlePress}
-                    className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
-                    {track.name}
-                </p>
+                <div className="flex items-center">
+
+
+                    <p
+                        onClick={handlePress}
+                        className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
+                        {track.name}
+                    </p>
+
+                    {track.explicit && (
+                        <MdExplicit className="text-lg muted ml-2" />
+                    )}
+                </div>
 
                 <p className="dark:text-white/50 text-black/50 text-sm">
                     {track.artist.map(a => a.name).join(", ")}
