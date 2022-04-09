@@ -3,6 +3,13 @@ import { useDispatch } from "react-redux";
 import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";
 
+import PropTypes from "prop-types";
+
+CreatedPlaylistModal.propTypes = {
+    playlistLink: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+}
+
 export default function CreatedPlaylistModal({ playlistLink, onClose }) {
 
     const dispatch = useDispatch();

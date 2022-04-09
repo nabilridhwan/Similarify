@@ -1,3 +1,10 @@
+import PropTypes from "prop-types";
+
+ModalHeader.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired,
+}
+
 export default function ModalHeader({ title, subtitle }) {
     return (
         <div className="mb-5">

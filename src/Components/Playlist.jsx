@@ -2,6 +2,17 @@ import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 import { FaArrowRight, FaChevronRight } from "react-icons/fa"
 import DefaultAlbumImage from "./DefaultImage";
+import PropTypes from "prop-types";
+
+import PlaylistType from "../PropTypes/playlist"
+
+Playlist.propTypes = {
+    playlist: PlaylistType,
+    onClickPlaylist: PropTypes.func.isRequired,
+    compact: PropTypes.bool
+}
+
+
 export default function Playlist({ playlist, onClickPlaylist, compact }) {
     let navigate = useNavigate();
     return (

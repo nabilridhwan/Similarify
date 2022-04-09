@@ -9,7 +9,14 @@ import AddToExistingPlaylist from './AddToExistingPlaylist';
 import SpotifyInstance from '../utils/SpotifyInstance';
 import LoadingSpinner from './LoadingSpinner';
 
-export default function AddedPlaylistSongs({ onClose, onClearAll, onRemove }) {
+import PropTypes from "prop-types";
+
+AddedPlaylistSongs.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    onClearAll: PropTypes.func.isRequired,
+}
+
+export default function AddedPlaylistSongs({ onClose, onClearAll}) {
 
     const apiKey = useSelector(state => state.apiKey);
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);

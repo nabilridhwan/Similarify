@@ -1,5 +1,13 @@
 import { motion } from "framer-motion"
 
+import PropTypes from "prop-types";
+
+DoneButton.propTypes = {
+    overrideText: PropTypes.string,
+    k: PropTypes.number,
+    onClick: PropTypes.func.isRequired,
+}
+
 export default function DoneButton({ overrideText, k, onClick }) {
     return (
         <div

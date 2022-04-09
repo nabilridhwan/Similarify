@@ -5,8 +5,13 @@ import AddedSong from './AddedSong';
 import { useEffect, useState } from 'react';
 
 import { clearAddedSongs, removeSong } from '../actions';
-import AdjustParameters from './AdjustParameters';
 import ModalHeader from './ModalHeader';
+
+import PropTypes from "prop-types";
+
+AddedSongs.propTypes = {
+    onClose: PropTypes.func.isRequired,
+}
 
 export default function AddedSongs({ onClose }) {
 

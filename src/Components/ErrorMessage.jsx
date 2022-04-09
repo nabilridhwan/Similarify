@@ -5,6 +5,12 @@ import { IoClose } from "react-icons/io5"
 import { RiErrorWarningFill } from "react-icons/ri"
 import { useLocation } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
+ErrorMessage.propTypes = {
+    error: PropTypes.string.isRequired,
+}
+
 export default function ErrorMessage({ error }) {
     const [showDialog, setShowDialog] = useState(error !== null);
 
