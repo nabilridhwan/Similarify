@@ -13,7 +13,6 @@ export default function DoneButton({ item, overrideText, k, onClick }) {
 
     const controls = useAnimation();
 
-    console.log("Show")
 
     useEffect(() => {
         (async () => {
