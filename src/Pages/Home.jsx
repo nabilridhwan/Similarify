@@ -4,9 +4,25 @@ import { FaSpotify, FaHeart } from "react-icons/fa"
 import { Link } from "react-router-dom";
 import Container from '../Components/Container';
 import Footer from '../Components/Footer';
-import { motion } from "framer-motion"
+import { DragControls, motion, useAnimation } from "framer-motion"
+import { useEffect } from "react";
 
 export default function Home() {
+
+    const control = useAnimation();
+
+    useEffect(() => {
+        (async () => {
+            // await control.start({ y: -30, opacity: 0 })
+            await control.set({ y: -30, opacity: 0 })
+            await control.start({ y: 0, opacity: 1, transition: { delay: 0.5, duration: 0.5 } })
+
+            while (true) {
+                await control.start({ scale: [1, 1.07, 1], transition: { duration: 3, ease: "easeInOut" } })
+            }
+        })();
+    }, [])
+
     return (
         <div className="flex items-center justify-center h-screen w-screen">
 
@@ -17,19 +33,20 @@ export default function Home() {
                 {/* Header */}
                 <motion.div
                     className='my-28'
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -70 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                        duration: 0.7,
+                        duration: 0.5,
+                        ease: "easeInOut",
                     }}
                 >
 
                     <motion.p
-                        className="flex justify-center items-center text-sm uppercase tracking-widest muted"
+                        className="text-sm uppercase tracking-widest muted"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <a href="https://nabilridhwan.github.io">Nabil Ridhwan </a> &nbsp; &copy; {new Date().getFullYear()}
+                        <a href="https://nabilridhwan.github.io">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
                     </motion.p>
 
                     <motion.h1
@@ -38,11 +55,9 @@ export default function Home() {
                         Discover new songs 🎧🎶
                     </motion.h1>
 
-                    <p className="font-semibold my-5">
-                        Read what's new <Link to="/changelog" className="underline text-brandColor">here</Link>.
-                    </p>
 
-                    <p className='muted'>
+
+                    <p className='muted leading-relaxed'>
                         With Similarify, you can discover new songs you'd like based on the songs you already like!
                     </p>
                 </motion.div>
@@ -81,24 +96,20 @@ export default function Home() {
             </div> */}
 
                 <motion.div
-                    animate={{
-                        opacity: 1, y: 0, 
-                        scale: [1, 1.05, 1, 1.05, 1],
-                        transition: {
-                            repeat: Infinity,
-                            duration: 6,
-                            ease: "easeInOut"
-                        }
-                    }}
-
+                    animate={control}
+                    className="mt-10"
                 >
                     <Link
-                        className="btn w-full justify-center flex flex-row items-center bg-spotify text-white shadow-[0_0_40px] shadow-spotify/30 hover:bg-green-600 hover:shadow-none transition-all my-10"
+                        className="btn w-full justify-center flex flex-row items-center bg-spotify text-white shadow-[0_0_40px] shadow-spotify/30 hover:bg-green-600 hover:shadow-none transition-all"
                         to="/authenticate">
                         <FaSpotify className="mx-2" />
                         Login with Spotify
                     </Link>
                 </motion.div>
+
+                <p className="muted text-sm text-md mt-3">
+                        Read what's new <Link to="/changelog" className="underline">here</Link>.
+                    </p>
 
                 {/* <p className="text-white/80 hidden text-center text-xs italic dark:block mb-10">
                     You'll encounter a blinding white background by pressing the button above! Be careful!
