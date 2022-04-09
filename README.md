@@ -2,6 +2,12 @@
 
 Read the [changelog](./src/CHANGELOG.md) here.
 
+### How the branches work
+-   main
+    -   The most 'stable' branch.
+-   next
+    -   Next update pushing to Similarify, usually, in testing. If the branch is the same as main, then `next` contents have been pushed to main.
+
 ### Deploy status
 [![Netlify Status](https://api.netlify.com/api/v1/badges/583fef5b-fa3f-4df3-af2f-3f53419dbc50/deploy-status)](https://app.netlify.com/sites/similarify/deploys)
 
