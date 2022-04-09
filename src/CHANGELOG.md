@@ -8,11 +8,13 @@
 
 ### Changed
 
-- Changed layout and animations of the home screen.
+- Changed layout and animations of the home screen (totally new home page!).
+-   Added animation to the Done button. (It'll do a little wiggle every time a song is added/removed 💃)
+-   Now, the playlists page will show a 2 column grid instead of display by row for Desktop screens.
 
 ### Fixed
 
-- None
+- Fixed the margin issue of the "Liked Songs", "Recently Played" and "Playlists" button in the Search page on mobile.
 
 ### Removed
 
