@@ -3,6 +3,19 @@ import { useState } from "react";
 import { FaTrash, FaCog } from "react-icons/fa"
 import AdjustParameters from "./AdjustParameters";
 
+
+import PropTypes from "prop-types";
+import Track from "../PropTypes/track";
+
+AddedSong.propTypes = {
+    changeableParameters: PropTypes.bool,
+    track_name: PropTypes.string.isRequired,
+    track_artist: PropTypes.string.isRequired,
+    track_album_img: PropTypes.string.isRequired,
+    onRemovedClicked: PropTypes.func.isRequired,
+    track: Track
+}
+
 export default function AddedSong({ changeableParameters, track_name, track_artist, track_album_img, onRemovedClicked, track }) {
 
     const [showParameters, setShowParameters] = useState(false);

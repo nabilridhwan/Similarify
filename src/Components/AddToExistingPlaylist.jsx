@@ -8,7 +8,17 @@ import ModalWindow from "./ModalWindow";
 import SpotifyInstance from "../utils/SpotifyInstance";
 import Playlist from "./Playlist";
 
-export default function AddToExistingPlaylist({ uris, onAdded, onClose }) {
+
+import PropTypes from "prop-types";
+
+AddToExistingPlaylist.propTypes = {
+    onAdded: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+}
+
+
+
+export default function AddToExistingPlaylist({ onAdded, onClose }) {
 
     const apiKey = useSelector(state => state.apiKey);
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);

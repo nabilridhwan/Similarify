@@ -6,6 +6,14 @@ import Parameter from "../utils/Parameter";
 import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";
 
+import PropTypes from "prop-types";
+import Track from "../PropTypes/track";
+
+AdjustParameters.propTypes = {
+    track: Track,
+    onClose: PropTypes.func.isRequired,
+}
+
 export default function AdjustParameters({ track, onClose }) {
 
     const dispatch = useDispatch();

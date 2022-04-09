@@ -4,6 +4,15 @@ import { addSong, removeSong } from "../actions";
 import { motion } from "framer-motion"
 import { FaPlus, FaTrash } from "react-icons/fa"
 
+import PropTypes from "prop-types";
+import Track from "../PropTypes/track";
+
+SpotifySong.propTypes = {
+    track: Track,
+    overrideTopText: PropTypes.string
+}
+
+
 export default function SpotifySong({ overrideTopText, track }) {
 
     const dispatch = useDispatch();

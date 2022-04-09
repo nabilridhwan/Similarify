@@ -2,6 +2,16 @@ import { FaTrash, FaPlus } from "react-icons/fa"
 import { BiRefresh } from 'react-icons/bi'
 import { motion } from "framer-motion"
 
+import PropTypes from "prop-types";
+import Track from "../PropTypes/track";
+
+CurrentlyPlaying.propTypes = {
+    handleAdd: PropTypes.func.isRequired,
+    handleRemove: PropTypes.func.isRequired,
+    track: Track,
+    handleRefresh: PropTypes.func.isRequired,
+}
+
 export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handleRefresh }) {
 
     return (
