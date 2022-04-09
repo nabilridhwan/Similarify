@@ -3,14 +3,20 @@ import { Link } from "react-router-dom"
 
 export default function Footer() {
     return (
-        <footer className="dark:text-white/50 text-black/50 text-xs text-center my-20">
-            <p className="m-0 flex justify-center items-center">
-                Created with <FaHeart className="mx-1" /> by <a href="https://nabilridhwan.github.io" className="ml-1">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
-            </p>
+        <footer className="dark:text-white/50 text-black/50 text-xs text-center my-20 space-y-1">
+
+
+            <a href="https://next--similarify.netlify.app/">Try out new features of Similarify ✨</a>
 
             <p>
                 Found a bug or want a feature? Submit an issue here <a href="https://github.com/nabilridhwan/similarify/issues">here</a>
             </p>
+
+            <p className="flex justify-center items-center">
+                Created with <FaHeart className="mx-1" /> by <a href="https://nabilridhwan.github.io" className="ml-1">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
+            </p>
+
+
 
             <p>
                 <a href="https://github.com/nabilridhwan/Similarify">Similarify is open source!</a>
