@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function Footer() {
     return (
-        <footer className="dark:text-white/50 text-black/50 text-xs text-center my-20 space-y-1">
+        <footer className="dark:text-white/50 text-black/50 text-xs text-center mt-20 space-y-1">
 
 
             <a href="https://next--similarify.netlify.app/">
@@ -22,6 +22,10 @@ export default function Footer() {
 
             <p>
                 <a href="https://github.com/nabilridhwan/Similarify">Similarify is open source!</a>
+            </p>
+
+            <p>
+                Read what's new <Link to="/changelog" className="underline">here</Link>.
             </p>
 
 

@@ -11,6 +11,22 @@ export default function Home() {
 
     const control = useAnimation();
 
+    const variants = {
+        hidden: {
+            opacity: 0,
+            y: -20,
+        },
+
+        show: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+                ease: "easeInOut",
+            }
+        }
+    }
+
     useEffect(() => {
         (async () => {
             // await control.start({ y: -30, opacity: 0 })
@@ -27,27 +43,26 @@ export default function Home() {
         <div className="flex items-center justify-center h-screen w-screen">
 
 
-            <div className="text-center mx-10">
+            <motion.div
+                className="text-center mx-10 my-28"
+                initial={"hidden"}
+                animate={"show"}
+                variants={variants}
+            >
 
 
                 {/* Header */}
                 <motion.div
-                    className='my-28'
-                    initial={{ opacity: 0, y: -70 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                        duration: 0.5,
-                        ease: "easeInOut",
-                    }}
+                    initial={"hidden"}
+                    animate={"show"}
+                    variants={variants}
                 >
 
-                    <motion.p
+                    <p
                         className="text-sm uppercase tracking-widest muted"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
                     >
                         <a href="https://nabilridhwan.github.io">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
-                    </motion.p>
+                    </p>
 
                     <motion.h1
 
@@ -107,9 +122,6 @@ export default function Home() {
                     </Link>
                 </motion.div>
 
-                <p className="muted text-sm text-md mt-3">
-                        Read what's new <Link to="/changelog" className="underline">here</Link>.
-                    </p>
 
                 {/* <p className="text-white/80 hidden text-center text-xs italic dark:block mb-10">
                     You'll encounter a blinding white background by pressing the button above! Be careful!
@@ -117,7 +129,7 @@ export default function Home() {
 
 
                 <Footer />
-            </div>
+            </motion.div>
 
         </div>
     );
