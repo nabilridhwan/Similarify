@@ -18,6 +18,8 @@ import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from "../hooks/useApiKey";
 import ErrorMessage from "../Components/ErrorMessage";
 import useError from "../hooks/useError";
+import Track from "../utils/Track";
+import Artist from "../utils/Artist";
 
 // Import
 
@@ -78,14 +80,15 @@ export default function LikedSongs() {
             }
 
             let n = likedSongs.map(song => {
-                return {
-                    added_at: song.added_at,
-                    id: song.track.id,
-                    name: song.track.name,
-                    artist: song.track.artists.map(a => a.name).join(", "),
-                    albumArt: song.track.album.images[0].url,
-                    added: false
-                }
+                const track = song.track;
+
+                // Uses artist class
+                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+                // Uses track class
+                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify, song.added_at)
+
+                return trackObj
             })
 
             let finalTracks = {};

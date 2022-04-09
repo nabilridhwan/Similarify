@@ -17,6 +17,8 @@ import SpotifyInstance from "../utils/SpotifyInstance";
 
 import LoadingSpinner from "../Components/LoadingSpinner";
 import useApiKey from "../hooks/useApiKey";
+import Track from "../utils/Track";
+import Artist from "../utils/Artist";
 
 export default function PlaylistSongSelect() {
 
@@ -90,14 +92,15 @@ export default function PlaylistSongSelect() {
                     img = song.track.album.images[0].url
                 }
 
-                return {
-                    added_at: song.added_at,
-                    id: song.track.id,
-                    name: song.track.name,
-                    artist: song.track.artists.map(a => a.name).join(", "),
-                    albumArt: img,
-                    added: false
-                }
+                const track = song.track;
+
+                // Uses artist class
+                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+                // Uses track class
+                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify, song.added_at)
+
+                return trackObj;
             } else {
                 return null
             }

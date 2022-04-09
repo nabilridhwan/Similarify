@@ -1,4 +1,35 @@
 
+## [0.9.0] - 2022-04-09
+>   We usually put humorous update notes here but that guy is on leave today and we have to take things seriously for today.
+
+>   The semantic version naming convention have changed for Similarify. It went from `1.8.0` > `0.9.0`. However, note that the features remain the same, there is no downgrade of features. The version number changed because version `1.X.X` is supposed to be a very stable branch (which Similarify is far from that).
+
+>   With the serious stuff out of the way, we upgraded the bridge and improved the management of the people who takes care of the bridge! (I just got hired today, as an ad-hoc, im inferring from the previous guy's release notes)
+
+### Added
+
+- Added the ability to click on the artist name, individually anywhere (except for the added songs and added playlist songs window).
+-   Added an explicit icon on songs that are explicit.
+-   Added back the __REVAMPED__ Spotify Player (only in Recommended page)
+    -   The player only shows the audio preview (30 seconds).
+    -   It also saves the audio volume (thank me later, PC users with headphones!)
+-   __[DEV]__ Added propType checking for important components
+
+### Changed
+- __[DEV]__ After the previous update's change that all song parameters are instances of the `Parameter` class. It is decided that Similarify adopts the Object Oriented Programming style. Now, Tracks are instances of the `Track` class, artists are instances of the `Artist` class and playlists are instances of the `Playlist` class. Check out the respective class files in `src/utils`!
+
+### Fixed
+
+- Add to playlist button in the Spotify player now changes to "Remove from playlist' when you add the song to your playlist.
+
+### Removed
+
+- None
+
+### Security
+
+- None
+
 ## [1.8.0] - 2022-04-08
 
 >   Another one (feature)! along with a bug fix! 🥳

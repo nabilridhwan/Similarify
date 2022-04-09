@@ -7,6 +7,14 @@ import { motion } from "framer-motion"
 import SpotifyPlayer from "./SpotifyPlayer";
 import { useState } from "react";
 
+import PropTypes from "prop-types";
+import Track from "../utils/Track";
+
+SimilarTrack.propTypes = {
+    track: PropTypes.instanceOf(Track),
+    percentage: PropTypes.number,
+}
+
 export default function SimilarTrack({ track, percentage }) {
 
     const dispatch = useDispatch();
@@ -15,15 +23,15 @@ export default function SimilarTrack({ track, percentage }) {
 
     const handlePress = () => {
 
-        window.open(track.external_urls.spotify+"?go=1", "_blank");
+        // window.open(track.external_urls.spotify+"?go=1", "_blank");
 
         // Enable the line below to show the Spotify player
-        // setShowSpotifyPlayer(true)
+        setShowSpotifyPlayer(true)
     }
 
     return (
         <div className="flex items-center w-full mb-10 h-auto">
-            <img src={track.album.images[0].url} className="w-20 h-auto" alt="Album Art" />
+            <img src={track.albumArt} className="w-20 h-auto" alt="Album Art" />
 
             <div className='mx-5'>
 
@@ -34,7 +42,7 @@ export default function SimilarTrack({ track, percentage }) {
                 </p>
 
                 <p className="dark:text-white/50 text-black/50 text-sm">
-                    {track.artists.map(a => a.name).join(", ")}
+                    {track.artist.map(a => a.name).join(", ")}
                 </p>
 
                 {/* Add to playlist button */}
@@ -59,11 +67,11 @@ export default function SimilarTrack({ track, percentage }) {
                 )}
             </div>
 
-            {/* {showSpotifyPlayer && (
+            {showSpotifyPlayer && (
                 <SpotifyPlayer
                     onClose={() => setShowSpotifyPlayer(false)}
                     track={track} />
-            )} */}
+            )}
 
         </div>
 

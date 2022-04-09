@@ -23,6 +23,8 @@ import AddedPlaylistSongs from "../Components/AddedPlaylistSongs";
 import CreatedPlaylistModal from "../Components/CreatedPlaylistModal";
 import useError from "../hooks/useError";
 import ErrorMessage from "../Components/ErrorMessage";
+import Artist from "../utils/Artist";
+import Track from "../utils/Track";
 
 function Search() {
 
@@ -118,14 +120,12 @@ function Search() {
             setLoading(false)
 
             let tracks = results.tracks.items.map(track => {
-                return {
-                    name: track.name,
-                    artist: track.artists.map(a => a.name).join(", "),
-                    album: track.album.name,
-                    albumArt: track.album.images[0].url,
-                    id: track.id,
-                    added: false
-                }
+
+                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify)
+
+                return trackObj
             })
 
             /* 

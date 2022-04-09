@@ -8,6 +8,8 @@ import ModalWindow from "./ModalWindow";
 import SpotifyInstance from "../utils/SpotifyInstance";
 import Playlist from "./Playlist";
 
+import PlaylistClass from "../utils/Playlist"
+
 
 import PropTypes from "prop-types";
 
@@ -76,13 +78,11 @@ export default function AddToExistingPlaylist({ onAdded, onClose }) {
                         img = playlist.images[0].url
                     }
 
-                    return {
-                        id: playlist.id,
-                        name: playlist.name,
-                        albumArt: img,
-                        tracks: playlist.tracks.total,
-                        owner: playlist.owner.display_name
-                    }
+                    // Uses the playlist class
+                    const playlistObj = new PlaylistClass(playlist.id, playlist.name, img, playlist.tracks.total, playlist.owner.display_name, playlist.external_urls.spotify)
+
+                    return playlistObj
+
                 })
 
                 setPlaylists(n)
@@ -93,12 +93,16 @@ export default function AddToExistingPlaylist({ onAdded, onClose }) {
         }
     }
 
+    // Add to playlist
     // Do not add duplicate songs
     const handleClickPlaylist = async (playlist) => {
         try {
             setError("");
 
             const uris = addedPlaylistSongs.map(song => song.uri)
+
+            
+            console.log(addedPlaylistSongs)
 
             setMessage("Adding songs to playlist...")
 
@@ -122,7 +126,7 @@ export default function AddToExistingPlaylist({ onAdded, onClose }) {
                 }
             })
 
-            console.log(final.length)
+            // console.log(final.length)
 
             if (final.length > 0) {
                 // Add it to the playlist

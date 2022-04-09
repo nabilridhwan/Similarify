@@ -24,6 +24,8 @@ import CreatedPlaylistModal from '../Components/CreatedPlaylistModal';
 import SpotifyInstance from "../utils/SpotifyInstance"
 import useApiKey from '../hooks/useApiKey';
 import ErrorMessage from '../Components/ErrorMessage';
+import Artist from '../utils/Artist';
+import Track from '../utils/Track';
 
 export default function Recommendation() {
 
@@ -70,10 +72,27 @@ export default function Recommendation() {
                     }
                     setSongs([...songs, tracks])
 
+                    // Map the similar tracks
+                    const similarTracks = tracks.tracks.map(similarTrack => {
+                        let artists = similarTrack.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+                        // Uses track class
+                        const trackObj = new Track(similarTrack.id, similarTrack.name, artists, similarTrack.album.images[0].url, similarTrack.explicit, similarTrack.duration_ms, similarTrack.preview_url, similarTrack.external_urls.spotify)
+
+                        trackObj.uri = similarTrack.uri
+
+                        return trackObj;
+
+                    })
+
+                    console.log(similarTracks)
+
                     let mappedArray = [...addedSongs].map(s => {
                         if (s.name === song.name && s.artist === song.artist) {
-                            s.similar = tracks.tracks;
+                            s.similar = similarTracks;
                         }
+
+
 
                         return s;
                     })
@@ -138,7 +157,21 @@ export default function Recommendation() {
 
         let similarSongs = await SpotifyInstance.getRecommendation(songOnIndex.id, 6, songOnIndex.parameters);
 
-        clone[index].similar = similarSongs.tracks;
+
+        // Map the similar tracks
+        const similarTracks = similarSongs.tracks.map(similarTrack => {
+            let artists = similarTrack.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+            // Uses track class
+            const trackObj = new Track(similarTrack.id, similarTrack.name, artists, similarTrack.album.images[0].url, similarTrack.explicit, similarTrack.duration_ms, similarTrack.preview_url, similarTrack.external_urls.spotify)
+
+            trackObj.uri = similarTrack.uri
+
+            return trackObj;
+
+        })
+
+        clone[index].similar = similarTracks;
 
 
 
@@ -206,7 +239,7 @@ export default function Recommendation() {
 
                                     <h1 className='text-3xl font-bold'>{song.name}</h1>
                                     <h5 className='dark:text-white/50 text-sm text-black/50'>
-                                        by {song.artist}
+                                        by {song.artist.map(a => a.name).join(", ")}
                                     </h5>
 
 

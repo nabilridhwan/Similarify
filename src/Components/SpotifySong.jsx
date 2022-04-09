@@ -2,13 +2,15 @@ import { useDispatch } from "react-redux"
 import { DateTime } from "luxon";
 import { addSong, removeSong } from "../actions";
 import { motion } from "framer-motion"
+import { MdExplicit } from "react-icons/md"
 import { FaPlus, FaTrash } from "react-icons/fa"
 
 import PropTypes from "prop-types";
-import Track from "../PropTypes/track";
+import Track from "../utils/Track";
+import React from "react";
 
 SpotifySong.propTypes = {
-    track: Track,
+    track: PropTypes.instanceOf(Track),
     overrideTopText: PropTypes.string
 }
 
@@ -57,10 +59,33 @@ export default function SpotifySong({ overrideTopText, track }) {
                         rel="noreferrer"
                         target="_blank"
                         href={`https://open.spotify.com/track/${track.id}?go=1`}
-                        className="font-bold underline hover:no-underline">
+                        className="flex items-center font-bold underline hover:no-underline">
                         {track.name}
+
+                        {track.explicit && (
+                            <MdExplicit className="text-lg muted ml-2" />
+                        )}
                     </a>
-                    <p className="dark:text-white/50 text-black/50 text-sm">{track.artist}</p>
+
+
+
+                    {/* Artists */}
+                    <div>
+
+                        {track.artist.map((artist, index) => (
+                            <React.Fragment key={index}>
+                                <a
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href={`${artist.url}?go=1`}
+                                    className="underline text-sm muted hover:no-underline">
+                                    {artist.name}
+
+
+                                </a><span className="muted last:hidden">, </span>
+                            </React.Fragment>
+                        ))}
+                    </div>
 
                     {track.added ? (
                         <motion.button
