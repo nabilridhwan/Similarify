@@ -11,6 +11,8 @@ export default function Home() {
 
     const control = useAnimation();
 
+    const fromTopAnim = useAnimation();
+
     const variants = {
         hidden: {
             opacity: 0,
@@ -28,6 +30,25 @@ export default function Home() {
     }
 
     useEffect(() => {
+
+        (async () => {
+            await fromTopAnim.set({
+                opacity: 0,
+                y: -20,
+            })
+
+            await fromTopAnim.start(i => ({
+                opacity: 1,
+                y: 0,
+                transition: {
+                    delay: i * 0.1,
+                    duration: 0.3,
+                    ease: "easeOut"
+                }
+            }))
+        })();
+
+
         (async () => {
             // await control.start({ y: -30, opacity: 0 })
             await control.set({ y: -30, opacity: 0 })
@@ -44,7 +65,7 @@ export default function Home() {
 
 
             <motion.div
-                className="text-center mx-10 my-28"
+                className="text-center mx-10 my-28 lg:w-1/3"
                 initial={"hidden"}
                 animate={"show"}
                 variants={variants}
@@ -61,10 +82,12 @@ export default function Home() {
                     <p
                         className="text-sm uppercase tracking-widest muted"
                     >
-                        <a href="https://nabilridhwan.github.io">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
+                        <a href="https://nabilridhwan.github.io" className="hover:text-black dark:hover:text-white">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
                     </p>
 
                     <motion.h1
+                        custom={0}
+                        animate={fromTopAnim}
 
                         className='text-6xl font-extrabold my-10'>
                         Discover new songs 🎧🎶
@@ -72,9 +95,12 @@ export default function Home() {
 
 
 
-                    <p className='muted leading-relaxed'>
+                    <motion.p
+                        animate={fromTopAnim}
+                        custom={2}
+                        className='muted leading-relaxed'>
                         With Similarify, you can discover new songs you'd like based on the songs you already like!
-                    </p>
+                    </motion.p>
                 </motion.div>
 
 
@@ -128,7 +154,15 @@ export default function Home() {
                 </p> */}
 
 
-                <Footer />
+
+                {/* Footer */}
+                <motion.div
+                animate={fromTopAnim}
+                custom={9}
+                >
+                    <Footer />
+                </motion.div>
+
             </motion.div>
 
         </div>
