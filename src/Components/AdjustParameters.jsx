@@ -47,7 +47,7 @@ export default function AdjustParameters({ track, onClose }) {
             Object.keys(cloneParameters).forEach(parameterIndex => {
                 const cP = cloneParameters[parameterIndex]
                 Object.keys(currentSongParams).forEach(currentParamName => {
-                    if (cP.isTheSameAs(currentParamName)) {
+                    if (cP.name === currentParamName) {
                         console.log(currentParamName)
                         cP.value = currentSongParams[currentParamName];
                     }
@@ -203,7 +203,7 @@ export default function AdjustParameters({ track, onClose }) {
                                             activeParams.includes(currentParameter.name) && (
                                                 <motion.input
                                                     type="range"
-                                                    className="w-full"
+                                                    className="h-8 w-full"
                                                     onChange={(e) => handleChange(e, currentParameter)}
                                                     value={currentParameter.getValue()}
                                                     min={currentParameter.min}

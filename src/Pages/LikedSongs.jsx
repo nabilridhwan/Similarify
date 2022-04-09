@@ -36,6 +36,7 @@ export default function LikedSongs() {
     const { error, setError } = useError();
 
     const { apiKey, error: e, loggedIn } = useApiKey();
+    
 
     useEffect(() => {
         (async () => {
@@ -91,6 +92,7 @@ export default function LikedSongs() {
                 return trackObj
             })
 
+    console.log("WHATT")
             let finalTracks = {};
 
             n.forEach(likedSong => {
@@ -153,7 +155,7 @@ export default function LikedSongs() {
 
             <div className="py-5 clear-both">
                 <h1 className="font-bold text-2xl" >
-                    Select your liked songs
+                    Select from your liked songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
                     Select songs that you already like

@@ -56,7 +56,7 @@ class SpotifyApi {
                     console.log(`[Spotify API] Error encountered while fetching liked songs in iteration ${iteration}`)
                     throw new Error(`Error fetching liked songs: ${error.message}`)
                 })
-        } while (next !== null && iteration < 3)
+        } while (next !== null && iteration < 2)
 
         return tracks;
     }

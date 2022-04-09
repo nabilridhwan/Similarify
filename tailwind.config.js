@@ -8,9 +8,10 @@ module.exports = {
         "inter": "inter"
       },
       colors: {
-        dark: "#121212",
+        dark: "#0f0f0f",
         darkCard: "#171717",
-        defaultAlbumCover: "#282828"
+        defaultAlbumCover: "#282828",
+        brandColor: "#e11d48"
       }
     },
   },
