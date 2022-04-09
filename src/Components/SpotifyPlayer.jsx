@@ -107,15 +107,20 @@ export default function SpotifyPlayer({ track, onClose }) {
                     </div>
                 </div>
 
-                {track.preview_url ? (
-                    <audio onVolumeChange={handleOnChangeVolume} controls ref={audioElemRef} >
-                        <source src={track.preview_url} />
+                <div className="my-5">
 
-                        Your browser does not support the audio element.
-                    </audio>
-                ) : (
-                    <p>No preview available</p>
-                )}
+                    {track.preview_url ? (
+                        <audio onVolumeChange={handleOnChangeVolume} controls ref={audioElemRef} >
+                            <source src={track.preview_url} />
+
+                            Your browser does not support the audio element.
+                        </audio>
+                    ) : (
+                        <p>
+                            No preview available
+                        </p>
+                    )}
+                </div>
 
                 {/* Add to playlist button */}
                 {track.added ? (
