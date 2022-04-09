@@ -152,7 +152,7 @@ export default function Playlists() {
                         type: "tween",
                         ease: "easeOut"
                     }}
-                    className="my-5 grid gap-2">
+                    className="my-5 grid gap-5 md:grid-cols-2">
 
                     {playlists.map((playlist, index) => {
                         return (
