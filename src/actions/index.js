@@ -90,3 +90,10 @@ export function setApiKeyExpiration(expirationISOString){
         payload: expirationISOString
     }
 }
+
+export function setAudioPlayerVolume(volume){
+    return{
+        type: 'SET_AUDIO_PLAYER_VOLUME',
+        payload: volume
+    }
+}

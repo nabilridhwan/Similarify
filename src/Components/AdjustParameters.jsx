@@ -7,10 +7,10 @@ import ModalHeader from "./ModalHeader";
 import ModalWindow from "./ModalWindow";
 
 import PropTypes from "prop-types";
-import Track from "../PropTypes/track";
+import Track from "../utils/Track";
 
 AdjustParameters.propTypes = {
-    track: Track,
+    track: PropTypes.instanceOf(Track),
     onClose: PropTypes.func.isRequired,
 }
 
@@ -148,7 +148,7 @@ export default function AdjustParameters({ track, onClose }) {
                             {track.name}
                         </h1>
                         <p className="dark:text-white/60 text-black/60">
-                            {track.artist}
+                            {track.artist.map(a => a.name).join(", ")}
                         </p>
                     </div>
                 </div>

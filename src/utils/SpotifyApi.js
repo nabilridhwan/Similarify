@@ -144,7 +144,7 @@ class SpotifyApi {
                     } = userData;
 
                     // Create a playlist and obtain the playlist id
-                    fetch("https://api.spotify.com/v1/user/" + userID + "/playlists", {
+                    fetch("https://api.spotify.com/v1/users/" + userID + "/playlists", {
                             method: "POST",
                             headers: {
                                 "Authorization": "Bearer " + this.userToken,

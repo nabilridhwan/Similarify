@@ -18,6 +18,8 @@ import LogOutButton from "../Components/LogOutButton";
 import useApiKey from "../hooks/useApiKey";
 import ErrorMessage from "../Components/ErrorMessage";
 
+import PlaylistClass from "../utils/Playlist";
+
 export default function Playlists() {
 
     let addedSongs = useSelector(state => state.songs);
@@ -65,21 +67,16 @@ export default function Playlists() {
 
                 let n = playlists.items.map(playlist => {
 
-                    console.log()
-
                     let img = null;
 
                     if (playlist.images.length > 0 && playlist.images[0].hasOwnProperty("url")) {
                         img = playlist.images[0].url
                     }
 
-                    return {
-                        id: playlist.id,
-                        name: playlist.name,
-                        albumArt: img,
-                        tracks: playlist.tracks.total,
-                        owner: playlist.owner.display_name
-                    }
+                    // Uses the playlist class
+                    const playlistObj = new PlaylistClass(playlist.id, playlist.name, img, playlist.tracks.total, playlist.owner.display_name, playlist.external_urls.spotify)
+
+                    return playlistObj
                 })
 
                 setPlaylists(n)

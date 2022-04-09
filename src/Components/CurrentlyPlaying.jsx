@@ -2,13 +2,16 @@ import { FaTrash, FaPlus } from "react-icons/fa"
 import { BiRefresh } from 'react-icons/bi'
 import { motion } from "framer-motion"
 
+import { MdExplicit } from "react-icons/md"
+
 import PropTypes from "prop-types";
-import Track from "../PropTypes/track";
+import Track from "../utils/Track";
+import React from "react";
 
 CurrentlyPlaying.propTypes = {
     handleAdd: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
-    track: Track,
+    track: PropTypes.instanceOf(Track),
     handleRefresh: PropTypes.func.isRequired,
 }
 
@@ -35,17 +38,37 @@ export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handl
                 <div className="flex items-center">
                     <img src={track.albumArt} alt="currently playing album cover" className="w-20 h-20" />
 
-                    <div className="ml-3">
+                    <div className="ml-5">
 
-                        <p className="font-bold">
-
+                        <a
+                            rel="noreferrer"
+                            target="_blank"
+                            href={`${track.url}?go=1`}
+                            className="flex items-center font-bold underline hover:no-underline">
                             {track.name}
-                        </p>
 
-                        <p className="muted text-sm">
+                            {track.explicit && (
+                                <MdExplicit className="text-lg muted ml-2" />
+                            )}
+                        </a>
 
-                            {track.artist}
-                        </p>
+                        {/* Artists */}
+                        <div>
+
+                            {track.artist.map((artist, index) => (
+                                <React.Fragment key={index}>
+                                    <a
+                                        rel="noreferrer"
+                                        target="_blank"
+                                        href={`${artist.url}?go=1`}
+                                        className="underline text-sm muted hover:no-underline">
+                                        {artist.name}
+
+
+                                    </a><span className="muted last:hidden">, </span>
+                                </React.Fragment>
+                            ))}
+                        </div>
 
                         {track.added ? (
                             <motion.button

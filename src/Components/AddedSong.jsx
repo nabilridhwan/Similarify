@@ -5,18 +5,15 @@ import AdjustParameters from "./AdjustParameters";
 
 
 import PropTypes from "prop-types";
-import Track from "../PropTypes/track";
+import Track from "../utils/Track";
 
 AddedSong.propTypes = {
     changeableParameters: PropTypes.bool,
-    track_name: PropTypes.string.isRequired,
-    track_artist: PropTypes.string.isRequired,
-    track_album_img: PropTypes.string.isRequired,
     onRemovedClicked: PropTypes.func.isRequired,
-    track: Track
+    track: PropTypes.object
 }
 
-export default function AddedSong({ changeableParameters, track_name, track_artist, track_album_img, onRemovedClicked, track }) {
+export default function AddedSong({ changeableParameters, onRemovedClicked, track }) {
 
     const [showParameters, setShowParameters] = useState(false);
 
@@ -33,15 +30,15 @@ export default function AddedSong({ changeableParameters, track_name, track_arti
 
             <div className="flex items-center space-x-2">
 
-                {track_album_img && (
-                    <img className="w-20" src={track_album_img} alt={track_name} height="150px" />
+                {track.albumArt && (
+                    <img className="w-16" src={track.albumArt} alt={track.name} />
                 )}
 
                 <div className="flex-1">
 
-                    <h2 className="font-bold">{track_name}</h2>
+                    <h2 className="font-bold">{track.name}</h2>
                     <h2 className="dark:text-white/50 text-sm text-black/50">
-                        {track_artist}
+                        {track.artist.map(a => a.name).join(", ")}
                     </h2>
                 </div>
 
@@ -76,7 +73,10 @@ export default function AddedSong({ changeableParameters, track_name, track_arti
 
             <AnimatePresence>
                 {showParameters && (
-                    <AdjustParameters track={track} onClose={() => setShowParameters(false)} />
+                    <AdjustParameters track={track} onClose={() => {
+                        console.log(track)
+                        setShowParameters(false)
+                    }} />
                 )}
             </AnimatePresence>
 

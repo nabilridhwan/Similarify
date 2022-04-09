@@ -22,6 +22,8 @@ export default function AddedPlaylistSongs({ onClose, onClearAll}) {
     const addedPlaylistSongs = useSelector(state => state.playlistSongs);
     const addedSongs = useSelector(state => state.songs);
     const dispatch = useDispatch();
+    
+    console.log(addedPlaylistSongs)
 
     const [error, setError] = useState("");
     const [showAddToExistingPlaylist, setShowAddToExistingPlaylist] = useState(false);
@@ -157,7 +159,10 @@ export default function AddedPlaylistSongs({ onClose, onClearAll}) {
 
                                     {addedPlaylistSongs.map((track, index) => {
                                         return (
-                                            <AddedSong track_album_img={track.album.images[0].url} key={track.id} track_name={track.name} track_artist={track.artists.map(a => a.name).join(", ")} onRemovedClicked={() => dispatch(removeSongFromPlaylist(track))} />
+                                            <AddedSong 
+                                            key={track.id} 
+                                            track={track}
+                                            onRemovedClicked={() => dispatch(removeSongFromPlaylist(track))} />
                                         )
                                     })}
                                 </AnimatePresence>

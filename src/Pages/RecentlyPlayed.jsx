@@ -19,6 +19,8 @@ import useApiKey from "../hooks/useApiKey";
 import ErrorMessage from "../Components/ErrorMessage";
 import CurrentlyPlaying from "../Components/CurrentlyPlaying";
 import { addSong, removeSong } from "../actions";
+import Artist from "../utils/Artist";
+import Track from "../utils/Track";
 
 // Import
 
@@ -85,22 +87,21 @@ export default function RecentlyPlayed() {
             let currentlyPlayed = await SpotifyInstance.getCurrentlyPlayed();
 
             if (Object.prototype.hasOwnProperty.call(currentlyPlayed, "item")) {
-                const obj = {
-                    added: false,
-                    albumArt: currentlyPlayed.item.album.images[0].url,
-                    artist: currentlyPlayed.item.artists.map(a => a.name).join(", "),
-                    id: currentlyPlayed.item.id,
-                    name: currentlyPlayed.item.name,
-                }
+
+                const track = currentlyPlayed.item
+
+                const artists = track.artists.map(artist => new Artist(artist.id, artist.name, artist.external_urls.spotify, artist.uri));
+
+                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify)
 
                 // Check if currently playing song is already in the list
                 addedSongs.forEach(addedSong => {
-                    if (addedSong.id === obj.id) {
-                        obj.added = true
+                    if (addedSong.id === trackObj.id) {
+                        trackObj.added = true
                     }
                 })
 
-                setCurrentlyPlaying(obj);
+                setCurrentlyPlaying(trackObj);
             }
         } catch (e) {
             console.log("Couldn't get currently playing or user is not playing anything.")
@@ -116,14 +117,14 @@ export default function RecentlyPlayed() {
             }
 
             let n = recentlyPlayedSongs.map(song => {
-                return {
-                    added_at: song.played_at,
-                    id: song.track.id,
-                    name: song.track.name,
-                    artist: song.track.artists.map(a => a.name).join(", "),
-                    albumArt: song.track.album.images[0].url,
-                    added: false
-                }
+                const track = song.track;
+
+                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+
+                // Uses track class
+                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify, song.played_at)
+
+                return trackObj;
             })
 
             let finalTracks = {};
