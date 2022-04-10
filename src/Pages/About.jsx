@@ -56,6 +56,15 @@ export default function About() {
 
             <div className="section spacing">
                 <h2>
+                    Is Similarify open-source?
+                </h2>
+                <p>
+                    Yes, Similarify is open-source and it's Github project can be found <a href="https://github.com/nabilridhwan/similarify" className="underline">here</a>.
+                </p>
+            </div>
+
+            <div className="section spacing">
+                <h2>
                     Why is Similarify created?
                 </h2>
                 <p>
