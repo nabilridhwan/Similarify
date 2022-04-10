@@ -1,10 +1,10 @@
 import { FaPlus, FaTrash } from "react-icons/fa";
-import {MdExplicit} from "react-icons/md";
+import { MdExplicit } from "react-icons/md";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
 
-import {AiFillEye} from "react-icons/ai"
+import { AiFillEye } from "react-icons/ai"
 
 import { motion } from "framer-motion"
 import SpotifyPlayer from "./SpotifyPlayer";
@@ -26,10 +26,14 @@ export default function SimilarTrack({ track, percentage }) {
 
     const handlePress = () => {
 
-        // window.open(track.external_urls.spotify+"?go=1", "_blank");
 
         // Enable the line below to show the Spotify player
         setShowSpotifyPlayer(true)
+    }
+
+    const handleOpenLink = () => {
+        console.log("hello")
+        window.open(track.url+ "?go=1", "_blank");
     }
 
     return (
@@ -42,7 +46,13 @@ export default function SimilarTrack({ track, percentage }) {
 
 
                     <p
-                        onClick={handlePress}
+                        onClick={() => {
+                            track.preview_url
+                                ?
+                                handlePress()
+                                :
+                                handleOpenLink()
+                        }}
                         className="cursor-pointer dark:text-white text-black font-bold underline hover:no-underline">
                         {track.name}
                     </p>
