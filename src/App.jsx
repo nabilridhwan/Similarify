@@ -17,6 +17,7 @@ import Playlists from './Pages/Playlists';
 import PlaylistSongSelect from './Pages/PlaylistSongSelect';
 import { Changelog } from './Pages/Changelog';
 import RecentlyPlayed from './Pages/RecentlyPlayed';
+import About from './Pages/About';
 
 function saveToLocalStorage(state) {
   try {
@@ -68,6 +69,7 @@ function App() {
           <Route path="/playlists" element={<Playlists />} />
           <Route path="/changelog" element={<Changelog />} />
           <Route path="/recentlyplayed" element={<RecentlyPlayed/>} />
+          <Route path="/about" element={<About />} />
 
           <Route path="/playlist/:id" element={<PlaylistSongSelect />} />
 

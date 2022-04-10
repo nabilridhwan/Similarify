@@ -7,6 +7,7 @@
 - Parameters which are not "activated" will have a hollow dot beside it's name (Previously, the dot is hidden), and becomes solid when it is activated.
 - Now, Spotify Player will automatically play the preview.
 - Preview-able tracks will now have an eye icon beside the title of the song.
+-   New About/FAQ page.
 
 ### Changed
 
@@ -14,11 +15,14 @@
     -   Changed layout and added animations of the home screen.
 -   Added animations to the Done button. (It'll do a little wiggle every time a song is added/removed 💃)
 - By default, the Spotify Player volume is now at 50%.
+-   Changed the footer items
+    -   Moved most of the footer items to the new About page.
 - Changed styling of "Adjust Parameters" window's inputs.
     -   Along with that, we added animations and transitions in the parameter page 🥳.
 - More padding for done button (from the bottom)
     -   This is because on mobile devices such as iPhone X and above have the home bar at the bottom, close to the done button.
 - Changed the album art image size to be smaller in the Recommendation page (for the main track).
+-   Tracks with no preview will open Spotify link when clicked.
 - Changed styling of "Liked Songs", "Recently Played" and "Playlists" button in search page.
 - Changed animation scaling of buttons in Playlist Created/Modified window
 - Changed text in search page from "Alternatively, pick from" to "Alternatively, select from"

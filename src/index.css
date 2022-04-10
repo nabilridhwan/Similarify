@@ -82,6 +82,22 @@ li{
   @apply text-black/50 dark:text-white/50;
 }
 
+.spacing{
+  @apply my-10;
+}
+
+.section h2{
+  @apply font-bold text-xl my-1;
+}
+
+.section p{
+  @apply muted leading-relaxed;
+}
+
+.section-card{
+  @apply dark:bg-darkCard p-5 rounded-xl border dark:border-white/10 border-black/30 ;
+}
+
         input[type="range"]::-webkit-slider-thumb {
             width: 15px;
             height: 15px;
