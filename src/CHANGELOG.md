@@ -14,6 +14,7 @@
 - There is a new home page 🥳
     -   Changed layout and added animations of the home screen.
 -   Added animations to the Done button. (It'll do a little wiggle every time a song is added/removed 💃)
+-   The width of the application will take more space in desktop screen size.
 - By default, the Spotify Player volume is now at 50%.
 -   Changed the footer items
     -   Moved most of the footer items to the new About page.
