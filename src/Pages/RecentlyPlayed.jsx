@@ -34,6 +34,7 @@ export default function RecentlyPlayed() {
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
     let [loading, setLoading] = useState(true)
+    let [currentlyPlayedLoading, setCurrentlyPlayingLoading] = useState(true)
 
     const { apiKey, loggedIn } = useApiKey();
 
@@ -84,7 +85,9 @@ export default function RecentlyPlayed() {
 
     async function getCurrentlyPlayed() {
         try {
+            setCurrentlyPlayingLoading(true)
             let currentlyPlayed = await SpotifyInstance.getCurrentlyPlayed();
+            setCurrentlyPlayingLoading(false)
 
             if (Object.prototype.hasOwnProperty.call(currentlyPlayed, "item")) {
 
@@ -235,13 +238,15 @@ export default function RecentlyPlayed() {
                     <CurrentlyPlaying handleAdd={(track) => {
                         dispatch(addSong(track))
                     }}
+                        loading={currentlyPlayedLoading}
                         handleRemove={(track) => {
                             dispatch(removeSong(track))
                         }}
 
-                        handleRefresh={() => {
-                            getCurrentlyPlayed();
+                        handleRefresh={async () => {
+                            await getCurrentlyPlayed();
                         }}
+
                         track={currentlyPlaying} />
                 )}
 

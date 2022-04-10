@@ -13,6 +13,8 @@ export default function Home() {
 
     const fromTopAnim = useAnimation();
 
+    const fromTopAnimTitle = useAnimation();
+
     const variants = {
         hidden: {
             opacity: 0,
@@ -30,6 +32,42 @@ export default function Home() {
     }
 
     useEffect(() => {
+        (async () => {
+            await fromTopAnimTitle.set({
+                opacity: 0,
+                y: -20,
+            })
+
+            await fromTopAnimTitle.start(i => ({
+                opacity: 1,
+                y: 0,
+                transition: {
+                    delay: i * 0.1,
+                    duration: 0.3,
+                    ease: "easeOut"
+                }
+            }))
+
+            // Pulsing text shadow effect from white to none
+            const noGlow = "0 0 0px rgba(0,0,0,0)";
+            const coloredGlow = "0 0 40px rgba(255,255,255,0.5)";
+            await fromTopAnimTitle.set({
+                transition: {
+                    delay: 0.5,
+                }
+
+            })
+            while (true) {
+                await fromTopAnimTitle.start({
+                    textShadow: [noGlow, coloredGlow, noGlow],
+                    transition: {
+                        duration: 3.3,
+                        ease: "easeInOut"
+                    }
+                })
+            }
+        })();
+
 
         (async () => {
             await fromTopAnim.set({
@@ -46,6 +84,7 @@ export default function Home() {
                     ease: "easeOut"
                 }
             }))
+
         })();
 
 
@@ -77,8 +116,7 @@ export default function Home() {
 
                 <motion.h1
                     custom={0}
-                    animate={fromTopAnim}
-
+                    animate={fromTopAnimTitle}
                     className='text-6xl font-extrabold my-10'>
                     Discover new songs 🎧🎶
                 </motion.h1>

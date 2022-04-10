@@ -25,15 +25,13 @@ export default function SimilarTrack({ track, percentage }) {
     const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false)
 
     const handlePress = () => {
-
-
         // Enable the line below to show the Spotify player
         setShowSpotifyPlayer(true)
     }
 
     const handleOpenLink = () => {
         console.log("hello")
-        window.open(track.url+ "?go=1", "_blank");
+        window.open(track.url + "?go=1", "_blank");
     }
 
     return (
@@ -94,6 +92,7 @@ export default function SimilarTrack({ track, percentage }) {
 
             {showSpotifyPlayer && (
                 <SpotifyPlayer
+                    canBeAdded={true}
                     onClose={() => setShowSpotifyPlayer(false)}
                     track={track} />
             )}

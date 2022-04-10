@@ -1,13 +1,16 @@
 import { useDispatch } from "react-redux"
 import { DateTime } from "luxon";
 import { addSong, removeSong } from "../actions";
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { MdExplicit } from "react-icons/md"
 import { FaPlus, FaTrash } from "react-icons/fa"
 
 import PropTypes from "prop-types";
 import Track from "../utils/Track";
-import React from "react";
+import React, { useState } from "react";
+
+import { AiFillEye } from "react-icons/ai"
+import SpotifyPlayer from "./SpotifyPlayer";
 
 SpotifySong.propTypes = {
     track: PropTypes.instanceOf(Track),
@@ -19,12 +22,23 @@ export default function SpotifySong({ overrideTopText, track }) {
 
     const dispatch = useDispatch();
 
+    const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false);
+
     const handleAdd = (track) => {
         dispatch(addSong(track));
     }
 
     const handleRemove = (track) => {
         dispatch(removeSong(track));
+    }
+
+    const handlePressTitleSong = () => {
+        if (track.preview_url) {
+
+            setShowSpotifyPlayer(true);
+        } else {
+            window.open(track.url + "?go=1", "_blank");
+        }
     }
 
     return (
@@ -55,17 +69,19 @@ export default function SpotifySong({ overrideTopText, track }) {
                     src={track.albumArt} className="w-20 h-auto" alt="album_image" />
 
                 <div className="ml-5">
-                    <a
-                        rel="noreferrer"
-                        target="_blank"
-                        href={`https://open.spotify.com/track/${track.id}?go=1`}
-                        className="flex items-center font-bold underline hover:no-underline">
+                    <p
+                        onClick={handlePressTitleSong}
+                        className="flex items-center font-bold underline hover:no-underline cursor-pointer">
                         {track.name}
 
                         {track.explicit && (
                             <MdExplicit className="text-lg muted ml-2" />
                         )}
-                    </a>
+
+                        {track.preview_url && (
+                            <AiFillEye className="text-lg muted ml-1" />
+                        )}
+                    </p>
 
 
 
@@ -110,6 +126,14 @@ export default function SpotifySong({ overrideTopText, track }) {
                 </div>
 
             </div>
+
+            <AnimatePresence>
+                {showSpotifyPlayer && (
+                    <SpotifyPlayer
+                        onClose={() => setShowSpotifyPlayer(false)}
+                        track={track} />
+                )}
+            </AnimatePresence>
         </motion.div>
     )
 

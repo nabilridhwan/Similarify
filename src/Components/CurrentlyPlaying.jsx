@@ -1,12 +1,14 @@
 import { FaTrash, FaPlus } from "react-icons/fa"
 import { BiRefresh } from 'react-icons/bi'
-import { motion } from "framer-motion"
+import { AnimatePresence, motion, useAnimation } from "framer-motion"
 
 import { MdExplicit } from "react-icons/md"
+import { AiFillEye } from "react-icons/ai"
 
 import PropTypes from "prop-types";
 import Track from "../utils/Track";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import SpotifyPlayer from "./SpotifyPlayer"
 
 CurrentlyPlaying.propTypes = {
     handleAdd: PropTypes.func.isRequired,
@@ -15,7 +17,38 @@ CurrentlyPlaying.propTypes = {
     handleRefresh: PropTypes.func.isRequired,
 }
 
-export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handleRefresh }) {
+export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handleRefresh, loading }) {
+
+
+    const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false);
+    const rotateAnim = useAnimation();
+
+    const handlePressTitleSong = () => {
+        if (track.preview_url) {
+
+            setShowSpotifyPlayer(true);
+        } else {
+            window.open(track.url + "?go=1", "_blank");
+        }
+    }
+
+    // Rotate 360
+    useEffect(() => {
+        (async () => {
+
+            await rotateAnim.set({
+                rotateZ: 0
+            })
+
+            await rotateAnim.start({
+                rotateZ: 360,
+                transition: {
+                    ease: 'easeOut'
+                }
+            })
+
+        })();
+    }, [loading])
 
     return (
         <>
@@ -30,7 +63,14 @@ export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handl
                     whileTap={{ scale: 0.9 }}
                     className="bg-red-500 p-2 rounded-lg shadow-md shadow-red-500/50"
                 >
-                    <BiRefresh className="text-2xl" />
+
+                    <motion.div
+                        initial={false}
+                        animate={rotateAnim}
+                    >
+
+                        <BiRefresh className="text-2xl" />
+                    </motion.div>
                 </motion.button>
             </div>
 
@@ -40,17 +80,19 @@ export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handl
 
                     <div className="ml-5">
 
-                        <a
-                            rel="noreferrer"
-                            target="_blank"
-                            href={`${track.url}?go=1`}
-                            className="flex items-center font-bold underline hover:no-underline">
+                        <p
+                            onClick={handlePressTitleSong}
+                            className="flex items-center font-bold underline hover:no-underline cursor-pointer">
                             {track.name}
 
                             {track.explicit && (
                                 <MdExplicit className="text-lg muted ml-2" />
                             )}
-                        </a>
+
+                            {track.preview_url && (
+                                <AiFillEye className="text-lg muted ml-1" />
+                            )}
+                        </p>
 
                         {/* Artists */}
                         <div>
@@ -93,6 +135,14 @@ export default function CurrentlyPlaying({ handleAdd, handleRemove, track, handl
                     </div>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {showSpotifyPlayer && (
+                    <SpotifyPlayer
+                        onClose={() => setShowSpotifyPlayer(false)}
+                        track={track} />
+                )}
+            </AnimatePresence>
         </>
 
     )

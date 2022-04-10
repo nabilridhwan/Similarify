@@ -1,4 +1,28 @@
 
+## [Unreleased] - 2022-04-10
+
+### Added
+
+- The Spotify Player is now added to every little inch of the application. (Tracks that can be previewed will have the eye icon beside it!)
+-   Added text glow animation on the home page.
+- Added open in spotify button for spotify player.
+- Added spinning animation of the refresh icon in recently played page.
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
+### Removed
+
+- None
+
+### Security
+
+- None
 ## [0.10.0] - 2022-04-10
 >   Animations and new home page, because little details matter 🙌 and also, a huge update, but a small increment 😔.
 

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist, setAudioPlayerVolume } from "../actions";
-import { FaPlus, FaTrash, FaSadCry } from "react-icons/fa"
+import { FaPlus, FaTrash, FaSadCry, FaSpotify } from "react-icons/fa"
 import { MdExplicit } from "react-icons/md"
 import React from "react";
 
@@ -17,7 +17,7 @@ SpotifyPlayer.propTypes = {
 
 // import Spotify from "react-spotify-embed";
 
-export default function SpotifyPlayer({ track, onClose }) {
+export default function SpotifyPlayer({ canBeAdded=false, track, onClose }) {
 
     const dispatch = useDispatch();
 
@@ -59,8 +59,13 @@ export default function SpotifyPlayer({ track, onClose }) {
         dispatch(setAudioPlayerVolume(volume));
     }
 
+    const handleClickOnSpotifyButton = () => {
+        window.open(track.url + "?go=1", "_blank");
+    }
+
     return (
         <motion.div
+            // onClick={onClose}
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
             exit={{ opacity: 0, }}
@@ -70,23 +75,20 @@ export default function SpotifyPlayer({ track, onClose }) {
 
 
                 <div className="mb-5">
-                    <a
-                        rel="noreferrer"
-                        target="_blank"
-                        href={`https://open.spotify.com/track/${track.id}?go=1`}
-                        className="flex text-2xl items-center font-bold underline hover:no-underline">
+                    <p
+                        className="flex text-2xl items-center font-bold">
                         {track.name}
 
                         {track.explicit && (
                             <MdExplicit className="text-lg muted ml-2" />
                         )}
-                    </a>
+                    </p>
 
 
 
                     {/* Artists */}
                     <div>
-                        by &nbsp;
+                        by&nbsp;
                         {track.artist.map((artist, index) => (
                             <React.Fragment key={index}>
 
@@ -125,7 +127,7 @@ export default function SpotifyPlayer({ track, onClose }) {
 
                 {/* Add to playlist button */}
                 {
-                    track.preview_url && (
+                    canBeAdded && (
                         track.added ? (
                             <motion.button
                                 whileHover={{ scale: 1.1 }}
@@ -149,7 +151,13 @@ export default function SpotifyPlayer({ track, onClose }) {
                     )
                 }
 
-
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={handleClickOnSpotifyButton} className="btn  bg-spotify text-white w-full mt-2 flex gap-1 items-center justify-center">
+                        <FaSpotify />
+                        Open in Spotify
+                </motion.button>
 
                 <motion.button
                     whileHover={{ scale: 1.05 }}

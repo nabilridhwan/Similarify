@@ -44,7 +44,7 @@ export default function About() {
                             Try out new features ✨*
                         </h2>
                         <p className="text-lg">
-                            You can try out cutting-edge Similarify's features <a href="https://next--similarify.netlify.app/" className="underline">here</a>.
+                            You can try out cutting-edge features <a href="https://next--similarify.netlify.app/" className="underline">here</a>.
                         </p>
                     </div>
 
@@ -59,7 +59,7 @@ export default function About() {
                     Is Similarify open-source?
                 </h2>
                 <p>
-                    Yes, Similarify is open-source and it's Github project can be found <a href="https://github.com/nabilridhwan/similarify" className="underline">here</a>.
+                    Yes, Similarify is open-source and it's Github project can be found <a href="https://github.com/nabilridhwan/similarify" className="underline">here</a> and the <strong>next</strong> version of Similarify can be found <a href="https://github.com/nabilridhwan/similarify/tree/next" className="underline">here</a>.
                 </p>
             </div>
 
