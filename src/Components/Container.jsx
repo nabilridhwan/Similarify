@@ -10,7 +10,7 @@ export default function Container({children}){
             ease: "easeOut",
             duration: 0.5
         }}
-        className="w-11/12 lg:w-1/2 my-10 mx-auto">
+        className="w-11/12 lg:w-2/3 my-10 mx-auto">
             {children}
         </motion.div>
     )
