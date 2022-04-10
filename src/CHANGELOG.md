@@ -6,8 +6,7 @@
 - The Spotify Player is now added to every little inch of the application. (Tracks that can be previewed will have the eye icon beside it!)
 -   Added text glow animation on the home page.
 - Added open in spotify button for spotify player.
-- Added spinning animation of the refresh icon in recently played page.
-
+- Added spinning animation of the refresh icon in recently played page and recommendation page.
 ### Changed
 
 - None

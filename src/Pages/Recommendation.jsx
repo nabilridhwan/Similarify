@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, AnimateSharedLayout, motion, useAnimation } from 'framer-motion';
 
 
 import { useDispatch } from 'react-redux';
@@ -38,6 +38,8 @@ export default function Recommendation() {
     const playlistLink = useSelector(state => state.playlistLink);
 
     const [showAddedPlaylistSongs, setShowAddedPlaylistSongs] = useState(false);
+
+    const rotateAnim = useAnimation();
 
 
     const { apiKey, loggedIn } = useApiKey();
@@ -157,6 +159,20 @@ export default function Recommendation() {
 
         let similarSongs = await SpotifyInstance.getRecommendation(songOnIndex.id, 6, songOnIndex.parameters);
 
+        // Rotation animation.
+        (async () => {
+            await rotateAnim.set({
+                rotateZ: 0
+            })
+
+            await rotateAnim.start({
+                rotateZ: 360,
+                transition: {
+                    ease: 'easeOut'
+                }
+            })
+        })();
+
 
         // Map the similar tracks
         const similarTracks = similarSongs.tracks.map(similarTrack => {
@@ -213,76 +229,90 @@ export default function Recommendation() {
             {/* <p className='text-center font-bold'>Only use the refresh button below IF and only IF there is no results</p>
             <button onClick={fetchSimilarSongs} className="btn bg-red-500 text-white w-full">Refresh</button> */}
 
-            {songs.map((song, index) => {
+            <AnimateSharedLayout>
 
-                return (
 
-                    <motion.div
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        key={index}
-                        className="dark:bg-darkCard  dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10">
 
-                        <p className='text font-bold my-4'>
-                            Since you liked...
-                        </p>
+                {songs.map((song, index) => {
 
-                        <div className="flex flex-row space-y-7 justify-between items-center">
+                    return (
 
-                            {/* Album image and title and artist */}
-                            <div className='flex flex-row space-y-5 items-center'>
+                        <motion.div
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            key={index}
+                            className="dark:bg-darkCard  dark:border-white/10 my-5 p-5 rounded-xl border border-black/20 shadow-lg shadow-black/10">
 
-                                <img src={song.albumArt} className="h-24 mr-4" />
+                            <p className='text font-bold my-4'>
+                                Since you liked...
+                            </p>
 
-                                <div>
+                            <div className="flex flex-row space-y-7 justify-between items-center">
 
-                                    <h1 className='text-3xl font-bold'>{song.name}</h1>
-                                    <h5 className='dark:text-white/50 text-sm text-black/50'>
-                                        by {song.artist.map(a => a.name).join(", ")}
-                                    </h5>
+                                {/* Album image and title and artist */}
+                                <div className='flex flex-row space-y-5 items-center'>
+
+                                    <img src={song.albumArt} className="h-24 mr-4" />
+
+                                    <div>
+
+                                        <h1 className='text-3xl font-bold'>{song.name}</h1>
+                                        <h5 className='dark:text-white/50 text-sm text-black/50'>
+                                            by {song.artist.map(a => a.name).join(", ")}
+                                        </h5>
+
+
+                                    </div>
 
 
                                 </div>
 
+                                <motion.button
+                                    onClick={() => handleRefresh(index)}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className='p-2 rounded-lg text-white bg-brandColor shadow-[0_0_30px] shadow-brandColor/30'>
+                                    <motion.div
+                                        animate={rotateAnim}
+                                    >
 
+                                        <BiRefresh className='text-2xl' />
+                                    </motion.div>
+                                </motion.button>
                             </div>
 
-                            <motion.button
-                                onClick={() => handleRefresh(index)}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className='p-2 rounded-lg text-white bg-pink-700 border border-pink-900 shadow-md shadow-pink-700/30'>
-                                <BiRefresh className='text-2xl' />
-                            </motion.button>
-                        </div>
+                            <p className='my-5 text-sm'>
+                                Here are songs similar to it:
 
-                        <p className='my-5 text-sm'>
-                            Here are songs similar to it:
+                            </p>
 
-                        </p>
+                            {Object.prototype.hasOwnProperty.call(song, 'similar') && song.similar.length
 
-                        {Object.prototype.hasOwnProperty.call(song, 'similar') && song.similar.length
+                                ?
 
-                            ?
+                                <motion.div
+                                    layout
+                                    className='grid lg:grid-cols-2'>
+                                    {song.similar.map((s, index) => {
+                                        const percentage = Math.round(parseFloat(s.match) * 100);
+                                        return (
+                                            <SimilarTrack percentage={percentage} key={s.id} track={s} />
+                                        )
+                                    })}
+                                </motion.div>
+                                :
+                                <h5 className="my-3 font-bold">
+                                    No similar songs found. Consider changing the parameters (if set).
+                                </h5>
 
-                            <div className='grid lg:grid-cols-2'>
-                                {song.similar.map((s, index) => {
-                                    const percentage = Math.round(parseFloat(s.match) * 100);
-                                    return (
-                                        <SimilarTrack percentage={percentage} key={s.id} track={s} />
-                                    )
-                                })}
-                            </div>
-                            :
-                            <h5 className="my-3 font-bold">
-                                No similar songs found. Consider changing the parameters (if set).
-                            </h5>
+                            }
 
-                        }
-                    </motion.div>
-                )
-            })}
+                        </motion.div>
+                    )
+                })}
+            </AnimateSharedLayout>
 
             <AnimatePresence>
                 {addedPlaylistSongs.length > 0 && (
@@ -309,6 +339,6 @@ export default function Recommendation() {
             </AnimatePresence>
 
             <Footer />
-        </Container>
+        </Container >
     )
 }
