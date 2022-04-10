@@ -86,7 +86,7 @@ export default function About() {
                     <SiSentry />
                 </span>
                 <p>
-                    Similarify is built on React, Redux, Tailwind CSS, Spotify API and uses the recommendations algorithms from Spotify, Framer motion and Sentry.
+                    Similarify is built on React, Redux, Tailwind CSS, Spotify API (and uses the recommendations algorithms from them), Framer motion for animations and Sentry for error reporting in production.
                 </p>
             </div>
 
