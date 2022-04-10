@@ -62,7 +62,7 @@ export default function Playlist({ playlist, onClickPlaylist, compact }) {
                     {playlist.name}
                 </h1>
                 <p className={`dark:text-white/50 text-black/50 ${compact ? "text-xs" : "text-sm"}`}>
-                    {playlist.tracks} Songs by {playlist.owner}
+                    {playlist.totalTracks} Songs by {playlist.owner}
                 </p>
 
 

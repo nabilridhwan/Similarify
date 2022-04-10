@@ -8,7 +8,7 @@ export default function Container({children}){
         transition={{
             type: "tween",
             ease: "easeOut",
-            duration: 0.3
+            duration: 0.5
         }}
         className="w-11/12 lg:w-1/2 my-10 mx-auto">
             {children}

@@ -6,6 +6,7 @@ import Container from '../Components/Container';
 import Footer from '../Components/Footer';
 import { DragControls, motion, useAnimation } from "framer-motion"
 import { useEffect } from "react";
+import CenterContainer from "../Components/CenterContainer";
 
 export default function Home() {
 
@@ -61,50 +62,40 @@ export default function Home() {
     }, [])
 
     return (
-        <div className="flex items-center justify-center h-screen w-screen">
-
-
+        <CenterContainer>
+            {/* Header */}
             <motion.div
-                className="text-center mx-10 my-28 lg:w-1/3"
                 initial={"hidden"}
                 animate={"show"}
                 variants={variants}
             >
 
-
-                {/* Header */}
-                <motion.div
-                    initial={"hidden"}
-                    animate={"show"}
-                    variants={variants}
+                <p
+                    className="text-sm uppercase tracking-widest muted"
                 >
+                    <a href="https://nabilridhwan.github.io" className="hover:text-black dark:hover:text-white">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
+                </p>
 
-                    <p
-                        className="text-sm uppercase tracking-widest muted"
-                    >
-                        <a href="https://nabilridhwan.github.io" className="hover:text-black dark:hover:text-white">Nabil Ridhwan </a> &copy; {new Date().getFullYear()}
-                    </p>
+                <motion.h1
+                    custom={0}
+                    animate={fromTopAnim}
 
-                    <motion.h1
-                        custom={0}
-                        animate={fromTopAnim}
-
-                        className='text-6xl font-extrabold my-10'>
-                        Discover new songs 🎧🎶
-                    </motion.h1>
+                    className='text-6xl font-extrabold my-10'>
+                    Discover new songs 🎧🎶
+                </motion.h1>
 
 
 
-                    <motion.p
-                        animate={fromTopAnim}
-                        custom={2}
-                        className='muted leading-relaxed'>
-                        With Similarify, you can discover new songs you'd like based on the songs you already like!
-                    </motion.p>
-                </motion.div>
+                <motion.p
+                    animate={fromTopAnim}
+                    custom={2}
+                    className='muted leading-relaxed'>
+                    With Similarify, you can discover new songs you'd like based on the songs you already like!
+                </motion.p>
+            </motion.div>
 
 
-                {/* <div className="my-10">
+            {/* <div className="my-10">
                 <h1 className="text-2xl font-extrabold">
                     Discover in 5 simple steps!
                 </h1>
@@ -136,36 +127,35 @@ export default function Home() {
                 </ol>
             </div> */}
 
-                <motion.div
-                    animate={control}
-                    className="mt-10"
-                >
-                    <Link
-                        className="btn w-full justify-center flex flex-row items-center bg-spotify text-white shadow-[0_0_40px] shadow-spotify/30 hover:bg-green-600 hover:shadow-none transition-all"
-                        to="/authenticate">
-                        <FaSpotify className="mx-2" />
-                        Login with Spotify
-                    </Link>
-                </motion.div>
+            <motion.div
+                animate={control}
+                className="mt-10"
+            >
+                <Link
+                    className="btn w-full justify-center flex flex-row items-center bg-spotify text-white shadow-[0_0_40px] shadow-spotify/30 hover:bg-green-600 hover:shadow-none transition-all"
+                    to="/authenticate">
+                    <FaSpotify className="mx-2" />
+                    Login with Spotify
+                </Link>
+            </motion.div>
 
 
-                {/* <p className="text-white/80 hidden text-center text-xs italic dark:block mb-10">
+            {/* <p className="text-white/80 hidden text-center text-xs italic dark:block mb-10">
                     You'll encounter a blinding white background by pressing the button above! Be careful!
                 </p> */}
 
 
 
-                {/* Footer */}
-                <motion.div
+            {/* Footer */}
+            <motion.div
                 animate={fromTopAnim}
                 custom={9}
-                >
-                    <Footer />
-                </motion.div>
-
+            >
+                <Footer />
             </motion.div>
 
-        </div>
+
+        </CenterContainer>
     );
 
 }

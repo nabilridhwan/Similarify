@@ -1,20 +1,33 @@
 
-## [Unreleased]
->   OwO!
+## [0.10.0] - 2022-04-09
+>   Animations and new home page, because little details matter 🙌 and also, a huge update, but a small increment 😔.
 
 ### Added
 
-- None
+- Parameters which are not "activated" will have a hollow dot beside it's name (Previously, the dot is hidden), and becomes solid when it is activated.
+- Now, Spotify Player will automatically play the preview.
+- Preview-able tracks will now have an eye icon beside the title of the song.
 
 ### Changed
 
-- Changed layout and animations of the home screen (totally new home page!).
--   Added animation to the Done button. (It'll do a little wiggle every time a song is added/removed 💃)
--   Now, the playlists page will show a 2 column grid instead of display by row for Desktop screens.
+- There is a new home page 🥳
+    -   Changed layout and added animations of the home screen.
+-   Added animations to the Done button. (It'll do a little wiggle every time a song is added/removed 💃)
+- By default, the Spotify Player volume is now at 50%.
+- Changed styling of "Adjust Parameters" window's inputs.
+    -   Along with that, we added animations and transitions in the parameter page 🥳.
+- More padding for done button (from the bottom)
+    -   This is because on mobile devices such as iPhone X and above have the home bar at the bottom, close to the done button.
+- Changed the album art image size to be smaller in the Recommendation page (for the main track).
+- Changed styling of "Liked Songs", "Recently Played" and "Playlists" button in search page.
+- Changed animation scaling of buttons in Playlist Created/Modified window
+- Changed text in search page from "Alternatively, pick from" to "Alternatively, select from"
+- __[DEV]__ Parameter name is now lowercase when initializing the instance of the class.
 
 ### Fixed
 
-- Fixed the margin issue of the "Liked Songs", "Recently Played" and "Playlists" button in the Search page on mobile.
+- Fixed the spacing issue of the "Liked Songs", "Recently Played" and "Playlists" button in the Search page on mobile.
+-   Fixed the number of playlist not showing up in both "Playlists" page and "Add to existing playlist" window
 
 ### Removed
 

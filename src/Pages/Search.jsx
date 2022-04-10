@@ -213,11 +213,12 @@ function Search() {
                     Search for the songs that you already like.
                 </p>
 
-                <div className="nav my-5 space-y-4">
+                <div className="nav my-5">
                     <p
                         className="text-sm font-semibold"
-                    >Alternatively, pick from:</p>
-                    <div className="section flex flex-wrap gap-2">
+                    >Alternatively, select from</p>
+
+                    <div className="flex flex-wrap gap-1.5 mt-2">
                         <SectionButton to="/likedsongs">
                             <FaHeart className="mr-2" />
                             <h1>Liked Songs</h1>

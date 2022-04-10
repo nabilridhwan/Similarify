@@ -36,9 +36,6 @@ export default function SpotifyPlayer({ track, onClose }) {
             if (audioPlayerVolume) {
                 console.log(`Got volume from: redux. Value: ${audioPlayerVolume}`)
                 audioElemRef.current.volume = audioPlayerVolume;
-            } else {
-                console.log("Got volume from: none")
-                audioElemRef.current.volume = 0.8;
             }
         }
 
@@ -110,7 +107,7 @@ export default function SpotifyPlayer({ track, onClose }) {
                 <div className="my-5">
 
                     {track.preview_url ? (
-                        <audio onVolumeChange={handleOnChangeVolume} controls ref={audioElemRef} >
+                        <audio onVolumeChange={handleOnChangeVolume} controls ref={audioElemRef} autoPlay={true} >
                             <source src={track.preview_url} />
                             Your browser does not support the audio element.
                         </audio>

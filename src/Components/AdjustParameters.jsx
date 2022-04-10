@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSongParameters } from "../actions";
@@ -8,6 +8,7 @@ import ModalWindow from "./ModalWindow";
 
 import PropTypes from "prop-types";
 import Track from "../utils/Track";
+import InputRange from "./InputRange";
 
 AdjustParameters.propTypes = {
     track: PropTypes.instanceOf(Track),
@@ -20,14 +21,14 @@ export default function AdjustParameters({ track, onClose }) {
 
     const [parameters, setParameters] = useState(
         [
-            new Parameter("Accousticness", "The higher the value, the higher confidence the track is acoustic.", 0.5, 0, 1, 0.01),
-            new Parameter("Popularity", "The higher the value, the more popular the track is.", 50, 0, 100, 1, 1),
-            new Parameter("Danceability", "The higher the value, the more danceable the track.", 0.5, 0, 1, 0.01),
-            new Parameter("Energy", "The higher the value, the more energetic the track.", 0.5, 0, 1, 0.01),
-            new Parameter("Instrumentalness", "The higher the value, the more likely the track is instrumental.", 0.5, 0, 1, 0.01),
-            new Parameter("Liveness", "The higher the value, the more likely the track is live.", 0.5, 0, 1, 0.01),
-            new Parameter("Speechiness", "The higher the value, the more likely the track is speech.", 0.5, 0, 1, 0.01),
-            new Parameter("Valence", "The higher the value, the more positive the track.", 0.5, 0, 1, 0.01),
+            new Parameter("accousticness", "The higher the value, the higher confidence the track is acoustic.", 0.5, 0, 1, 0.01),
+            new Parameter("popularity", "The higher the value, the more popular the track is.", 50, 0, 100, 1, 1),
+            new Parameter("danceability", "The higher the value, the more danceable the track.", 0.5, 0, 1, 0.01),
+            new Parameter("energy", "The higher the value, the more energetic the track.", 0.5, 0, 1, 0.01),
+            new Parameter("instrumentalness", "The higher the value, the more likely the track is instrumental.", 0.5, 0, 1, 0.01),
+            new Parameter("liveness", "The higher the value, the more likely the track is live.", 0.5, 0, 1, 0.01),
+            new Parameter("speechiness", "The higher the value, the more likely the track is speech.", 0.5, 0, 1, 0.01),
+            new Parameter("valence", "The higher the value, the more positive the track.", 0.5, 0, 1, 0.01),
         ]
     )
 
@@ -154,69 +155,108 @@ export default function AdjustParameters({ track, onClose }) {
                 </div>
 
                 <motion.div
+                    layoutScroll
                     className="overflow-y-scroll overflow-x-hidden h-52 scroll-m-5">
-                    {Object.keys(parameters).map((parameterIndex, index) => {
 
-                        const currentParameter = parameters[parameterIndex];
-                        return (
+                    <AnimateSharedLayout>
 
+                        {Object.keys(parameters).map((parameterIndex, index) => {
 
-                            <motion.div
-                                key={index}
-                                className="my-2">
+                            const currentParameter = parameters[parameterIndex];
+                            return (
 
-                                <div className="flex items-center">
+                                // Div for parameter
+                                <motion.div
+                                    layout
+                                    key={index}
+                                    className="my-2">
 
-
-                                    {activeParams.includes(currentParameter.name) && (
-                                        <div className="h-2 w-2 bg-white rounded-full mr-2" />
-                                    )}
-
-
-                                    <motion.h1
-                                        whileTap={{ scale: 0.9 }}
-                                        className={`${!activeParams.includes(currentParameter.name) ? "muted" : "font-bold"} w-fit cursor-pointer`}
-                                        onClick={() => handleClickParam(index)}>
-
-                                        {currentParameter.name} {activeParams.includes(currentParameter.name) && " - " + Math.round(parameters[parameterIndex].getDisplayValue()) + "%"}
-
-                                    </motion.h1>
-                                </div>
-
-                                <AnimatePresence>
+                                    {/* Dot */}
                                     <motion.div
-                                        key={parameterIndex}
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: activeParams.includes(currentParameter.name) ? 1 : 0, y: activeParams.includes(currentParameter.name) ? 0 : -10 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                    >
+                                        className="flex items-center">
 
+                                        <motion.div
+                                            layout="position"
+                                            initial={{ opacity: 0, }}
+                                            animate={{ opacity: 1, }}
+                                            transition={{
+                                                delay: 0.1
+                                            }}
+                                            className={`h-2 w-2 ${activeParams.includes(currentParameter.name) ? "bg-white" : "bg-transparent border border-white/50"} rounded-full mr-2`} />
+
+                                        {/* Name and percentage */}
+                                        <div
+                                            className="flex items-center cursor-pointer gap-1"
+                                            onClick={() => handleClickParam(index)}
+                                        >
+                                            {/* Parameter name */}
+                                            <motion.h1
+                                                layout="position"
+                                                whileTap={{ scale: 0.9 }}
+                                                className={`${!activeParams.includes(currentParameter.name) ? "muted" : "font-bold"} capitalize  w-fit cursor-pointer`}
+                                            >
+
+                                                {currentParameter.name}
+
+                                            </motion.h1>
+
+                                            {activeParams.includes(currentParameter.name) && (
+
+                                                <motion.span
+                                                    className="font-semibold text-sm"
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    animate={{
+                                                        opacity: 1, x: 0, transition: {
+                                                            delay: 0.1,
+                                                            type: "tween",
+                                                            ease: "easeOut"
+                                                        }
+                                                    }}
+                                                >
+                                                    ({Math.round(parameters[parameterIndex].getDisplayValue())}%)
+                                                </motion.span>
+                                            )}
+                                        </div>
+                                    </motion.div>
+
+                                    {/* Description and input */}
+                                    <AnimatePresence>
                                         {activeParams.includes(currentParameter.name) && (
 
-                                            <motion.p
-                                                className="my-2 text-xs muted">
-                                                {currentParameter.description}
-                                            </motion.p>
-                                        )}
+                                            <motion.div
+                                                key={parameterIndex}
+                                                initial={{ opacity: 0, y: -30 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -30 }}
+                                                transition={{
+                                                    duration: 0.2,
+                                                    ease: "easeInOut",
+                                                }}
+                                            >
+                                                <motion.p
+                                                    className="my-2 text-xs muted">
+                                                    {currentParameter.description}
+                                                </motion.p>
 
-                                        {
-                                            activeParams.includes(currentParameter.name) && (
-                                                <motion.input
+                                                {/* <InputRange /> */}
+
+                                                <input
+                                                    class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
                                                     type="range"
-                                                    className="h-8 w-full"
                                                     onChange={(e) => handleChange(e, currentParameter)}
                                                     value={currentParameter.getValue()}
                                                     min={currentParameter.min}
                                                     max={currentParameter.max}
-                                                    step={currentParameter.step} />
-                                            )
-                                        }
-                                    </motion.div>
-                                </AnimatePresence>
+                                                    step={currentParameter.step}
+                                                />
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
 
-                            </motion.div>
-                        )
-                    })}
+                                </motion.div>
+                            )
+                        })}
+                    </AnimateSharedLayout>
                 </motion.div>
 
                 {/* Save button */}

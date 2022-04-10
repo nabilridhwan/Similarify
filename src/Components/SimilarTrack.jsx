@@ -4,6 +4,8 @@ import {MdExplicit} from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { addSongToPlaylist, removeSongFromPlaylist } from '../actions';
 
+import {AiFillEye} from "react-icons/ai"
+
 import { motion } from "framer-motion"
 import SpotifyPlayer from "./SpotifyPlayer";
 import { useState } from "react";
@@ -46,7 +48,11 @@ export default function SimilarTrack({ track, percentage }) {
                     </p>
 
                     {track.explicit && (
-                        <MdExplicit className="text-lg muted ml-2" />
+                        <MdExplicit className="text-lg muted ml-1" />
+                    )}
+
+                    {track.preview_url && (
+                        <AiFillEye className="text-lg muted ml-1" />
                     )}
                 </div>
 

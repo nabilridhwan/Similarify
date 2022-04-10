@@ -233,7 +233,7 @@ export default function Recommendation() {
                             {/* Album image and title and artist */}
                             <div className='flex flex-row space-y-5 items-center'>
 
-                                <img src={song.albumArt} className="h-28 mr-4" />
+                                <img src={song.albumArt} className="h-24 mr-4" />
 
                                 <div>
 

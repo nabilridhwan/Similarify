@@ -36,14 +36,14 @@ export default function CreatedPlaylistModal({ playlistLink, onClose }) {
                 <ModalHeader title="Playlist Created/Modified" subtitle="Your super shiny cool playlist have been created/modified!" />
 
                 <motion.button
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={handleClick} className="btn my-3 bg-green-500 text-white w-full">
                     Go to Playlist
                 </motion.button>
 
                 <motion.button
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onClose} className="btn  bg-red-500 text-white w-full">
                     Close

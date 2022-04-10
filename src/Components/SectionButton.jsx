@@ -16,7 +16,7 @@ export default function SectionButton({ to = -1, children, onClickEvt }) {
             }
             whileTap={{ scale: 0.9 }}
             whileHover={{ scale: 1.1 }}
-            className="dark:text-white dark:border-white bg-white dark:bg-dark text-black font-semibold py-2 px-4 text-sm rounded-full border-2 border-black mt-1">
+            className="transition ease-out duration-500 bg-brandColor/90 text-white font-semibold py-2 px-4 text-sm rounded-full hover:shadow-[0_0_30px] hover:shadow-brandColor/50 hover:bg-brandColor">
 
             <div className="flex justify-center items-center">
                 {children}
