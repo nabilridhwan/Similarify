@@ -1,5 +1,5 @@
 
-## [0.10.0] - 2022-04-09
+## [0.10.0] - 2022-04-10
 >   Animations and new home page, because little details matter 🙌 and also, a huge update, but a small increment 😔.
 
 ### Added
