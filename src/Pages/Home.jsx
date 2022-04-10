@@ -1,6 +1,5 @@
 // import listeningImage from './images/listening.png';
 import { FaSpotify, FaHeart } from "react-icons/fa"
-// import { SiReact, SiTailwindcss, SiFramer, SiSentry } from "react-icons/si"
 import { Link } from "react-router-dom";
 import Container from '../Components/Container';
 import Footer from '../Components/Footer';
