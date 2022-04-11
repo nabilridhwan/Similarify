@@ -34,7 +34,7 @@ export default function Playlists() {
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
 
-    const { apiKey, loggedIn } = useApiKey();
+    const { apiKey, loggedIn } = useApiKey("playlists");
 
     const [error, setError] = useState(null);
 
@@ -89,7 +89,7 @@ export default function Playlists() {
 
     return (
         <Container>
-            <BackButton />
+            <BackButton to="/search" />
 
             {error && (
                 <ErrorMessage error={error} />

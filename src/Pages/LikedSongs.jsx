@@ -35,7 +35,7 @@ export default function LikedSongs() {
 
     const { error, setError } = useError();
 
-    const { apiKey, error: e, loggedIn } = useApiKey();
+    const { apiKey, error: e, loggedIn } = useApiKey("likedsongs");
     
 
     useEffect(() => {
@@ -149,7 +149,7 @@ export default function LikedSongs() {
 
     return (
         <Container goBack={true}>
-            <BackButton />
+            <BackButton to={"/search"} />
 
             {/* <ProgressBar current={1} total={2} /> */}
 

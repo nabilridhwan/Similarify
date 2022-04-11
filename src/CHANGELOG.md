@@ -3,13 +3,17 @@
 
 ### Added
 
-- The Spotify Player is now added to every little inch of the application. (Tracks that can be previewed will have the eye icon beside it!)
--   Added text glow animation on the home page.
-- Added open in spotify button for spotify player.
-- Added spinning animation of the refresh icon in recently played page and recommendation page.
+- The Spotify Player is now added to every little inch of the application. That includes the Recently Played, Playlists and Search page. (Tracks that can be previewed will have the eye icon beside it!)
+- Added "Open in Spotify" button for the Spotify player.
+- Added spinning animation for the refresh icon in recently played page and recommendation page.
+-   If your token is invalid or you do not have token, after re-authenticating with Spotify, you will be redirected to the page you were before. (e.g. If your token is invalid at `/search`, you will be redirected to `/search` after re-authenticating.) There are a few exceptions:
+    -   If you were on the `/playlist/<playlist_id>` page, you will be redirected to the `/playlists` (All your playlists) page after re-authenticating.
+    -   If you were on the `/recommendation` page (or you are creating or adding to an existing playlist), you will be redirected to the `/search` page __*by default*__ after re-authenticating. __(UNDER TESTING)__
 ### Changed
 
-- None
+- Changed contents of the About Me page (grammar-wise) and include a link to the "next" branch of Similarify.
+-   Changed authentication callback to `/authenticate` instead of `/search`.
+-   Changed the BackButton redirect `to` parameter for certain page because of the new authentication callback.
 
 ### Fixed
 

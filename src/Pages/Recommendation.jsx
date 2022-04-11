@@ -200,7 +200,7 @@ export default function Recommendation() {
     return (
         <Container>
 
-            <BackButton />
+            <BackButton to="/search" />
 
             {error && (
                 <ErrorMessage error={error} />

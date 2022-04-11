@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import apiKey from './apiKey';
+import redirect from './redirect';
 import apiKeyExpiration from './apiKeyExpiration';
 import audioPlayerVolume from './audioPlayerVolume';
 import playlistLink from './playlistLink';
@@ -16,7 +17,8 @@ const allReducers = combineReducers({
     playlistSongs: playlistSongs(),
     playlistLink: playlistLink(),
     apiKeyExpiration: apiKeyExpiration(),
-    audioPlayerVolume: audioPlayerVolume()
+    audioPlayerVolume: audioPlayerVolume(),
+    redirect: redirect()
 })
 
 export default allReducers;

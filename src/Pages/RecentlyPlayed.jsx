@@ -36,7 +36,7 @@ export default function RecentlyPlayed() {
     let [loading, setLoading] = useState(true)
     let [currentlyPlayedLoading, setCurrentlyPlayingLoading] = useState(true)
 
-    const { apiKey, loggedIn } = useApiKey();
+    const { apiKey, loggedIn } = useApiKey("recentlyplayed");
 
     const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
 
@@ -189,7 +189,7 @@ export default function RecentlyPlayed() {
 
 
 
-            <BackButton />
+            <BackButton to="/search" />
 
             {error && (
                 <ErrorMessage error={error} />

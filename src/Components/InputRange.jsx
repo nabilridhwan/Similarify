@@ -1,14 +1,15 @@
 import {motion} from "framer-motion"
 export default function InputRange(){
     return(
-        <div className="relative w-full bg-white h-3 rounded-lg">
+        <div className="absolute w-[70px] bg-white h-6 rounded-full">
 
             <motion.div 
             drag
-            dragElastic={0}
+            dragElastic={0.1}
             whileTap={{ scale: 1.5 }}
-            dragConstraints={{top: 0, bottom: 0, right: 100, left: 0}}
-            className="w-4 h-4 bg-red-500 rounded-full"/>
+            dragSnapToOrigin={true}
+            dragConstraints={{top: -35, bottom: 0, right: 35, left: 0}}
+            className="relative w-9 h-9 origin-center top-0 left-[35px] bg-red-500 rounded-full"/>
 
         </div>
     )

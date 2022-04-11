@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { FaRedoAlt, FaSearch, FaHeart } from "react-icons/fa"
+import { FaRedoAlt, FaSearch, FaHeart, FaSadCry} from "react-icons/fa"
 import { RiPlayListFill, RiPlayListAddFill } from "react-icons/ri"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Container from "../Components/Container";
@@ -46,7 +46,7 @@ function Search() {
 
     let dispatch = useDispatch();
 
-    let { apiKey, loggedIn } = useApiKey();
+    let { apiKey, loggedIn } = useApiKey("search");
 
     const [ error, setError ] = useState(null);
 
@@ -280,9 +280,10 @@ function Search() {
 
             {!loading && searchResults.length == 0 && (
                 <div className="my-32 dark:text-white/50 text-black/50 flex flex-col items-center justify-center text-center">
-                    <FaSearch className="text-2xl my-5" />
+                    <FaSadCry className="text-2xl my-5" />
+
                     <p className="text-sm">
-                        Search for the songs you already like, and add them to your list!
+                        You can start searching
                     </p>
                 </div>
             )}

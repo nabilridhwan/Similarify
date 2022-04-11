@@ -33,7 +33,7 @@ export default function PlaylistSongSelect() {
     let [loading, setLoading] = useState(true)
 
 
-    const { apiKey, error, loggedIn } = useApiKey();
+    const { apiKey, error, loggedIn } = useApiKey(`playlists`);
 
     useEffect(() => {
         if (Object.prototype.hasOwnProperty.call(params, 'id') === false) {
@@ -161,7 +161,7 @@ export default function PlaylistSongSelect() {
 
     return (
         <Container>
-            <BackButton />
+            <BackButton to="/playlists" />
 
             {/* <ProgressBar current={1} total={2} /> */}
 

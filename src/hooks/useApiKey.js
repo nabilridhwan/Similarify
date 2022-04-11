@@ -11,15 +11,16 @@ import {
     useNavigate
 } from "react-router-dom";
 import {
-    setApiKey, setApiKeyExpiration
+    setApiKey,
+    setApiKeyExpiration,
+    setRedirect
 } from "../actions";
 import SpotifyInstance from "../utils/SpotifyInstance";
 
 // A hook that checks if the Spotify API key is set and if it is valid
-export default function useApiKey() {
+export default function useApiKey(redirectUrlIfInvalid = "search") {
 
     const apiKey = useSelector(state => state.apiKey);
-    const apiKeyExpiration = useSelector(state => state.apiKeyExpiration);
     const [loggedIn, setLoggedIn] = useState(false);
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function useApiKey() {
 
     useEffect(() => {
         console.log(`Checking for token in ${location.pathname}`);
+        dispatch(setRedirect(redirectUrlIfInvalid));
+
         (async () => {
             if (window.location.hash) {
                 // Separate the access token from the '#' symbol
@@ -54,7 +57,8 @@ export default function useApiKey() {
             } else {
 
                 // Navigate the user to the authentication page
-                navigate("/authenticate")
+                console.log(`Token does not exist: redirect to /${redirectUrlIfInvalid} after /authenticate`)
+                navigate(`/authenticate`);
             }
 
         })()
@@ -72,6 +76,7 @@ export default function useApiKey() {
                 console.log("Token is invalid")
                 setLoggedIn(false)
                 setError(error)
+
 
                 navigate(`/error/${error.message}?from=${location.pathname}`, {
                     state: {

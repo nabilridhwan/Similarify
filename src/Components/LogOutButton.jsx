@@ -20,7 +20,7 @@ export default function LogOutButton({}) {
                     onClick={handleLogout}
                     whileTap={{ scale: 0.9 }}
                     whileHover={{ scale: 1.1 }}
-                    className="text-red-500 font-bold py-2 px-4 rounded-full border-2 border-red-500 float-right">
+                    className="bg-red-500 text-white font-bold py-2 px-4 rounded-full float-right">
 
                     <div className="flex justify-center items-center">
                         <ImExit className="mr-2" />

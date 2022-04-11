@@ -97,3 +97,11 @@ export function setAudioPlayerVolume(volume){
         payload: volume
     }
 }
+
+
+export function setRedirect(redirect){
+    return{
+        type: 'SET_REDIRECT',
+        payload: redirect
+    }
+}
