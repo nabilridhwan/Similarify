@@ -25,6 +25,7 @@ export default function AdjustParameters({ track, onClose }) {
             new Parameter("popularity", "The higher the value, the more popular the track is.", 50, 0, 100, 1, 1),
             new Parameter("danceability", "The higher the value, the more danceable the track.", 0.5, 0, 1, 0.01),
             new Parameter("energy", "The higher the value, the more energetic the track.", 0.5, 0, 1, 0.01),
+            new Parameter("loudness", "The higher the value, the more louder the track.", 0.5, 0, 1, 0.01),
             new Parameter("instrumentalness", "The higher the value, the more likely the track is instrumental.", 0.5, 0, 1, 0.01),
             new Parameter("liveness", "The higher the value, the more likely the track is live.", 0.5, 0, 1, 0.01),
             new Parameter("speechiness", "The higher the value, the more likely the track is speech.", 0.5, 0, 1, 0.01),
