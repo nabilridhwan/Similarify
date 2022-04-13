@@ -68,6 +68,7 @@ export default function Home() {
                 initial={"hidden"}
                 animate={"show"}
                 variants={variants}
+                className="mb-28"
             >
 
                 <p
