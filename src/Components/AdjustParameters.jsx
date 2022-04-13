@@ -238,9 +238,9 @@ export default function AdjustParameters({ track, onClose }) {
                                                     {currentParameter.description}
                                                 </motion.p>
 
-                                                <InputRange />
+                                                {/* <InputRange /> */}
 
-                                                {/* <input
+                                                <input
                                                     class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full"
                                                     type="range"
                                                     onChange={(e) => handleChange(e, currentParameter)}
@@ -248,7 +248,7 @@ export default function AdjustParameters({ track, onClose }) {
                                                     min={currentParameter.min}
                                                     max={currentParameter.max}
                                                     step={currentParameter.step}
-                                                /> */}
+                                                />
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
