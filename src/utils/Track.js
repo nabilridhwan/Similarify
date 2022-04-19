@@ -1,5 +1,15 @@
-export default class Track{
-    constructor(id, name, artist, albumArt, explicit, duration_ms, preview_url, url=null, added_at=null){
+export default class Track {
+    constructor(
+        id,
+        name,
+        artist,
+        albumArt,
+        explicit,
+        duration_ms,
+        preview_url,
+        url = null,
+        added_at = null
+    ) {
         this.id = id;
         this.name = name;
         this.artist = artist;
@@ -17,7 +27,7 @@ export default class Track{
         this.similar = [];
     }
 
-    setAdded(added){
+    setAdded(added) {
         this.added = added;
     }
 }

@@ -1,4 +1,4 @@
-import { motion, useAnimation } from "framer-motion"
+import { motion, useAnimation } from "framer-motion";
 
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -7,19 +7,17 @@ DoneButton.propTypes = {
     overrideText: PropTypes.string,
     k: PropTypes.number,
     onClick: PropTypes.func.isRequired,
-}
+};
 
 export default function DoneButton({ item, overrideText, k, onClick }) {
-
     const controls = useAnimation();
-
 
     useEffect(() => {
         (async () => {
             await controls.set({ opacity: 0, y: 70 });
-            return await controls.start({ opacity: 1, y: 0, });
+            return await controls.start({ opacity: 1, y: 0 });
         })();
-    }, [])
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -31,17 +29,16 @@ export default function DoneButton({ item, overrideText, k, onClick }) {
                     scale: [1, 1.15, 1],
                     transition: {
                         duration: 0.3,
-                        ease: "easeOut"
-                    }
-                })
+                        ease: "easeOut",
+                    },
+                });
                 // controls.start({y: [0, -10, 0]})
             }
         })();
-    }, [item])
+    }, [item]);
 
     return (
-        <div
-            className="w-full flex items-center justify-center">
+        <div className="w-full flex items-center justify-center">
             <motion.button
                 initial={false}
                 animate={controls}
@@ -49,14 +46,15 @@ export default function DoneButton({ item, overrideText, k, onClick }) {
                 layout
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={onClick} className="done-button z-1">
-
+                onClick={onClick}
+                className="done-button z-1"
+            >
                 {overrideText ? overrideText : `Done`}
 
                 <motion.div
                     key={k}
-                    initial={{ scale: 1.3, }}
-                    animate={{ scale: 1, }}
+                    initial={{ scale: 1.3 }}
+                    animate={{ scale: 1 }}
                     transition={{
                         type: "tween",
                     }}
@@ -65,8 +63,6 @@ export default function DoneButton({ item, overrideText, k, onClick }) {
                     {k}
                 </motion.div>
             </motion.button>
-
-
         </div>
-    )
+    );
 }

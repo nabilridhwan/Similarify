@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-import { FaRegSadCry } from "react-icons/fa"
+import { FaRegSadCry } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
@@ -25,15 +25,13 @@ import Track from "../utils/Track";
 // Import
 
 export default function RecentlyPlayed() {
-
     let [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([]);
-    let addedSongs = useSelector(state => state.songs);
+    let addedSongs = useSelector((state) => state.songs);
     let navigate = useNavigate();
-
 
     let [showAddedSongs, setShowAddedSongs] = useState(false);
 
-    let [loading, setLoading] = useState(true)
+    let [loading, setLoading] = useState(true);
 
     const { apiKey, loggedIn } = useApiKey();
 
@@ -45,36 +43,41 @@ export default function RecentlyPlayed() {
 
     useEffect(() => {
         (async () => {
-            setLoading(true)
+            setLoading(true);
             await getRecentlyPlayedSongs();
-            setLoading(false)
+            setLoading(false);
         })();
 
         (async () => {
             await getCurrentlyPlayed();
         })();
-    }, [])
+    }, []);
 
     useEffect(() => {
         let finalTracks = {};
 
-        recentlyPlayedSongs.forEach(recentlyPlayedSong => {
-            if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
-                finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
+        recentlyPlayedSongs.forEach((recentlyPlayedSong) => {
+            if (
+                !Object.prototype.hasOwnProperty.call(
+                    finalTracks,
+                    recentlyPlayedSong.id
+                )
+            ) {
+                finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong;
                 finalTracks[recentlyPlayedSong.id].added = false;
             }
-        })
+        });
 
-
-        addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
-                finalTracks[addedSong.id].added = true
+        addedSongs.forEach((addedSong) => {
+            if (
+                Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)
+            ) {
+                finalTracks[addedSong.id].added = true;
             }
+        });
 
-        })
-
-        setRecentlyPlayedSongs(Object.values(finalTracks))
-    }, [addedSongs])
+        setRecentlyPlayedSongs(Object.values(finalTracks));
+    }, [addedSongs]);
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -87,66 +90,111 @@ export default function RecentlyPlayed() {
             let currentlyPlayed = await SpotifyInstance.getCurrentlyPlayed();
 
             if (Object.prototype.hasOwnProperty.call(currentlyPlayed, "item")) {
+                const track = currentlyPlayed.item;
 
-                const track = currentlyPlayed.item
+                const artists = track.artists.map(
+                    (artist) =>
+                        new Artist(
+                            artist.id,
+                            artist.name,
+                            artist.external_urls.spotify,
+                            artist.uri
+                        )
+                );
 
-                const artists = track.artists.map(artist => new Artist(artist.id, artist.name, artist.external_urls.spotify, artist.uri));
-
-                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify)
+                const trackObj = new Track(
+                    track.id,
+                    track.name,
+                    artists,
+                    track.album.images[0].url,
+                    track.explicit,
+                    track.duration_ms,
+                    track.preview_url,
+                    track.external_urls.spotify
+                );
 
                 // Check if currently playing song is already in the list
-                addedSongs.forEach(addedSong => {
+                addedSongs.forEach((addedSong) => {
                     if (addedSong.id === trackObj.id) {
-                        trackObj.added = true
+                        trackObj.added = true;
                     }
-                })
+                });
 
                 setCurrentlyPlaying(trackObj);
             }
         } catch (e) {
-            console.log("Couldn't get currently playing or user is not playing anything.")
+            console.log(
+                "Couldn't get currently playing or user is not playing anything."
+            );
         }
     }
 
     async function getRecentlyPlayedSongs() {
         try {
-            let recentlyPlayedSongs = await SpotifyInstance.getRecentlyPlayedSongs()
+            let recentlyPlayedSongs =
+                await SpotifyInstance.getRecentlyPlayedSongs();
 
-            if (Object.prototype.hasOwnProperty.call(recentlyPlayedSongs, 'error')) {
-                throw new Error(recentlyPlayedSongs.error.status)
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    recentlyPlayedSongs,
+                    "error"
+                )
+            ) {
+                throw new Error(recentlyPlayedSongs.error.status);
             }
 
-            let n = recentlyPlayedSongs.map(song => {
+            let n = recentlyPlayedSongs.map((song) => {
                 const track = song.track;
 
-                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
+                const artists = track.artists.map(
+                    (a) =>
+                        new Artist(a.id, a.name, a.external_urls.spotify, a.uri)
+                );
 
                 // Uses track class
-                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify, song.played_at)
+                const trackObj = new Track(
+                    track.id,
+                    track.name,
+                    artists,
+                    track.album.images[0].url,
+                    track.explicit,
+                    track.duration_ms,
+                    track.preview_url,
+                    track.external_urls.spotify,
+                    song.played_at
+                );
 
                 return trackObj;
-            })
+            });
 
             let finalTracks = {};
 
-            n.forEach(recentlyPlayedSong => {
-                if (!Object.prototype.hasOwnProperty.call(finalTracks, recentlyPlayedSong.id)) {
-                    finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong
+            n.forEach((recentlyPlayedSong) => {
+                if (
+                    !Object.prototype.hasOwnProperty.call(
+                        finalTracks,
+                        recentlyPlayedSong.id
+                    )
+                ) {
+                    finalTracks[recentlyPlayedSong.id] = recentlyPlayedSong;
                     finalTracks[recentlyPlayedSong.id].added = false;
                 }
-            })
+            });
 
-            addedSongs.forEach(addedSong => {
-                if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
-                    finalTracks[addedSong.id].added = true
+            addedSongs.forEach((addedSong) => {
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        finalTracks,
+                        addedSong.id
+                    )
+                ) {
+                    finalTracks[addedSong.id].added = true;
                 }
+            });
 
-            })
-
-            setRecentlyPlayedSongs(Object.values(finalTracks))
-
+            setRecentlyPlayedSongs(Object.values(finalTracks));
         } catch (error) {
-            setError(error.message)
+            setError(error.message);
         }
     }
 
@@ -183,28 +231,21 @@ export default function RecentlyPlayed() {
 
     return (
         <Container>
-
-
-
             <BackButton />
 
-            {error && (
-                <ErrorMessage error={error} />
-            )}
+            {error && <ErrorMessage error={error} />}
 
             {/* <ProgressBar current={1} total={2} /> */}
 
             <div className="py-5 clear-both">
-                <h1 className="font-bold text-2xl" >
+                <h1 className="font-bold text-2xl">
                     Select from your Recently Played songs
                 </h1>
                 <p className="dark:text-white/60 text-black/60">
                     You liked a song from your Spotify recently?
                 </p>
             </div>
-            <motion.div
-                layout="position"
-            >
+            <motion.div layout="position">
                 {/* Search form */}
                 {/* <form onSubmit={handleFormSubmit}>
                 <input
@@ -229,35 +270,37 @@ export default function RecentlyPlayed() {
                 Search powered by Spotify
             </h1> */}
 
-
-
                 {currentlyPlaying && (
-                    <CurrentlyPlaying handleAdd={(track) => {
-                        dispatch(addSong(track))
-                    }}
-                        handleRemove={(track) => {
-                            dispatch(removeSong(track))
+                    <CurrentlyPlaying
+                        handleAdd={(track) => {
+                            dispatch(addSong(track));
                         }}
-
+                        handleRemove={(track) => {
+                            dispatch(removeSong(track));
+                        }}
                         handleRefresh={() => {
                             getCurrentlyPlayed();
                         }}
-                        track={currentlyPlaying} />
+                        track={currentlyPlaying}
+                    />
                 )}
-
 
                 <AnimatePresence exitBeforeEnter>
                     <motion.div
                         transition={{
                             type: "tween",
-                            ease: "easeOut"
+                            ease: "easeOut",
                         }}
-                        className="my-5 grid gap-2">
-
+                        className="my-5 grid gap-2"
+                    >
                         {recentlyPlayedSongs.map((track, index) => {
                             return (
-                                <SpotifySong overrideTopText={"Played"} track={track} key={track.id + "-" + index} />
-                            )
+                                <SpotifySong
+                                    overrideTopText={"Played"}
+                                    track={track}
+                                    key={track.id + "-" + index}
+                                />
+                            );
                         })}
                     </motion.div>
                 </AnimatePresence>
@@ -276,18 +319,15 @@ export default function RecentlyPlayed() {
                         <LoadingSpinner loading={loading} />
                     </div>
                 )}
-
-
-
-
-
-
             </motion.div>
 
             <AnimatePresence>
                 {addedSongs.length > 0 && (
-
-                    <DoneButton item={addedSongs} onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                    <DoneButton
+                        item={addedSongs}
+                        onClick={() => setShowAddedSongs(true)}
+                        k={addedSongs.length}
+                    />
                 )}
             </AnimatePresence>
 
@@ -298,8 +338,7 @@ export default function RecentlyPlayed() {
                 )}
             </AnimatePresence>
 
-
             <Footer />
-        </Container >
-    )
+        </Container>
+    );
 }

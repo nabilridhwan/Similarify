@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-import { FaRegSadCry } from "react-icons/fa"
+import { FaRegSadCry } from "react-icons/fa";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Container from "../Components/Container";
 
 import { motion, AnimatePresence } from "framer-motion";
 import SpotifySong from "../Components/SpotifySong";
 
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import AddedSongs from "../Components/AddedSongs";
 import BackButton from "../Components/BackButton";
 import Footer from "../Components/Footer";
@@ -21,55 +21,59 @@ import Track from "../utils/Track";
 import Artist from "../utils/Artist";
 
 export default function PlaylistSongSelect() {
-
-    let location = useLocation()
+    let location = useLocation();
     let params = useParams();
     let navigate = useNavigate();
 
-    let addedSongs = useSelector(state => state.songs);
+    let addedSongs = useSelector((state) => state.songs);
 
     let [playlistSongs, setPlaylistSongs] = useState([]);
     let [showAddedSongs, setShowAddedSongs] = useState(false);
-    let [loading, setLoading] = useState(true)
-
+    let [loading, setLoading] = useState(true);
 
     const { apiKey, error, loggedIn } = useApiKey();
 
     useEffect(() => {
-        if (Object.prototype.hasOwnProperty.call(params, 'id') === false) {
-            navigate("/playlists")
+        if (Object.prototype.hasOwnProperty.call(params, "id") === false) {
+            navigate("/playlists");
         }
 
         (async () => {
-            setLoading(true)
+            setLoading(true);
             await getPlaylistTracks();
-            setLoading(false)
+            setLoading(false);
         })();
-    }, [])
+    }, []);
 
     useEffect(() => {
-        console.log("Rechecking added songs against playlistSongs")
+        console.log("Rechecking added songs against playlistSongs");
 
         let finalTracks = {};
 
-        playlistSongs.forEach(playlistSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, playlistSong.id)) {
-                finalTracks[playlistSong.id].added = true
+        playlistSongs.forEach((playlistSong) => {
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    finalTracks,
+                    playlistSong.id
+                )
+            ) {
+                finalTracks[playlistSong.id].added = true;
             } else {
-                finalTracks[playlistSong.id] = playlistSong
+                finalTracks[playlistSong.id] = playlistSong;
                 finalTracks[playlistSong.id].added = false;
             }
-        })
+        });
 
-        addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
-                finalTracks[addedSong.id].added = true
+        addedSongs.forEach((addedSong) => {
+            if (
+                Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)
+            ) {
+                finalTracks[addedSong.id].added = true;
             }
-        })
+        });
 
-        setPlaylistSongs(Object.values(finalTracks))
-
-    }, [addedSongs])
+        setPlaylistSongs(Object.values(finalTracks));
+    }, [addedSongs]);
 
     function handleFormSubmit(e) {
         // Prevent default submit action
@@ -78,54 +82,94 @@ export default function PlaylistSongSelect() {
     }
 
     async function getPlaylistTracks() {
-        let allPlaylistSongs = await SpotifyInstance.getTracksByPlaylistId(params.id)
+        let allPlaylistSongs = await SpotifyInstance.getTracksByPlaylistId(
+            params.id
+        );
 
-        if (Object.prototype.hasOwnProperty.call(allPlaylistSongs, 'error')) {
-            throw new Error(allPlaylistSongs.error.status)
+        if (Object.prototype.hasOwnProperty.call(allPlaylistSongs, "error")) {
+            throw new Error(allPlaylistSongs.error.status);
         }
 
-        let n = allPlaylistSongs.reverse().map(song => {
-            let img = null;
+        let n = allPlaylistSongs
+            .reverse()
+            .map((song) => {
+                let img = null;
 
-            if (Object.prototype.hasOwnProperty.call(song, 'track') && song.track != null) {
-                if (Object.prototype.hasOwnProperty.call(song.track, 'album') && song.track.album.images.length > 0 && song.track.album.images[0].hasOwnProperty("url")) {
-                    img = song.track.album.images[0].url
+                if (
+                    Object.prototype.hasOwnProperty.call(song, "track") &&
+                    song.track != null
+                ) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            song.track,
+                            "album"
+                        ) &&
+                        song.track.album.images.length > 0 &&
+                        song.track.album.images[0].hasOwnProperty("url")
+                    ) {
+                        img = song.track.album.images[0].url;
+                    }
+
+                    const track = song.track;
+
+                    // Uses artist class
+                    const artists = track.artists.map(
+                        (a) =>
+                            new Artist(
+                                a.id,
+                                a.name,
+                                a.external_urls.spotify,
+                                a.uri
+                            )
+                    );
+
+                    // Uses track class
+                    const trackObj = new Track(
+                        track.id,
+                        track.name,
+                        artists,
+                        track.album.images[0].url,
+                        track.explicit,
+                        track.duration_ms,
+                        track.preview_url,
+                        track.external_urls.spotify,
+                        song.added_at
+                    );
+
+                    return trackObj;
+                } else {
+                    return null;
                 }
-
-                const track = song.track;
-
-                // Uses artist class
-                const artists = track.artists.map(a => new Artist(a.id, a.name, a.external_urls.spotify, a.uri))
-
-                // Uses track class
-                const trackObj = new Track(track.id, track.name, artists, track.album.images[0].url, track.explicit, track.duration_ms, track.preview_url, track.external_urls.spotify, song.added_at)
-
-                return trackObj;
-            } else {
-                return null
-            }
-        }).filter(song => song != null)
+            })
+            .filter((song) => song != null);
 
         let finalTracks = {};
 
-        n.forEach(playlistSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, playlistSong.id)) {
-                finalTracks[playlistSong.id].added = true
+        n.forEach((playlistSong) => {
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    finalTracks,
+                    playlistSong.id
+                )
+            ) {
+                finalTracks[playlistSong.id].added = true;
             } else {
-                finalTracks[playlistSong.id] = playlistSong
+                finalTracks[playlistSong.id] = playlistSong;
                 finalTracks[playlistSong.id].added = false;
             }
-        })
+        });
 
-        addedSongs.forEach(addedSong => {
-            if (Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)) {
-                finalTracks[addedSong.id].added = true
+        addedSongs.forEach((addedSong) => {
+            if (
+                Object.prototype.hasOwnProperty.call(finalTracks, addedSong.id)
+            ) {
+                finalTracks[addedSong.id].added = true;
             }
-        })
+        });
 
-        console.log(finalTracks)
+        console.log(finalTracks);
 
-        setPlaylistSongs(Object.values(finalTracks))
+        setPlaylistSongs(Object.values(finalTracks));
     }
 
     // async function searchForTracks() {
@@ -166,12 +210,20 @@ export default function PlaylistSongSelect() {
             {/* <ProgressBar current={1} total={2} /> */}
 
             <div className="py-5 clear-both">
-                <h1 className="font-bold text-2xl" >
+                <h1 className="font-bold text-2xl">
                     Select from "{location.state.name}"
                 </h1>
 
                 <p className="dark:text-white/60 text-black/60">
-                    Select your tracks from this playlist {!loading && `(${playlistSongs.length} songs)`} {!loading && playlistSongs.length < location.state.total && <span className="text-red-500">({location.state.total - playlistSongs.length} songs failed to load)</span>}
+                    Select your tracks from this playlist{" "}
+                    {!loading && `(${playlistSongs.length} songs)`}{" "}
+                    {!loading &&
+                        playlistSongs.length < location.state.total && (
+                            <span className="text-red-500">
+                                ({location.state.total - playlistSongs.length}{" "}
+                                songs failed to load)
+                            </span>
+                        )}
                 </p>
             </div>
 
@@ -212,30 +264,33 @@ export default function PlaylistSongSelect() {
                 <LoadingSpinner loading={loading} />
             </div>
 
-
-
             <AnimatePresence exitBeforeEnter>
                 <motion.div
                     transition={{
                         type: "tween",
-                        ease: "easeOut"
+                        ease: "easeOut",
                     }}
-                    className="my-5 grid gap-2">
-
+                    className="my-5 grid gap-2"
+                >
                     {playlistSongs.map((track, index) => {
                         return (
-                            <SpotifySong overrideTopText="added" track={track} key={track.id + "-" + index} />
-                        )
+                            <SpotifySong
+                                overrideTopText="added"
+                                track={track}
+                                key={track.id + "-" + index}
+                            />
+                        );
                     })}
                 </motion.div>
             </AnimatePresence>
 
-
             <AnimatePresence>
-
                 {addedSongs.length > 0 && (
-
-                    <DoneButton item={addedSongs} onClick={() => setShowAddedSongs(true)} k={addedSongs.length} />
+                    <DoneButton
+                        item={addedSongs}
+                        onClick={() => setShowAddedSongs(true)}
+                        k={addedSongs.length}
+                    />
                 )}
             </AnimatePresence>
 
@@ -247,7 +302,6 @@ export default function PlaylistSongSelect() {
             </AnimatePresence>
 
             <Footer />
-
-        </Container >
-    )
+        </Container>
+    );
 }

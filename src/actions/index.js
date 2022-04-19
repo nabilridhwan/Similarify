@@ -1,99 +1,99 @@
-export function addSong(track){
+export function addSong(track) {
     return {
-        type: 'ADD_SONG',
-        payload: track
-    }
+        type: "ADD_SONG",
+        payload: track,
+    };
 }
 
-export function removeSong(track){
+export function removeSong(track) {
     return {
-        type: 'REMOVE_SONG',
-        payload: track
-    }
+        type: "REMOVE_SONG",
+        payload: track,
+    };
 }
 
-export function setPlaylistLink(link){
+export function setPlaylistLink(link) {
     return {
-        type: 'SET_PLAYLIST_LINK',
-        payload: link
-    }
+        type: "SET_PLAYLIST_LINK",
+        payload: link,
+    };
 }
 
-export function clearPlaylistLink(){
+export function clearPlaylistLink() {
     return {
-        type: 'CLEAR_PLAYLIST_LINK'
-    }
+        type: "CLEAR_PLAYLIST_LINK",
+    };
 }
 
-export function setSearchResults(results){
+export function setSearchResults(results) {
     return {
-        type: 'SET',
+        type: "SET",
         payload: {
             results: results,
-        } 
-    }
+        },
+    };
 }
 
-export function clearAddedSongs(){
+export function clearAddedSongs() {
     return {
-        type: 'CLEAR_SONGS'
-    }
+        type: "CLEAR_SONGS",
+    };
 }
 
-export function setSearchTermRedux(searchTerm){
+export function setSearchTermRedux(searchTerm) {
     return {
-        type: 'SET_SEARCH_TERM',
-        payload: searchTerm
-    }
+        type: "SET_SEARCH_TERM",
+        payload: searchTerm,
+    };
 }
 
-export function setSongParameters(parameters, track){
+export function setSongParameters(parameters, track) {
     return {
-        type: 'SET_SONG_PARAMETERS',
+        type: "SET_SONG_PARAMETERS",
         payload: {
             parameters: parameters,
-            track: track
-        }
-    }
+            track: track,
+        },
+    };
 }
 
-export function setApiKey(apiKey){
+export function setApiKey(apiKey) {
     return {
-        type: 'SET_API_KEY',
-        payload: apiKey
-    }
+        type: "SET_API_KEY",
+        payload: apiKey,
+    };
 }
 
-export function addSongToPlaylist(track){
+export function addSongToPlaylist(track) {
     return {
-        type: 'ADD_SONG_PLAYLIST',
-        payload: track
-    }
+        type: "ADD_SONG_PLAYLIST",
+        payload: track,
+    };
 }
 
-export function removeSongFromPlaylist(track){
+export function removeSongFromPlaylist(track) {
     return {
-        type: 'REMOVE_SONG_PLAYLIST',
-        payload: track
-    }
+        type: "REMOVE_SONG_PLAYLIST",
+        payload: track,
+    };
 }
 
-export function clearSongsFromPlaylist(){
+export function clearSongsFromPlaylist() {
     return {
-        type: 'CLEAR_SONGS_PLAYLIST'
-    }
+        type: "CLEAR_SONGS_PLAYLIST",
+    };
 }
 
-export function setApiKeyExpiration(expirationISOString){
-    return{
-        type: 'SET_API_KEY_EXPIRATION',
-        payload: expirationISOString
-    }
+export function setApiKeyExpiration(expirationISOString) {
+    return {
+        type: "SET_API_KEY_EXPIRATION",
+        payload: expirationISOString,
+    };
 }
 
-export function setAudioPlayerVolume(volume){
-    return{
-        type: 'SET_AUDIO_PLAYER_VOLUME',
-        payload: volume
-    }
+export function setAudioPlayerVolume(volume) {
+    return {
+        type: "SET_AUDIO_PLAYER_VOLUME",
+        payload: volume,
+    };
 }

@@ -1,20 +1,24 @@
 import { useDispatch } from "react-redux";
 import { DateTime } from "luxon";
 import { addSong, removeSong } from "../actions";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { MdExplicit } from "react-icons/md";
 import { FaPlus, FaTrash } from "react-icons/fa";
 
 import PropTypes from "prop-types";
 import Track from "../utils/Track";
-import React from "react";
+import React, { useState } from "react";
 
-SpotifySong.propTypes = {
-    track: PropTypes.instanceOf(Track),
+import { AiFillEye } from "react-icons/ai";
+import SpotifyPlayer from "./SpotifyPlayer";
+import Artist from "../utils/Artist";
+
+SpotifyArtist.propTypes = {
+    artist: PropTypes.instanceOf(Artist),
     overrideTopText: PropTypes.string,
 };
 
-export default function SpotifySong({ overrideTopText, track }) {
+export default function SpotifyArtist({ overrideTopText, track: artist }) {
     const dispatch = useDispatch();
 
     const handleAdd = (track) => {
@@ -23,6 +27,10 @@ export default function SpotifySong({ overrideTopText, track }) {
 
     const handleRemove = (track) => {
         dispatch(removeSong(track));
+    };
+
+    const handlePressTitleSong = () => {
+        window.open(artist.url + "?go=1", "_blank");
     };
 
     return (
@@ -35,56 +43,41 @@ export default function SpotifySong({ overrideTopText, track }) {
                 ease: "easeOut",
             }}
         >
-            {track.added_at && (
+            {artist.added_at && (
                 <motion.p className="text-black/50 dark:text-white/50 uppercase tracking-widest text-xs my-2">
                     {overrideTopText ? overrideTopText : "Liked"}{" "}
-                    {DateTime.fromISO(track.added_at).toRelative()}
+                    {DateTime.fromISO(artist.added_at).toRelative()}
                 </motion.p>
             )}
 
             <div className="flex items-center">
                 <img
-                    src={track.albumArt}
+                    src={artist.albumArt}
                     className="w-20 h-auto"
                     alt="album_image"
                 />
 
                 <div className="ml-5">
-                    <a
-                        rel="noreferrer"
-                        target="_blank"
-                        href={`https://open.spotify.com/track/${track.id}?go=1`}
-                        className="flex items-center font-bold underline hover:no-underline"
+                    <p
+                        onClick={handlePressTitleSong}
+                        className="flex items-center font-bold underline hover:no-underline cursor-pointer"
                     >
-                        {track.name}
+                        {artist.name}
 
-                        {track.explicit && (
+                        {artist.explicit && (
                             <MdExplicit className="text-lg muted ml-2" />
                         )}
-                    </a>
 
-                    {/* Artists */}
-                    <div>
-                        {track.artist.map((artist, index) => (
-                            <React.Fragment key={index}>
-                                <a
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href={`${artist.url}?go=1`}
-                                    className="underline text-sm muted hover:no-underline"
-                                >
-                                    {artist.name}
-                                </a>
-                                <span className="muted last:hidden">, </span>
-                            </React.Fragment>
-                        ))}
-                    </div>
+                        {artist.preview_url && (
+                            <AiFillEye className="text-lg muted ml-1" />
+                        )}
+                    </p>
 
-                    {track.added ? (
+                    {artist.added ? (
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => handleRemove(track)}
+                            onClick={() => handleRemove(artist)}
                             className="btn bg-red-500 text-white my-2 text-sm flex items-center"
                         >
                             <FaTrash className="mr-2" />
@@ -94,7 +87,7 @@ export default function SpotifySong({ overrideTopText, track }) {
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => handleAdd(track)}
+                            onClick={() => handleAdd(artist)}
                             className="btn bg-blue-500 text-white my-2 text-sm flex items-center"
                         >
                             <FaPlus className="mr-2" />
